@@ -7,7 +7,7 @@ import { WhatsAppButton } from '@/components/ui/Button';
 export function OtherSites() {
   const o = site.otherSites;
   return (
-    <Section id="other-sites" title={o.title} subtitle={o.subtitle} tone="muted">
+    <Section id="other-sites" title={o.title} subtitle={o.subtitle} surface="warm">
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {o.items.map((item) => (
           <li key={item.name} className="reveal card flex flex-col p-6">

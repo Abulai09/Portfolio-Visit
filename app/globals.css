@@ -24,6 +24,25 @@
   --line: #e6e3f3;
   --surface: #ffffff;
   --surface-muted: #f5f3ff;
+  --surface-warm: #fff4ec; /* персиковый фон секции */
+  --surface-cool: #eef6ff; /* небесный фон секции */
+  /* Дополнительные тона. Каждый: насыщенный (графика), -ink (текст, 4.5+ к своему -soft и к фонам), -soft (подложка) */
+  --tone-violet: #8b5cf6;
+  --tone-violet-ink: #6d28d9;
+  --tone-violet-soft: #f1eaff;
+  --tone-teal: #14b8a6;
+  --tone-teal-ink: #0f766e;
+  --tone-teal-soft: #e2f7f3;
+  --tone-sky: #0ea5e9;
+  --tone-sky-ink: #0369a1;
+  --tone-sky-soft: #e3f2fd;
+  --tone-amber: #f59e0b;
+  --tone-amber-ink: #b45309;
+  --tone-amber-soft: #fff3d9;
+  --tone-pink: #ec4899;
+  --tone-pink-ink: #be185d;
+  --tone-pink-soft: #fde8f3;
+  --aurora-alpha: 0.2;
   --card-shadow: 0 1px 2px rgb(46 26 140 / 0.05), 0 14px 32px -18px rgb(46 26 140 / 0.28);
 }
 
@@ -45,6 +64,32 @@
     --line: #2c2552;
     --surface: #0e0a22;
     --surface-muted: #151032;
+  --surface-warm: #1a1028;
+  --surface-cool: #0f1a33;
+  --tone-violet-ink: #c4b5fd;
+  --tone-violet-soft: #271a57;
+  --tone-teal-ink: #5eead4;
+  --tone-teal-soft: #0f2e33;
+  --tone-sky-ink: #7dd3fc;
+  --tone-sky-soft: #0e2742;
+  --tone-amber-ink: #fcd34d;
+  --tone-amber-soft: #33240f;
+  --tone-pink-ink: #f9a8d4;
+  --tone-pink-soft: #3a1530;
+  --aurora-alpha: 0.28;
+    --surface-warm: #1a1028;
+    --surface-cool: #0f1a33;
+    --tone-violet-ink: #c4b5fd;
+    --tone-violet-soft: #271a57;
+    --tone-teal-ink: #5eead4;
+    --tone-teal-soft: #0f2e33;
+    --tone-sky-ink: #7dd3fc;
+    --tone-sky-soft: #0e2742;
+    --tone-amber-ink: #fcd34d;
+    --tone-amber-soft: #33240f;
+    --tone-pink-ink: #f9a8d4;
+    --tone-pink-soft: #3a1530;
+    --aurora-alpha: 0.28;
     --card-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 36px -18px rgb(0 0 0 / 0.7);
   }
 }
@@ -101,6 +146,23 @@
   --color-line: var(--line);
   --color-surface: var(--surface);
   --color-surface-muted: var(--surface-muted);
+  --color-surface-warm: var(--surface-warm);
+  --color-surface-cool: var(--surface-cool);
+  --color-tone-violet: var(--tone-violet);
+  --color-tone-violet-ink: var(--tone-violet-ink);
+  --color-tone-violet-soft: var(--tone-violet-soft);
+  --color-tone-teal: var(--tone-teal);
+  --color-tone-teal-ink: var(--tone-teal-ink);
+  --color-tone-teal-soft: var(--tone-teal-soft);
+  --color-tone-sky: var(--tone-sky);
+  --color-tone-sky-ink: var(--tone-sky-ink);
+  --color-tone-sky-soft: var(--tone-sky-soft);
+  --color-tone-amber: var(--tone-amber);
+  --color-tone-amber-ink: var(--tone-amber-ink);
+  --color-tone-amber-soft: var(--tone-amber-soft);
+  --color-tone-pink: var(--tone-pink);
+  --color-tone-pink-ink: var(--tone-pink-ink);
+  --color-tone-pink-soft: var(--tone-pink-soft);
   --font-sans: var(--font-manrope), system-ui, sans-serif;
 }
 
@@ -125,6 +187,27 @@
   box-shadow: var(--card-shadow);
 }
 
+/* Фирменная полоса: индиго → фиолетовый → коралл → янтарь. Сверху шапки и в подвале. */
+@utility brand-stripe {
+  background: linear-gradient(90deg, #2e1a8c 0%, #8b5cf6 35%, #ff5a3c 70%, #f59e0b 100%);
+}
+
+/* Яркий блок контактов. Конец градиента — глубокий коралл: белый текст 5.3:1 на всех точках. */
+@utility surface-vivid {
+  background:
+    radial-gradient(40rem 20rem at 100% 0%, rgb(245 158 11 / 0.35), transparent 70%),
+    linear-gradient(120deg, #2e1a8c 0%, #6d28d9 40%, #c026d3 72%, #c93519 100%);
+  color: #ffffff;
+}
+
+/* Мягкое цветное сияние в hero — радиальные градиенты без filter: blur */
+@utility aurora {
+  background:
+    radial-gradient(34rem 26rem at 88% 18%, rgb(139 92 246 / var(--aurora-alpha)), transparent 70%),
+    radial-gradient(26rem 22rem at 70% 75%, rgb(255 90 60 / var(--aurora-alpha)), transparent 70%),
+    radial-gradient(22rem 18rem at 98% 92%, rgb(245 158 11 / var(--aurora-alpha)), transparent 70%);
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
@@ -146,6 +229,11 @@ body {
 /* На тёмных секциях обводка коралловая (7:1 к --night) — индиговая там не видна. */
 .surface-dark :focus-visible {
   outline-color: var(--coral-light);
+}
+
+/* На ярком градиенте контактов — белая обводка */
+.surface-vivid :focus-visible {
+  outline-color: #ffffff;
 }
 
 /* Появление секций при прокрутке. Класс .reveal-ready ставит RevealObserver после запуска JS.

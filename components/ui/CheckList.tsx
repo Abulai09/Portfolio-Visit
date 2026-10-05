@@ -1,7 +1,17 @@
 import { Check } from 'lucide-react';
+import { tones, type Tone } from './tones';
 
-export function CheckList({ items, tone = 'default' }: { items: string[]; tone?: 'default' | 'inverted' }) {
-  const iconBox = tone === 'inverted' ? 'bg-coral/20 text-coral-light' : 'bg-coral-soft text-coral-ink';
+export function CheckList({
+  items,
+  tone = 'coral',
+  inverted = false,
+}: {
+  items: string[];
+  tone?: Tone;
+  /** Для тёмных секций (night) */
+  inverted?: boolean;
+}) {
+  const iconBox = inverted ? 'bg-coral/20 text-coral-light' : tones[tone].badge;
   return (
     <ul className="space-y-3">
       {items.map((item) => (

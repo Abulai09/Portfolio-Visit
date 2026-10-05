@@ -3,12 +3,17 @@ import { site } from '@/config/site';
 import { WhatsAppButton, buttonClass } from '@/components/ui/Button';
 import { IconBadge } from '@/components/ui/Icon';
 import { HeroShowcase } from './HeroShowcase';
+import { tones, type Tone } from '@/components/ui/tones';
+
+const STAT_TONES: Tone[] = ['coral', 'violet', 'teal'];
+const DIRECTION_TONES: Tone[] = ['violet', 'coral', 'teal'];
 
 export function Hero() {
   const { hero, directions } = site;
   return (
     <section aria-labelledby="hero-title" className="relative overflow-hidden">
-      <div className="container-page pt-12 pb-16 sm:pt-16 sm:pb-24">
+      <div aria-hidden="true" className="aurora pointer-events-none absolute inset-0" />
+      <div className="relative container-page pt-12 pb-16 sm:pt-16 sm:pb-24">
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
           <div className="max-w-3xl">
             <h1
@@ -46,16 +51,18 @@ export function Hero() {
         </div>
 
         <dl className="mt-12 grid gap-4 sm:grid-cols-3">
-          {hero.stats.map((stat) => (
+          {hero.stats.map((stat, i) => (
             <div key={stat.label} className="card flex flex-col-reverse px-6 py-5">
               <dt className="mt-1 text-[15px] text-ink-soft">{stat.label}</dt>
-              <dd className="text-3xl font-extrabold tracking-tight text-coral-ink">{stat.value}</dd>
+              <dd className={`text-3xl font-extrabold tracking-tight ${tones[STAT_TONES[i % STAT_TONES.length]].text}`}>
+                {stat.value}
+              </dd>
             </div>
           ))}
         </dl>
 
         <ul className="mt-6 grid gap-4 md:grid-cols-3">
-          {directions.map((d) => (
+          {directions.map((d, i) => (
             <li key={d.href}>
               <a
                 href={d.href}
@@ -64,7 +71,7 @@ export function Hero() {
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <IconBadge name={d.icon} size="lg" />
+                  <IconBadge name={d.icon} size="lg" tone={DIRECTION_TONES[i % DIRECTION_TONES.length]} />
                   {d.main && (
                     <span className="rounded-full bg-coral-soft px-3 py-1 text-xs font-bold text-coral-ink">
                       Основное

@@ -42,7 +42,7 @@ export function Marketplace() {
 
             <div className="text-[15px] sm:text-base">
               <p className="mb-5 font-bold text-white/90">Что входит:</p>
-              <CheckList items={m.features} tone="inverted" />
+              <CheckList items={m.features} inverted />
             </div>
           </div>
         </div>

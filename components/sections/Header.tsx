@@ -6,6 +6,7 @@ import { MobileMenu } from './MobileMenu';
 export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line/80 bg-surface/85 backdrop-blur-md">
+      <div aria-hidden="true" className="brand-stripe h-[3px]" />
       <div className="container-page flex h-16 items-center justify-between gap-4">
         <a href="#top" className="flex min-h-11 items-center gap-2 font-extrabold tracking-tight">
           <span className="text-lg whitespace-nowrap text-ink">{site.brand.name}</span>

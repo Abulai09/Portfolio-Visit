@@ -1,5 +1,13 @@
 import type { ReactNode } from 'react';
 
+/** Фон секции: чередование лавандового, персикового и небесного вместо одного серого. */
+const surfaces = {
+  plain: '',
+  muted: 'bg-surface-muted',
+  warm: 'bg-surface-warm',
+  cool: 'bg-surface-cool',
+};
+
 /** Обёртка секции: якорь, отступы, контейнер и заголовок. */
 export function Section({
   id,
@@ -8,7 +16,7 @@ export function Section({
   eyebrow,
   children,
   className = '',
-  tone = 'plain',
+  surface = 'plain',
 }: {
   id?: string;
   title?: string;
@@ -16,14 +24,14 @@ export function Section({
   eyebrow?: string;
   children: ReactNode;
   className?: string;
-  tone?: 'plain' | 'muted';
+  surface?: keyof typeof surfaces;
 }) {
   const headingId = id && title ? `${id}-title` : undefined;
   return (
     <section
       id={id}
       aria-labelledby={headingId}
-      className={`scroll-mt-20 py-16 sm:py-24 ${tone === 'muted' ? 'bg-surface-muted' : ''} ${className}`}
+      className={`scroll-mt-20 py-16 sm:py-24 ${surfaces[surface]} ${className}`}
     >
       <div className="container-page">
         {title && (

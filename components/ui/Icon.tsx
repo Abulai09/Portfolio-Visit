@@ -15,6 +15,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import type { IconName } from '@/config/site';
+import { tones, type Tone } from './tones';
 
 const icons: Record<IconName, LucideIcon> = {
   store: ShoppingBag,
@@ -33,12 +34,20 @@ const icons: Record<IconName, LucideIcon> = {
 };
 
 /** Иконка в цветной плашке — для карточек преимуществ и гарантий. */
-export function IconBadge({ name, size = 'md' }: { name: IconName; size?: 'md' | 'lg' }) {
+export function IconBadge({
+  name,
+  size = 'md',
+  tone = 'violet',
+}: {
+  name: IconName;
+  size?: 'md' | 'lg';
+  tone?: Tone;
+}) {
   const Cmp = icons[name];
   const box = size === 'lg' ? 'size-14 rounded-2xl' : 'size-12 rounded-xl';
   return (
     <span
-      className={`${box} inline-flex shrink-0 items-center justify-center bg-accent-soft text-accent-ink`}
+      className={`${box} inline-flex shrink-0 items-center justify-center ${tones[tone].badge}`}
       aria-hidden="true"
     >
       <Cmp className={size === 'lg' ? 'size-7' : 'size-6'} strokeWidth={1.75} />

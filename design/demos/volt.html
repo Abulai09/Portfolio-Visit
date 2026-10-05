@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>VOLT — концепт магазина электроники</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1440px; height: 900px; overflow: hidden; background: #0D1017; color: #E8ECF4; font-family: Inter, sans-serif; }
+  header { display: flex; align-items: center; gap: 28px; padding: 20px 48px; }
+  .logo { font-family: 'Unbounded'; font-weight: 700; font-size: 30px; letter-spacing: -.02em; display: flex; align-items: center; gap: 8px; }
+  .logo i { width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(135deg, #4F7CFF, #22D3EE); display: inline-block; }
+  .catalog { background: #4F7CFF; color: #fff; padding: 13px 20px; border-radius: 12px; font-weight: 600; font-size: 15px; }
+  .search { flex: 1; background: #171C26; border: 1px solid #262D3B; border-radius: 12px; padding: 14px 18px; color: #7D8799; font-size: 15px; }
+  .acts { display: flex; gap: 26px; font-size: 13px; color: #AEB6C5; }
+  .acts b { display: block; color: #E8ECF4; font-size: 14px; }
+  .chips { display: flex; gap: 10px; padding: 0 48px 22px; border-bottom: 1px solid #1C2230; }
+  .chips span { padding: 9px 16px; border-radius: 999px; background: #161B25; font-size: 14px; color: #C3CAD6; }
+  .chips span:first-child { background: #E8ECF4; color: #0D1017; font-weight: 600; }
+  .top { display: grid; grid-template-columns: 1.7fr 1fr; gap: 20px; padding: 24px 48px; }
+  .banner { height: 400px; border-radius: 26px; overflow: hidden; position: relative; background: #121a2e url('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1400&q=80&auto=format&fit=crop') right center/62% auto no-repeat; padding: 52px; }
+  .banner::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #0f1730 40%, transparent 75%); }
+  .banner > * { position: relative; }
+  .badge { display: inline-block; background: rgba(79,124,255,.18); color: #8FAEFF; padding: 7px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-bottom: 22px; }
+  .banner h1 { font-family: 'Unbounded'; font-size: 48px; line-height: 1.05; letter-spacing: -.02em; max-width: 470px; margin-bottom: 18px; }
+  .banner p { color: #AEB6C5; font-size: 17px; margin-bottom: 30px; }
+  .price { display: flex; gap: 16px; align-items: center; }
+  .price b { font-family: 'Unbounded'; font-size: 30px; }
+  .price span { background: #F14635; color: #fff; padding: 8px 12px; border-radius: 8px; font-weight: 600; font-size: 13px; }
+  .side { display: grid; gap: 20px; }
+  .promo { border-radius: 22px; background-color: #161B25; background-repeat: no-repeat; background-size: 46% auto; background-position: right center; padding: 28px; }
+  .promo h3 { font-family: 'Unbounded'; font-size: 21px; max-width: 200px; line-height: 1.1; margin-bottom: 10px; }
+  .promo p { color: #8D97A8; font-size: 14px; }
+  .head { display: flex; justify-content: space-between; padding: 6px 48px 16px; align-items: baseline; }
+  .head h2 { font-family: 'Unbounded'; font-size: 24px; }
+  .head a { color: #8FAEFF; font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; padding: 0 48px; }
+  .p { background: #151A24; border-radius: 20px; padding: 16px; }
+  .p .im { height: 150px; border-radius: 14px; background: #fff center/cover; margin-bottom: 14px; }
+  .p h4 { font-size: 14px; font-weight: 500; margin-bottom: 6px; color: #D4DAE5; }
+  .p .st { color: #FBBF24; font-size: 12px; margin-bottom: 8px; } .p .st em { color: #7D8799; font-style: normal; }
+  .p b { font-size: 18px; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="logo"><i></i>VOLT</div>
+    <span class="catalog">☰ Каталог</span>
+    <div class="search">Наушники, смарт-часы, ноутбуки…</div>
+    <div class="acts"><span><b>Алматы</b>доставка завтра</span><span><b>Войти</b>кабинет</span><span><b>Корзина</b>3 товара</span></div>
+  </header>
+  <div class="chips"><span>Хиты недели</span><span>Смартфоны</span><span>Ноутбуки</span><span>Аудио</span><span>Умные часы</span><span>Игры</span><span>Фото</span><span>Рассрочка 0-0-12</span></div>
+  <div class="top">
+    <div class="banner">
+      <span class="badge">Новинка 2026</span>
+      <h1>Звук без компромиссов</h1>
+      <p>Шумоподавление, 40 часов работы и мягкие амбушюры.</p>
+      <div class="price"><b>от 89 990 ₸</b><span>Kaspi рассрочка 0-0-12</span></div>
+    </div>
+    <div class="side">
+      <div class="promo" style="background-image:url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80&auto=format&fit=crop')"><h3>Часы, которые знают всё</h3><p>Пульс, сон и тренировки</p></div>
+      <div class="promo" style="background-image:url('https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=600&q=80&auto=format&fit=crop')"><h3>Игровая зона</h3><p>Консоли и аксессуары −15%</p></div>
+    </div>
+  </div>
+  <div class="head"><h2>Хиты продаж</h2><a>Смотреть все</a></div>
+  <div class="grid">
+    <div class="p"><div class="im" style="background-image:url('https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&q=80&auto=format&fit=crop')"></div><h4>Смарт-часы Pulse 4</h4><div class="st">★★★★★ <em>214 отзывов</em></div><b>64 990 ₸</b></div>
+    <div class="p"><div class="im" style="background-image:url('https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&q=80&auto=format&fit=crop')"></div><h4>Наушники Studio Pro</h4><div class="st">★★★★★ <em>98 отзывов</em></div><b>119 990 ₸</b></div>
+    <div class="p"><div class="im" style="background-image:url('https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=500&q=80&auto=format&fit=crop')"></div><h4>Смартфон Nova X</h4><div class="st">★★★★☆ <em>341 отзыв</em></div><b>289 990 ₸</b></div>
+    <div class="p"><div class="im" style="background-image:url('https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500&q=80&auto=format&fit=crop')"></div><h4>Камера Retro M</h4><div class="st">★★★★★ <em>57 отзывов</em></div><b>349 000 ₸</b></div>
+    <div class="p"><div class="im" style="background-image:url('https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&q=80&auto=format&fit=crop')"></div><h4>Ноутбук Air 14</h4><div class="st">★★★★★ <em>126 отзывов</em></div><b>549 990 ₸</b></div>
+  </div>
+</body>
+</html>

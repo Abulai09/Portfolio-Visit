@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Qahua — концепт лендинга кофейни</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1440px; height: 900px; overflow: hidden; background: #F3E7D7; color: #2B1D16; font-family: Jost, sans-serif; }
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 26px 64px; }
+  .logo { font-family: 'Playfair Display'; font-size: 32px; font-weight: 600; }
+  nav ul { display: flex; gap: 34px; list-style: none; font-size: 16px; }
+  nav b { background: #2B1D16; color: #F3E7D7; padding: 12px 22px; border-radius: 999px; font-weight: 500; }
+  .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 10px 64px 0; height: 500px; }
+  .t { padding-top: 50px; }
+  .t small { font-size: 15px; color: #8A6A55; letter-spacing: .02em; }
+  h1 { font-family: 'Playfair Display'; font-weight: 600; font-size: 74px; line-height: 1; margin: 16px 0 22px; }
+  h1 em { font-weight: 500; color: #9C4A1E; }
+  .t p { font-size: 19px; color: #5E4637; max-width: 470px; line-height: 1.55; margin-bottom: 32px; }
+  .b { display: flex; gap: 14px; }
+  .b span { padding: 17px 30px; border-radius: 999px; font-weight: 600; font-size: 16px; }
+  .b span:first-child { background: #9C4A1E; color: #fff; }
+  .b span:last-child { border: 1.5px solid #2B1D16; }
+  .img { border-radius: 260px 260px 32px 32px; background: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1100&q=80&auto=format&fit=crop') center/cover; position: relative; }
+  .sub { position: absolute; left: -40px; bottom: 40px; background: #2B1D16; color: #F3E7D7; border-radius: 20px; padding: 18px 22px; font-size: 15px; }
+  .sub b { display: block; font-size: 22px; color: #F0B98F; }
+  .packs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; padding: 32px 64px; }
+  .k { display: flex; gap: 18px; align-items: center; background: #FBF5EC; border-radius: 24px; padding: 14px; }
+  .k i { width: 110px; height: 110px; border-radius: 18px; background-size: cover; background-position: center; flex-shrink: 0; }
+  .k h4 { font-family: 'Playfair Display'; font-size: 22px; margin-bottom: 4px; }
+  .k p { color: #8A6A55; font-size: 14px; margin-bottom: 8px; }
+  .k b { font-size: 18px; }
+</style>
+</head>
+<body>
+  <nav><div class="logo">Qahua</div><ul><li>Кофе</li><li>Подписка</li><li>Обжарка</li><li>Кофейни</li><li>Опт</li></ul><b>Заказать · 2</b></nav>
+  <div class="hero">
+    <div class="t">
+      <small>Обжарочная в Алматы с 2018 года</small>
+      <h1>Свежая обжарка <em>каждую пятницу</em></h1>
+      <p>Зерно из Эфиопии, Колумбии и Бразилии. Обжариваем под ваш заказ и доставляем за 1 день.</p>
+      <div class="b"><span>Выбрать кофе</span><span>Подписка −15%</span></div>
+    </div>
+    <div class="img"><div class="sub"><b>1 200+</b>подписчиков получают кофе каждую неделю</div></div>
+  </div>
+  <div class="packs">
+    <div class="k"><i style="background-image:url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=300&q=80&auto=format&fit=crop')"></i><div><h4>Эфиопия Иргачефф</h4><p>Ягоды, жасмин · 250 г</p><b>6 500 ₸</b></div></div>
+    <div class="k"><i style="background-image:url('https://images.unsplash.com/photo-1511920170033-f8396924c348?w=300&q=80&auto=format&fit=crop')"></i><div><h4>Колумбия Уила</h4><p>Карамель, орех · 250 г</p><b>5 900 ₸</b></div></div>
+    <div class="k"><i style="background-image:url('https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=300&q=80&auto=format&fit=crop')"></i><div><h4>Набор для воронки</h4><p>Воронка, фильтры, 250 г</p><b>14 900 ₸</b></div></div>
+  </div>
+</body>
+</html>

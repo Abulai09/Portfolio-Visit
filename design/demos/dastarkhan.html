@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Dastarkhan — концепт доставки еды</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1440px; height: 900px; overflow: hidden; background: #FFF7EC; color: #2A1A0E; font-family: Nunito, sans-serif; }
+  header { display: flex; align-items: center; gap: 28px; padding: 20px 56px; }
+  .logo { font-size: 28px; font-weight: 900; color: #E8590C; }
+  .addr { background: #fff; border-radius: 14px; padding: 12px 18px; font-weight: 700; font-size: 15px; flex: 1; max-width: 420px; }
+  .addr span { color: #9A7B62; font-weight: 500; }
+  .time { font-weight: 800; color: #2F9E44; }
+  .cart { margin-left: auto; background: #E8590C; color: #fff; padding: 13px 22px; border-radius: 14px; font-weight: 800; }
+  .hero { margin: 8px 56px 0; height: 330px; border-radius: 30px; background: #FFE3C2; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+  .ht { padding: 50px 56px; }
+  .ht small { background: #fff; padding: 7px 14px; border-radius: 999px; font-weight: 800; font-size: 14px; color: #E8590C; }
+  .ht h1 { font-size: 54px; font-weight: 900; line-height: 1; margin: 20px 0 14px; letter-spacing: -.02em; }
+  .ht p { font-size: 18px; color: #6E4F38; }
+  .hi { background: url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1000&q=80&auto=format&fit=crop') center/cover; border-radius: 0 30px 30px 0; }
+  .tabs { display: flex; gap: 12px; padding: 28px 56px 18px; }
+  .tabs span { padding: 11px 22px; border-radius: 999px; background: #fff; font-weight: 800; font-size: 16px; }
+  .tabs span:first-child { background: #2A1A0E; color: #fff; }
+  .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; padding: 0 56px; }
+  .d { background: #fff; border-radius: 24px; padding: 12px; }
+  .d i { display: block; height: 170px; border-radius: 18px; background-size: cover; background-position: center; }
+  .d h4 { font-size: 17px; font-weight: 800; margin: 12px 4px 4px; }
+  .d p { color: #9A7B62; font-size: 14px; margin: 0 4px 12px; }
+  .d div { display: flex; justify-content: space-between; align-items: center; margin: 0 4px; }
+  .d b { font-size: 18px; font-weight: 900; }
+  .d em { font-style: normal; width: 38px; height: 38px; border-radius: 12px; background: #FFE3C2; color: #E8590C; display: grid; place-items: center; font-size: 22px; font-weight: 900; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="logo">dastarkhan</div>
+    <div class="addr"><span>Доставим на:</span> ул. Абая, 10, кв. 25</div>
+    <div class="time">⏱ 35 минут</div>
+    <div class="cart">Корзина · 7 400 ₸</div>
+  </header>
+  <div class="hero">
+    <div class="ht">
+      <small>Бесплатная доставка от 5 000 ₸</small>
+      <h1>Горячая еда за 35 минут</h1>
+      <p>Готовим из свежих продуктов каждый день. Оплата Kaspi при заказе.</p>
+    </div>
+    <div class="hi"></div>
+  </div>
+  <div class="tabs"><span>Популярное</span><span>Пицца</span><span>Боулы</span><span>Салаты</span><span>Завтраки</span><span>Напитки</span></div>
+  <div class="grid">
+    <div class="d"><i style="background-image:url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80&auto=format&fit=crop')"></i><h4>Боул с лососем</h4><p>420 г · рис, авокадо</p><div><b>3 900 ₸</b><em>+</em></div></div>
+    <div class="d"><i style="background-image:url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=80&auto=format&fit=crop')"></i><h4>Говядина терияки</h4><p>380 г · овощи, кешью</p><div><b>4 500 ₸</b><em>+</em></div></div>
+    <div class="d"><i style="background-image:url('https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&q=80&auto=format&fit=crop')"></i><h4>Салат «Сезонный»</h4><p>290 г · фета, гранат</p><div><b>2 700 ₸</b><em>+</em></div></div>
+    <div class="d"><i style="background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=80&auto=format&fit=crop')"></i><h4>Веган-боул</h4><p>400 г · нут, батат</p><div><b>3 200 ₸</b><em>+</em></div></div>
+    <div class="d"><i style="background-image:url('https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&q=80&auto=format&fit=crop')"></i><h4>Панкейки</h4><p>3 шт · ягоды, мёд</p><div><b>2 400 ₸</b><em>+</em></div></div>
+  </div>
+</body>
+</html>

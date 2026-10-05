@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Lumière — концепт сайта салона с онлайн-записью</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1440px; height: 900px; overflow: hidden; background: #F7EFEA; color: #241C1A; font-family: Jost, sans-serif; display: grid; grid-template-columns: 560px 1fr; }
+  .photo { background: url('https://images.unsplash.com/photo-1562322140-8baeececf3df?w=1100&q=80&auto=format&fit=crop') center/cover; position: relative; }
+  .photo::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 160px; background: linear-gradient(180deg, rgba(36,28,26,.6), transparent); }
+  .photo .logo { position: absolute; left: 44px; top: 36px; font-family: Prata, serif; font-size: 34px; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,.35); }
+  .photo .rate { position: absolute; left: 44px; bottom: 40px; background: rgba(255,255,255,.92); border-radius: 18px; padding: 16px 20px; font-size: 15px; }
+  .photo .rate b { font-family: Prata, serif; font-size: 26px; display: block; }
+  main { padding: 40px 56px; }
+  nav { display: flex; justify-content: flex-end; gap: 30px; font-size: 15px; color: #6E5C55; margin-bottom: 34px; }
+  h1 { font-family: Prata, serif; font-weight: 400; font-size: 46px; line-height: 1.1; margin-bottom: 8px; }
+  .sub { color: #6E5C55; font-size: 17px; margin-bottom: 26px; }
+  .label { font-weight: 600; font-size: 14px; color: #8C7268; margin: 0 0 10px; }
+  .services { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .s { background: #fff; border-radius: 16px; padding: 14px 16px; font-size: 15px; border: 1.5px solid transparent; }
+  .s b { display: block; font-size: 17px; font-weight: 600; margin-top: 4px; }
+  .s.on { border-color: #241C1A; }
+  .masters { display: flex; gap: 14px; margin-bottom: 24px; }
+  .m { display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 999px; padding: 6px 18px 6px 6px; font-size: 15px; border: 1.5px solid transparent; }
+  .m.on { border-color: #241C1A; }
+  .m i { width: 44px; height: 44px; border-radius: 50%; background-size: cover; background-position: center; }
+  .m small { display: block; color: #8C7268; font-size: 12px; }
+  .days { display: flex; gap: 10px; margin-bottom: 20px; }
+  .day { width: 70px; text-align: center; background: #fff; border-radius: 16px; padding: 10px 0; font-size: 13px; color: #8C7268; }
+  .day b { display: block; font-size: 22px; color: #241C1A; font-weight: 600; }
+  .day.on { background: #241C1A; color: #E9D9D1; } .day.on b { color: #fff; }
+  .slots { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 26px; }
+  .t { background: #fff; border-radius: 12px; padding: 11px 0; text-align: center; font-weight: 500; font-size: 15px; }
+  .t.off { background: transparent; color: #C9B6AE; text-decoration: line-through; }
+  .t.on { background: #C2876F; color: #fff; }
+  .cta { display: flex; align-items: center; justify-content: space-between; background: #241C1A; color: #fff; border-radius: 18px; padding: 20px 26px; }
+  .cta span { color: #D9C5BC; font-size: 15px; } .cta b { font-size: 18px; font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="photo"><div class="logo">Lumière</div><div class="rate"><b>4.9 ★</b>870 отзывов в 2ГИС</div></div>
+  <main>
+    <nav><span>Услуги</span><span>Мастера</span><span>Работы</span><span>Цены</span><span>Контакты</span></nav>
+    <h1>Запишитесь онлайн за минуту</h1>
+    <p class="sub">Выберите услугу, мастера и удобное время — подтверждение придёт в WhatsApp.</p>
+    <p class="label">Услуга</p>
+    <div class="services">
+      <div class="s on">Стрижка<b>от 6 000 ₸</b></div>
+      <div class="s">Окрашивание<b>от 18 000 ₸</b></div>
+      <div class="s">Маникюр<b>от 7 500 ₸</b></div>
+      <div class="s">Макияж<b>от 12 000 ₸</b></div>
+    </div>
+    <p class="label">Мастер</p>
+    <div class="masters">
+      <div class="m on"><i style="background-image:url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200&q=80&auto=format&fit=crop')"></i><div>Айгерим<small>Топ-стилист</small></div></div>
+      <div class="m"><i style="background-image:url('https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=200&q=80&auto=format&fit=crop')"></i><div>Дана<small>Визажист</small></div></div>
+      <div class="m"><i style="background-image:url('https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=200&q=80&auto=format&fit=crop')"></i><div>Любой мастер<small>Ближайшее время</small></div></div>
+    </div>
+    <div class="days">
+      <div class="day">Пн<b>13</b></div><div class="day on">Вт<b>14</b></div><div class="day">Ср<b>15</b></div><div class="day">Чт<b>16</b></div><div class="day">Пт<b>17</b></div><div class="day">Сб<b>18</b></div><div class="day">Вс<b>19</b></div>
+    </div>
+    <div class="slots">
+      <div class="t off">10:00</div><div class="t">11:00</div><div class="t off">12:00</div><div class="t">13:00</div><div class="t on">14:30</div><div class="t">16:00</div><div class="t off">17:30</div>
+    </div>
+    <div class="cta"><span>Стрижка · Айгерим · вторник, 14 октября</span><b>Записаться на 14:30 →</b></div>
+  </main>
+</body>
+</html>

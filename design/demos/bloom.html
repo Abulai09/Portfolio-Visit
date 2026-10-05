@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Bloom — концепт магазина косметики</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1440px; height: 900px; overflow: hidden; background: #FFF5F1; color: #3A2228; font-family: 'DM Sans', sans-serif; }
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 26px 64px; }
+  .logo { font-family: Lora, serif; font-size: 34px; font-weight: 600; color: #C2456A; }
+  nav ul { display: flex; gap: 34px; list-style: none; font-size: 15px; font-weight: 500; }
+  .cart { background: #3A2228; color: #FFF5F1; padding: 12px 22px; border-radius: 999px; font-size: 14px; font-weight: 700; }
+  .hero { display: grid; grid-template-columns: 1fr 1.05fr; gap: 40px; padding: 18px 64px 0; height: 470px; }
+  .txt { padding-top: 46px; }
+  .pill { display: inline-flex; gap: 8px; background: #FFE3DA; color: #A3324F; padding: 8px 16px; border-radius: 999px; font-size: 14px; font-weight: 700; margin-bottom: 26px; }
+  h1 { font-family: Lora, serif; font-weight: 500; font-size: 66px; line-height: 1.02; letter-spacing: -.02em; margin-bottom: 24px; }
+  .txt p { font-size: 18px; line-height: 1.6; color: #7A5A61; max-width: 470px; margin-bottom: 32px; }
+  .btns { display: flex; gap: 14px; align-items: center; }
+  .btn { background: #C2456A; color: #fff; padding: 18px 32px; border-radius: 999px; font-weight: 700; font-size: 16px; }
+  .link { font-weight: 700; font-size: 16px; color: #3A2228; border-bottom: 2px solid #F3B4A6; padding-bottom: 3px; }
+  .collage { position: relative; }
+  .c1 { position: absolute; inset: 0 150px 0 0; border-radius: 200px 200px 32px 32px; background: url('https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=1000&q=80&auto=format&fit=crop') center/cover; }
+  .c2 { position: absolute; right: 0; bottom: 30px; width: 250px; height: 300px; border-radius: 28px; border: 8px solid #FFF5F1; background: url('https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80&auto=format&fit=crop') center/cover; }
+  .note { position: absolute; left: -30px; bottom: 50px; background: #fff; border-radius: 20px; padding: 16px 20px; box-shadow: 0 18px 40px -16px rgba(122,40,60,.35); font-size: 14px; }
+  .note b { display: block; font-size: 20px; color: #C2456A; }
+  .cats { display: flex; gap: 26px; padding: 44px 64px 0; }
+  .cat { display: flex; align-items: center; gap: 14px; background: #fff; border-radius: 999px; padding: 8px 22px 8px 8px; font-weight: 700; font-size: 15px; }
+  .cat i { width: 56px; height: 56px; border-radius: 50%; background-size: cover; background-position: center; }
+  .prods { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; padding: 36px 64px; }
+  .pr { background: #fff; border-radius: 26px; padding: 14px; display: flex; gap: 14px; align-items: center; }
+  .pr i { width: 92px; height: 92px; border-radius: 18px; background-size: cover; background-position: center; flex-shrink: 0; }
+  .pr h4 { font-size: 15px; margin-bottom: 6px; } .pr span { font-weight: 700; color: #C2456A; }
+</style>
+</head>
+<body>
+  <nav>
+    <div class="logo">bloom</div>
+    <ul><li>Уход за лицом</li><li>Тело</li><li>Волосы</li><li>Макияж</li><li>Наборы</li><li>Подобрать уход</li></ul>
+    <span class="cart">Корзина · 2</span>
+  </nav>
+  <section class="hero">
+    <div class="txt">
+      <span class="pill">✿ Корейская и европейская косметика</span>
+      <h1>Уход, который хочется продолжать</h1>
+      <p>Подберём средства под ваш тип кожи за 2 минуты. Доставка по Казахстану от одного дня.</p>
+      <div class="btns"><span class="btn">Подобрать уход</span><span class="link">Бестселлеры</span></div>
+    </div>
+    <div class="collage">
+      <div class="c1"></div>
+      <div class="c2"></div>
+      <div class="note"><b>4.9 ★</b>12 400 отзывов покупателей</div>
+    </div>
+  </section>
+  <div class="cats">
+    <span class="cat"><i style="background-image:url('https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=200&q=80&auto=format&fit=crop')"></i>Сыворотки</span>
+    <span class="cat"><i style="background-image:url('https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=200&q=80&auto=format&fit=crop')"></i>Кремы</span>
+    <span class="cat"><i style="background-image:url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=200&q=80&auto=format&fit=crop')"></i>Макияж</span>
+    <span class="cat"><i style="background-image:url('https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=200&q=80&auto=format&fit=crop')"></i>Ароматы</span>
+    <span class="cat"><i style="background-image:url('https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&q=80&auto=format&fit=crop')"></i>Наборы</span>
+  </div>
+  <div class="prods">
+    <div class="pr"><i style="background-image:url('https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=300&q=80&auto=format&fit=crop')"></i><div><h4>Сыворотка с ниацинамидом</h4><span>8 900 ₸</span></div></div>
+    <div class="pr"><i style="background-image:url('https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=300&q=80&auto=format&fit=crop')"></i><div><h4>Увлажняющий крем</h4><span>11 500 ₸</span></div></div>
+    <div class="pr"><i style="background-image:url('https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=300&q=80&auto=format&fit=crop')"></i><div><h4>Тонер для сияния</h4><span>7 200 ₸</span></div></div>
+    <div class="pr"><i style="background-image:url('https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=300&q=80&auto=format&fit=crop')"></i><div><h4>Парфюм «Пион»</h4><span>24 000 ₸</span></div></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+/* Цвета сайта: насыщенный индиго + коралл. Меняются здесь — в одном месте.
+   Контраст проверен по WCAG AA (цифры — отношение к фону, на котором цвет используется).
+
+   Роли: --accent — ФОН кнопок (с белым текстом); --accent-ink — ТЕКСТ, иконки, рамки.
+   В тёмной теме одним цветом обе роли не закрыть: для кнопки он должен быть тёмным,
+   для текста — светлым. Поэтому токенов два. То же с кораллом: --coral-ink — только текст. */
+:root {
+  color-scheme: light;
+  --accent: #2e1a8c; /* 12.8 к белому тексту */
+  --accent-strong: #1f1166;
+  --accent-ink: #2e1a8c; /* 12.8 к белому фону */
+  --accent-soft: #eeebff;
+  --night: #160c4d; /* сцена портфолио и маркетплейса — тёмная в обеих темах */
+  --coral: #ff5a3c; /* графика: иконки, свечение, точки, плашка «Популярный» с текстом --night (5.7) */
+  --coral-ink: #c93519; /* коралловый текст: 5.3 к белому, 4.8 к лавандовому */
+  --coral-light: #ff8a6e; /* коралл на --night: 7.1 */
+  --coral-soft: #ffe9e4;
+  --whatsapp: #15803d; /* темнее фирменного #25D366 — для контраста WCAG AA с белым текстом */
+  --whatsapp-strong: #166534;
+  --ink: #111827;
+  --ink-soft: #4b5563; /* 6.9 к лавандовому фону */
+  --line: #e6e3f3;
+  --surface: #ffffff;
+  --surface-muted: #f5f3ff;
+  --card-shadow: 0 1px 2px rgb(46 26 140 / 0.05), 0 14px 32px -18px rgb(46 26 140 / 0.28);
+}
+
+/* Тёмная тема. Включается, если на устройстве тёмная тема и пользователь не выбрал светлую,
+   либо если пользователь выбрал тёмную кнопкой (атрибут data-theme ставит скрипт в layout).
+   ДВА БЛОКА НИЖЕ ДОЛЖНЫ СОВПАДАТЬ — в CSS нет способа объединить media и атрибут в одно правило. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --accent: #5640d9; /* 6.7 к белому тексту */
+    --accent-strong: #4532c0;
+    --accent-ink: #a99bff; /* 8.1 к фону */
+    --accent-soft: #241a5c;
+    --night: #1c1352;
+    --coral-ink: #ff8a6e; /* 8.4 к фону */
+    --coral-soft: #3a1c24;
+    --ink: #eeebff;
+    --ink-soft: #b3add1; /* 8.5 к --surface-muted */
+    --line: #2c2552;
+    --surface: #0e0a22;
+    --surface-muted: #151032;
+    --card-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 36px -18px rgb(0 0 0 / 0.7);
+  }
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --accent: #5640d9;
+  --accent-strong: #4532c0;
+  --accent-ink: #a99bff;
+  --accent-soft: #241a5c;
+  --night: #1c1352;
+  --coral-ink: #ff8a6e;
+  --coral-soft: #3a1c24;
+  --ink: #eeebff;
+  --ink-soft: #b3add1;
+  --line: #2c2552;
+  --surface: #0e0a22;
+  --surface-muted: #151032;
+  --card-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 36px -18px rgb(0 0 0 / 0.7);
+}
+
+/* Иконка переключателя: луна в светлой теме (предлагает тёмную), солнце — в тёмной */
+.theme-icon-sun {
+  display: none;
+}
+:root[data-theme='dark'] .theme-icon-sun {
+  display: block;
+}
+:root[data-theme='dark'] .theme-icon-moon {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .theme-icon-sun {
+    display: block;
+  }
+  :root:not([data-theme='light']) .theme-icon-moon {
+    display: none;
+  }
+}
+
+@theme inline {
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-night: var(--night);
+  --color-coral: var(--coral);
+  --color-coral-ink: var(--coral-ink);
+  --color-coral-light: var(--coral-light);
+  --color-coral-soft: var(--coral-soft);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-strong: var(--whatsapp-strong);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+}
+
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 76rem;
+  padding-inline: 1rem;
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility card {
+  border-radius: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  /* В светлой теме тень с оттенком индиго, в тёмной — глубже и нейтральнее */
+  box-shadow: var(--card-shadow);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--surface);
+  color: var(--ink);
+  overflow-x: clip;
+}
+
+/* Обводка повторяет собственное скругление элемента — свой border-radius здесь не задаём,
+   иначе круглые кнопки при фокусе становятся квадратными. */
+:focus-visible {
+  outline: 3px solid var(--accent-ink);
+  outline-offset: 3px;
+}
+
+/* На тёмных секциях обводка коралловая (7:1 к --night) — индиговая там не видна. */
+.surface-dark :focus-visible {
+  outline-color: var(--coral-light);
+}
+
+/* Появление секций при прокрутке. Класс .reveal-ready ставит RevealObserver после запуска JS.
+   Переход задан только на появление: скрытие мгновенное. Иначе при загрузке все блоки ниже
+   экрана (их ~50) одновременно анимировались бы к «скрыт» — невидимая, но лишняя работа. */
+.reveal-ready .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.reveal-ready .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.45s ease-out,
+    transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Маркер аккордеона <details> */
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] .faq-chevron {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal-ready .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

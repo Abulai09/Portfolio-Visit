@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ru" data-demo-name="Nordhaus">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nordhaus — концепт мебельного магазина</title>
+<meta name="description" content="Демо-концепт мебельного магазина Nordhaus: каталог по комнатам, рассрочка, запись в шоурум и примерка мебели в интерьере.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="demo.css">
+<script src="demo.js" defer></script>
+<style>
+  :root {
+    --bg: #F3F1EC;
+    --card: #FFFFFF;
+    --ink: #1F2A26;
+    --soft: #5C6A63;
+    --green: #1F3A32;
+    --green-2: #2E5245;
+    --sand: #E6E0D4;
+    --line: #DCD6CA;
+    --pad: clamp(16px, 3.9vw, 56px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font: 400 17px/1.55 Jost, system-ui, sans-serif; }
+  img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  a { color: inherit; text-decoration: none; }
+  button, input, select { font: inherit; color: inherit; }
+  button { background: none; border: 0; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+  section[id] { scroll-margin-top: 16px; }
+  .wrap { padding: 0 var(--pad); }
+  .block { margin-top: 80px; }
+  .h2 { font-size: clamp(28px, 3.4vw, 42px); font-weight: 500; line-height: 1.1; letter-spacing: -.01em; }
+  .lead { color: var(--soft); margin-top: 10px; max-width: 520px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 26px; border-radius: 999px; font-weight: 500; background: var(--green); color: #fff; }
+  .btn:hover { background: var(--green-2); }
+  .btn.ghost { background: transparent; color: var(--green); box-shadow: inset 0 0 0 1px var(--green); }
+  .btn.ghost:hover { background: var(--sand); }
+
+  nav.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px var(--pad); }
+  .logo { font-size: 24px; font-weight: 600; letter-spacing: .14em; }
+  nav.top ul { display: none; gap: 32px; list-style: none; }
+  nav.top ul a:hover { color: var(--green-2); }
+  .right { display: flex; gap: 18px; align-items: center; font-size: 15px; }
+  .right .inst { display: none; }
+  .right .cart { background: var(--green); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-weight: 500; }
+
+  .hero { position: relative; margin: 0 var(--pad); border-radius: 28px; overflow: hidden; min-height: 560px; display: flex; align-items: flex-end; }
+  .hero > img { position: absolute; inset: 0; object-position: center 60%; }
+  .ar { position: absolute; right: 20px; top: 20px; background: #fff; border-radius: 999px; padding: 9px 16px; font-weight: 500; font-size: 15px; }
+  .panel { position: relative; margin: 16px; background: rgb(243 241 236 / .95); border-radius: 22px; padding: 26px; max-width: 480px; }
+  .panel small { color: var(--soft); font-size: 15px; }
+  .panel h1 { font-size: clamp(34px, 4vw, 48px); font-weight: 500; line-height: 1.05; margin: 8px 0 14px; letter-spacing: -.01em; }
+  .panel p { color: #4C5A53; margin-bottom: 22px; }
+  .panel .b { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  .cats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; list-style: none; margin-top: 28px; }
+  .c { display: block; border-radius: 22px; overflow: hidden; background: #fff; }
+  .c .im { aspect-ratio: 4 / 3; }
+  .c div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; padding: 14px 18px; font-size: 18px; font-weight: 500; }
+  .c em { font-style: normal; color: var(--soft); font-size: 15px; font-weight: 400; }
+
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; list-style: none; margin-top: 28px; }
+  .p { background: #fff; border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; }
+  .p .im { aspect-ratio: 1; background: var(--sand); }
+  .p .in { padding: 16px 18px 18px; display: flex; flex-direction: column; flex: 1; }
+  .p h3 { font-size: 18px; font-weight: 500; }
+  .p .meta { font-size: 14px; color: var(--soft); }
+  .p .pr { font-size: 19px; font-weight: 600; margin-top: 10px; }
+  .p .mo { font-size: 14px; color: var(--green-2); margin-bottom: 14px; }
+  .swatches { display: flex; gap: 6px; margin-top: 8px; }
+  .swatches i { width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(0 0 0 / .12); }
+  .p button { margin-top: auto; min-height: 46px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--green); color: var(--green); font-weight: 500; }
+  .p button:hover { background: var(--green); color: #fff; }
+
+  .arband { display: grid; background: var(--green); color: #EAF0EC; border-radius: 28px; overflow: hidden; }
+  .arband .im { position: relative; min-height: 260px; }
+  .arband .im img { position: absolute; inset: 0; }
+  .arband .tx { padding: 32px 28px; }
+  .arband h2 { color: #fff; }
+  .arband p { color: #BFD0C8; margin: 12px 0 24px; max-width: 460px; }
+  .arband ol { list-style: none; display: grid; gap: 10px; margin-bottom: 26px; counter-reset: s; }
+  .arband li { display: flex; gap: 12px; align-items: center; }
+  .arband li::before { counter-increment: s; content: counter(s); flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: rgb(255 255 255 / .12); font-size: 14px; }
+  .arband .btn { background: var(--bg); color: var(--green); }
+
+  .facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; list-style: none; margin-top: 28px; }
+  .facts li { border-top: 1px solid var(--line); padding-top: 16px; }
+  .facts b { display: block; font-size: clamp(30px, 3.4vw, 44px); font-weight: 500; line-height: 1.1; }
+  .facts span { color: var(--soft); font-size: 15px; }
+
+  .reviews { display: grid; gap: 14px; list-style: none; margin-top: 28px; }
+  .review { background: #fff; border-radius: 22px; padding: 24px; }
+  .review p { font-size: 18px; margin-bottom: 14px; }
+  .review footer { color: var(--soft); font-size: 15px; }
+  .review footer b { color: var(--ink); font-weight: 500; }
+
+  .visit { display: grid; gap: 24px; background: #fff; border-radius: 28px; padding: 28px; }
+  .visit dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 18px; margin-top: 18px; }
+  .visit dt { color: var(--soft); }
+  .visit form { display: grid; gap: 12px; }
+  .visit label span { display: block; font-size: 14px; color: var(--soft); margin-bottom: 4px; }
+  .visit input, .visit select { width: 100%; min-height: 50px; border: 1px solid var(--line); border-radius: 14px; padding: 0 14px; background: var(--bg); }
+
+  .foot { margin-top: 80px; background: var(--green); color: #BFD0C8; padding: 40px var(--pad) 28px; font-size: 15px; }
+  .foot .logo { color: #fff; display: inline-block; margin-bottom: 24px; }
+  .foot-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .foot h4 { color: #fff; font-weight: 500; margin-bottom: 8px; }
+  .foot ul { list-style: none; display: grid; gap: 6px; }
+  .foot a:hover { color: #fff; }
+  .legal { margin-top: 30px; padding-top: 18px; border-top: 1px solid rgb(255 255 255 / .15); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (min-width: 720px) {
+    .cats, .grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .facts { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .reviews { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .foot-cols { grid-template-columns: repeat(4, 1fr); }
+    .panel { margin: 40px; padding: 36px; }
+    .ar { right: 36px; top: 36px; }
+  }
+  @media (min-width: 1000px) {
+    nav.top ul { display: flex; }
+    .right .inst { display: inline; }
+    .hero { min-height: 520px; }
+    .arband { grid-template-columns: 1fr 1fr; }
+    .arband .tx { padding: 48px; }
+    .visit { grid-template-columns: 1fr 1fr; gap: 48px; padding: 44px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+  <nav class="top" aria-label="Разделы магазина">
+    <a href="#" class="logo" aria-label="Nordhaus — на главную">NORDHAUS</a>
+    <ul><li><a href="#catalog">Диваны</a></li><li><a href="#catalog">Кресла</a></li><li><a href="#catalog">Столы</a></li><li><a href="#catalog">Хранение</a></li><li><a href="#catalog">Свет</a></li><li><a href="#visit">Шоурум</a></li></ul>
+    <div class="right"><span class="inst">Рассрочка 0‑0‑24</span><a href="#catalog" class="cart">Корзина · <span data-cart-count>1</span></a></div>
+  </nav>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1800&q=80&auto=format&fit=crop" alt="Светлая гостиная с диваном и креслом" fetchpriority="high">
+      <a href="#ar" class="ar">◎ Примерьте в своей комнате</a>
+      <div class="panel">
+        <small>Новая коллекция «Сканди»</small>
+        <h1 id="hero-title">Мебель, в которой хочется жить</h1>
+        <p>Собственное производство в Алматы. Доставка и сборка бесплатно, гарантия 3 года.</p>
+        <div class="b"><a href="#catalog" class="btn">Смотреть каталог</a><a href="#visit" class="btn ghost">Записаться в шоурум</a></div>
+      </div>
+    </section>
+
+    <section id="rooms" class="wrap block" aria-labelledby="rooms-title">
+      <h2 id="rooms-title" class="h2">Каталог по комнатам</h2>
+      <ul class="cats">
+        <li><a href="#catalog" class="c"><div class="im"><img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=700&q=75&auto=format&fit=crop" alt="" loading="lazy"></div><div>Гостиная <em>412 товаров</em></div></a></li>
+        <li><a href="#catalog" class="c"><div class="im"><img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=700&q=75&auto=format&fit=crop" alt="" loading="lazy"></div><div>Кресла <em>от 74&nbsp;000&nbsp;₸</em></div></a></li>
+        <li><a href="#catalog" class="c"><div class="im"><img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=700&q=75&auto=format&fit=crop" alt="" loading="lazy"></div><div>Спальня <em>238 товаров</em></div></a></li>
+        <li><a href="#catalog" class="c"><div class="im"><img src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=700&q=75&auto=format&fit=crop" alt="" loading="lazy"></div><div>Для офиса <em>186 товаров</em></div></a></li>
+      </ul>
+    </section>
+
+    <section id="catalog" class="wrap block" aria-labelledby="catalog-title">
+      <h2 id="catalog-title" class="h2">Коллекция «Сканди»</h2>
+      <p class="lead">Натуральное дерево, ткани, которые легко чистить, и формы без лишнего.</p>
+      <ul class="grid">
+        <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=75&auto=format&fit=crop" alt="Трёхместный диван зелёного цвета" loading="lazy"></div><div class="in"><h3>Диван «Осло»</h3><p class="meta">3 места · велюр</p><div class="swatches" aria-label="Цвета: зелёный, бежевый, серый"><i style="background:#5E7A62"></i><i style="background:#D8C9B0"></i><i style="background:#9AA0A3"></i></div><p class="pr">189&nbsp;000&nbsp;₸</p><p class="mo">7&nbsp;875&nbsp;₸ × 24 мес</p><button type="button" data-demo-cart>В корзину</button></div></li>
+        <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1592078615290-033ee584e267?w=600&q=75&auto=format&fit=crop" alt="Чёрный стул на голубом фоне" loading="lazy"></div><div class="in"><h3>Стул «Ларс»</h3><p class="meta">дуб · экокожа</p><div class="swatches" aria-label="Цвета: чёрный, белый"><i style="background:#22262A"></i><i style="background:#F4F2EE"></i></div><p class="pr">29&nbsp;000&nbsp;₸</p><p class="mo">1&nbsp;208&nbsp;₸ × 24 мес</p><button type="button" data-demo-cart>В корзину</button></div></li>
+        <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=75&auto=format&fit=crop" alt="Серая настольная лампа" loading="lazy"></div><div class="in"><h3>Лампа «Нюд»</h3><p class="meta">металл · E27</p><div class="swatches" aria-label="Цвета: графит, белый"><i style="background:#56595C"></i><i style="background:#ECEAE5"></i></div><p class="pr">24&nbsp;500&nbsp;₸</p><p class="mo">1&nbsp;020&nbsp;₸ × 24 мес</p><button type="button" data-demo-cart>В корзину</button></div></li>
+        <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1617806118233-18e1de247200?w=600&q=75&auto=format&fit=crop" alt="Обеденная зона с зелёными стульями" loading="lazy"></div><div class="in"><h3>Обеденная группа «Сага»</h3><p class="meta">стол и 6 стульев</p><div class="swatches" aria-label="Цвета: зелёный, графит"><i style="background:#2F5A47"></i><i style="background:#3B3F42"></i></div><p class="pr">264&nbsp;000&nbsp;₸</p><p class="mo">11&nbsp;000&nbsp;₸ × 24 мес</p><button type="button" data-demo-cart>В корзину</button></div></li>
+      </ul>
+    </section>
+
+    <section id="ar" class="wrap block" aria-labelledby="ar-title">
+      <div class="arband">
+        <div class="im"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1000&q=75&auto=format&fit=crop" alt="Светлый интерьер со стульями и торшером" loading="lazy"></div>
+        <div class="tx">
+          <h2 id="ar-title" class="h2">Примерьте мебель у себя дома</h2>
+          <p>Наведите камеру телефона на комнату — диван встанет в реальном размере. Видно, пройдёт ли в дверь и подойдёт ли по цвету.</p>
+          <ol><li>Выберите модель в каталоге</li><li>Нажмите «Примерить в комнате»</li><li>Покрутите и сравните цвета обивки</li></ol>
+          <a href="#catalog" class="btn">Выбрать модель</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap block" aria-labelledby="facts-title">
+      <h2 id="facts-title" class="h2">Своё производство в Алматы</h2>
+      <ul class="facts">
+        <li><b>14 дней</b><span>изготовление под ваш размер и цвет</span></li>
+        <li><b>3 года</b><span>гарантия на каркас и механизмы</span></li>
+        <li><b>0&nbsp;₸</b><span>доставка и сборка по городу</span></li>
+        <li><b>0‑0‑24</b><span>рассрочка без переплаты</span></li>
+      </ul>
+    </section>
+
+    <section class="wrap block" aria-labelledby="reviews-title">
+      <h2 id="reviews-title" class="h2">Отзывы</h2>
+      <ul class="reviews">
+        <li class="review"><p>Примерили диван через телефон — поняли, что нужен угловой. Сделали за две недели, собрали за час.</p><footer><b>Семья Нуртаевых</b>, Алматы</footer></li>
+        <li class="review"><p>В шоуруме можно посидеть на всём и потрогать ткани. Консультант не торопил.</p><footer><b>Ирина</b>, Алматы</footer></li>
+        <li class="review"><p>Заказали кабинет для офиса: столы и стулья на 12 мест, всё приехало в срок.</p><footer><b>Даурен</b>, Астана</footer></li>
+      </ul>
+    </section>
+
+    <section id="visit" class="wrap block" aria-labelledby="visit-title">
+      <div class="visit">
+        <div>
+          <h2 id="visit-title" class="h2">Приходите в шоурум</h2>
+          <p class="lead">Покажем коллекцию вживую, подберём ткань и размер. Кофе за наш счёт.</p>
+          <dl>
+            <dt>Адрес</dt><dd>Алматы, Бостандыкский район</dd>
+            <dt>Время</dt><dd>Ежедневно с 10:00 до 20:00</dd>
+            <dt>Телефон</dt><dd>+7&nbsp;700&nbsp;000&nbsp;00&nbsp;00</dd>
+          </dl>
+        </div>
+        <form aria-labelledby="visit-title">
+          <label><span>Имя</span><input type="text" name="name" autocomplete="given-name" required></label>
+          <label><span>Телефон</span><input type="tel" name="phone" autocomplete="tel" placeholder="+7 (___) ___-__-__" required></label>
+          <label><span>День визита</span><select name="day"><option>Сегодня</option><option>Завтра</option><option>В выходные</option></select></label>
+          <button type="submit" class="btn">Записаться</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="#" class="logo">NORDHAUS</a>
+    <div class="foot-cols">
+      <div><h4>Каталог</h4><ul><li><a href="#catalog">Диваны</a></li><li><a href="#catalog">Кресла</a></li><li><a href="#catalog">Свет</a></li></ul></div>
+      <div><h4>Покупателям</h4><ul><li><a href="#">Доставка и сборка</a></li><li><a href="#">Рассрочка</a></li><li><a href="#">Гарантия</a></li></ul></div>
+      <div><h4>Компания</h4><ul><li><a href="#">Производство</a></li><li><a href="#visit">Шоурум</a></li></ul></div>
+      <div><h4>Оплата</h4><ul><li>Kaspi Pay и рассрочка</li><li>Visa, Mastercard</li><li>Безнал для юрлиц</li></ul></div>
+    </div>
+    <div class="legal"><span>© 2026 Nordhaus</span><span>Демо-концепт мебельного магазина</span></div>
+  </footer>
+</body>
+</html>

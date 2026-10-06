@@ -32,7 +32,7 @@ export function HomePage({ locale }: { locale: Locale }) {
       <main id="main">
         <div id="top" />
         <Hero t={t} />
-        <Portfolio t={t} />
+        <Portfolio t={t} locale={locale} />
         <WhyOwnStore t={t} />
         <Packages t={t} />
         <Marketplace t={t} />

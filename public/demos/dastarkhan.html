@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ru" data-demo-name="dastarkhan">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dastarkhan — концепт доставки еды</title>
+<meta name="description" content="Демо-концепт сервиса доставки еды dastarkhan: меню с категориями, корзина в один клик, доставка за 35 минут.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="demo.css">
+<script src="demo.js" defer></script>
+<style>
+  :root {
+    --bg: #FFF7EC;
+    --card: #FFFFFF;
+    --ink: #2A1A0E;
+    --soft: #7A5B44;
+    --orange: #E8590C;
+    --orange-ink: #C2410C;
+    --peach: #FFE3C2;
+    --green: #237A36;
+    --pad: clamp(16px, 3.9vw, 56px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font: 500 16px/1.5 Nunito, system-ui, sans-serif; }
+  img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; color: inherit; }
+  button { background: none; border: 0; cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+  /* Якорям нужен отступ под липкую шапку (и полосу категорий от 720px) */
+  section[id], .cat-title { scroll-margin-top: 130px; }
+  .wrap { padding: 0 var(--pad); }
+  .block { margin-top: 64px; }
+  .h2 { font-size: clamp(26px, 3vw, 36px); font-weight: 900; letter-spacing: -.02em; line-height: 1.1; }
+
+  /* Шапка липкая: корзина всегда под рукой */
+  header { position: sticky; top: 0; z-index: 20; background: rgb(255 247 236 / .94); backdrop-filter: blur(8px); display: flex; align-items: center; gap: 14px 24px; padding: 14px var(--pad); flex-wrap: wrap; }
+  .logo { font-size: 26px; font-weight: 900; color: var(--orange-ink); }
+  .addr { order: 3; flex: 1 1 100%; background: #fff; border-radius: 14px; padding: 10px 16px; font-weight: 700; font-size: 15px; }
+  .addr span { color: var(--soft); font-weight: 500; }
+  .time { display: none; font-weight: 800; color: var(--green); }
+  .cart { margin-left: auto; background: var(--orange-ink); color: #fff; padding: 11px 18px; border-radius: 14px; font-weight: 800; }
+  .cart:hover { background: #9A3412; }
+
+  .hero { margin: 8px var(--pad) 0; border-radius: 30px; background: var(--peach); display: grid; overflow: hidden; }
+  .ht { padding: 32px 28px; }
+  .chip { display: inline-block; background: #fff; padding: 6px 14px; border-radius: 999px; font-weight: 800; font-size: 14px; color: var(--orange-ink); }
+  .ht h1 { font-size: clamp(38px, 4.4vw, 56px); font-weight: 900; line-height: 1; margin: 18px 0 12px; letter-spacing: -.02em; }
+  .ht p { font-size: 18px; color: #6E4F38; margin-bottom: 24px; }
+  .btn { display: inline-flex; align-items: center; min-height: 52px; padding: 0 26px; border-radius: 16px; background: var(--ink); color: #fff; font-weight: 800; }
+  .btn:hover { background: #4A3020; }
+  /* Фото подстраивается под высоту текста, а не растягивает блок своей высотой */
+  .hi { position: relative; min-height: 240px; }
+  .hi img, .combo .im img { position: absolute; inset: 0; }
+
+  .tabs { background: var(--bg); display: flex; gap: 10px; padding: 18px var(--pad) 14px; overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tabs a { flex: none; padding: 10px 20px; border-radius: 999px; background: #fff; font-weight: 800; }
+  .tabs a:hover { background: var(--peach); }
+
+  .cat-title { font-size: 22px; font-weight: 900; margin: 28px 0 14px; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; list-style: none; }
+  .d { background: #fff; border-radius: 24px; padding: 10px; display: flex; flex-direction: column; }
+  .d .im { aspect-ratio: 1; border-radius: 18px; overflow: hidden; position: relative; }
+  .d .im em { position: absolute; left: 8px; top: 8px; background: var(--ink); color: #fff; font-style: normal; font-size: 12px; font-weight: 800; padding: 3px 10px; border-radius: 999px; }
+  .d h3 { font-size: 16px; font-weight: 800; margin: 10px 4px 2px; line-height: 1.25; }
+  .d p { color: var(--soft); font-size: 13.5px; margin: 0 4px 10px; }
+  .d .row { display: flex; justify-content: space-between; align-items: center; margin: auto 4px 2px; }
+  .d b { font-size: 17px; font-weight: 900; }
+  .d button { width: 40px; height: 40px; border-radius: 12px; background: var(--peach); color: var(--orange-ink); font-size: 24px; font-weight: 900; line-height: 1; }
+  .d button:hover { background: var(--orange-ink); color: #fff; }
+
+  .combo { display: grid; background: var(--ink); color: #FFE9D2; border-radius: 30px; overflow: hidden; }
+  .combo .tx { padding: 32px 28px; }
+  .combo h2 { color: #fff; }
+  .combo p { color: #E7C9AC; margin: 12px 0 22px; max-width: 420px; }
+  .combo .price { font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 20px; }
+  .combo .price s { font-size: 18px; color: #BFA088; margin-left: 10px; font-weight: 700; }
+  .combo button { min-height: 52px; padding: 0 26px; border-radius: 16px; background: var(--peach); color: var(--ink); font-weight: 900; }
+  .combo .im { position: relative; min-height: 240px; }
+
+  .how { display: grid; gap: 14px; list-style: none; margin-top: 24px; counter-reset: h; }
+  .how li { background: #fff; border-radius: 24px; padding: 22px; }
+  .how li::before { counter-increment: h; content: counter(h); display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--peach); color: var(--orange-ink); font-weight: 900; font-size: 18px; margin-bottom: 12px; }
+  .how h3 { font-size: 18px; font-weight: 900; margin-bottom: 4px; }
+  .how p { color: var(--soft); }
+
+  .zones { display: grid; gap: 10px; margin-top: 24px; }
+  .zones div { display: flex; justify-content: space-between; gap: 16px; background: #fff; border-radius: 18px; padding: 16px 20px; }
+  .zones b { font-weight: 800; }
+  .zones span { color: var(--soft); text-align: right; }
+
+  .reviews { display: grid; gap: 14px; list-style: none; margin-top: 24px; }
+  .review { background: #fff; border-radius: 24px; padding: 22px; }
+  .review .st { color: var(--orange-ink); }
+  .review p { margin: 8px 0 12px; font-size: 17px; }
+  .review footer { color: var(--soft); font-size: 14px; }
+  .review footer b { color: var(--ink); }
+
+  .foot { margin-top: 64px; background: var(--peach); padding: 36px var(--pad) 28px; font-size: 15px; color: #6E4F38; }
+  .foot-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 16px; }
+  .foot h4 { color: var(--ink); font-weight: 900; margin-bottom: 8px; }
+  .foot ul { list-style: none; display: grid; gap: 6px; }
+  .legal { margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
+
+  @media (min-width: 720px) {
+    .addr { order: 0; flex: 0 1 420px; }
+    .time { display: block; }
+    .tabs { position: sticky; top: 72px; z-index: 10; }
+    section[id], .cat-title { scroll-margin-top: 150px; }
+    .grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .how { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .zones { grid-template-columns: repeat(3, 1fr); }
+    .reviews { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .foot-cols { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (min-width: 1000px) {
+    .hero { grid-template-columns: 1fr 1fr; min-height: 330px; }
+    .ht { padding: 50px 56px; }
+    .grid { grid-template-columns: repeat(5, 1fr); gap: 18px; }
+    .combo { grid-template-columns: 1fr 1fr; }
+    .combo .tx { padding: 48px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+  <header>
+    <a href="#" class="logo" aria-label="dastarkhan — на главную">dastarkhan</a>
+    <div class="addr"><span>Доставим на:</span> ул. Абая, 10, кв. 25</div>
+    <div class="time">⏱ 35 минут</div>
+    <a href="#menu" class="cart">Корзина · <span data-cart-count>3</span></a>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="ht">
+        <span class="chip">Бесплатная доставка от 5&nbsp;000&nbsp;₸</span>
+        <h1 id="hero-title">Горячая еда за 35 минут</h1>
+        <p>Готовим из свежих продуктов каждый день. Оплата Kaspi при заказе.</p>
+        <a href="#menu" class="btn">Выбрать блюда</a>
+      </div>
+      <div class="hi"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1000&q=80&auto=format&fit=crop" alt="Пицца с базиликом и томатами" fetchpriority="high"></div>
+    </section>
+
+    <nav class="tabs" aria-label="Разделы меню">
+      <a href="#popular">Популярное</a><a href="#hot">Горячее</a><a href="#bowls">Боулы и салаты</a><a href="#breakfast">Завтраки</a><a href="#drinks">Напитки</a><a href="#combo">Наборы</a>
+    </nav>
+
+    <section id="menu" class="wrap" aria-label="Меню">
+      <h2 id="popular" class="cat-title">Популярное</h2>
+      <ul class="grid">
+        <li class="d"><div class="im"><img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=75&auto=format&fit=crop" alt="Шашлык на шпажках с овощами" loading="lazy"><em>Хит</em></div><h3>Шашлык из баранины</h3><p>300 г · лепёшка, лук</p><div class="row"><b>4&nbsp;900&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить: шашлык из баранины">+</button></div></li>
+        <li class="d"><div class="im"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&q=75&auto=format&fit=crop" alt="Пицца пепперони" loading="lazy"></div><h3>Пицца «Пепперони»</h3><p>30 см · моцарелла</p><div class="row"><b>4&nbsp;200&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить: пицца «Пепперони»">+</button></div></li>
+        <li class="d"><div class="im"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=75&auto=format&fit=crop" alt="Бургер с говядиной" loading="lazy"></div><h3>Бургер «Классика»</h3><p>320 г · говядина, чеддер</p><div class="row"><b>3&nbsp;600&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить: бургер «Классика»">+</button></div></li>
+        <li class="d"><div class="im"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=75&auto=format&fit=crop" alt="Боул с лососем и авокадо" loading="lazy"></div><h3>Боул с лососем</h3><p>420 г · рис, авокадо</p><div class="row"><b>3&nbsp;900&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить: боул с лососем">+</button></div></li>
+        <li class="d"><div class="im"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=75&auto=format&fit=crop" alt="Говядина с овощами" loading="lazy"></div><h3>Говядина терияки</h3><p>380 г · овощи, кешью</p><div class="row"><b>4&nbsp;500&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить: говядина терияки">+</button></div></li>
+      </ul>
+
+      <h2 id="hot" class="cat-title">Горячее</h2>
+      <ul class="grid">
+        <li class="d"><div class="im"><img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=500&q=75&auto=format&fit=crop" alt="Тарелка с горячим блюдом" loading="lazy"></div><h3>Курица с овощами гриль</h3><p>350 г · соус песто</p><div class="row"><b>3&nbsp;700&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить: курица с овощами гриль">+</button></div></li>
+        <li class="d"><div class="im"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&q=75&auto=format&fit=crop" alt="Пицца маргарита" loading="lazy"></div><h3>Пицца «Маргарита»</h3><p>30 см · томаты, базилик</p><div class="row"><b>3&nbsp;500&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить: пицца «Маргарита»">+</button></div></li>
+        <li class="d"><div class="im"><img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=75&auto=format&fit=crop" alt="Куриный шашлык" loading="lazy"></div><h3>Шашлык из курицы</h3><p>300 г · маринад с травами</p><div class="row"><b>3&nbsp;800&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить: шашлык из курицы">+</button></div></li>
+      </ul>
+
+      <h2 id="bowls" class="cat-title">Боулы и салаты</h2>
+      <ul class="grid">
+        <li class="d"><div class="im"><img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&q=75&auto=format&fit=crop" alt="Сезонный салат" loading="lazy"></div><h3>Салат «Сезонный»</h3><p>290 г · фета, гранат</p><div class="row"><b>2&nbsp;700&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить: салат «Сезонный»">+</button></div></li>
+        <li class="d"><div class="im"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=75&auto=format&fit=crop" alt="Веганский боул" loading="lazy"><em>Веган</em></div><h3>Веган-боул</h3><p>400 г · нут, батат</p><div class="row"><b>3&nbsp;200&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить: веган-боул">+</button></div></li>
+      </ul>
+
+      <h2 id="breakfast" class="cat-title">Завтраки до 12:00</h2>
+      <ul class="grid">
+        <li class="d"><div class="im"><img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&q=75&auto=format&fit=crop" alt="Панкейки с ягодами" loading="lazy"></div><h3>Панкейки</h3><p>3 шт · ягоды, мёд</p><div class="row"><b>2&nbsp;400&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить: панкейки">+</button></div></li>
+        <li class="d"><div class="im"><img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&q=75&auto=format&fit=crop" alt="Французские тосты с бананом и голубикой" loading="lazy"></div><h3>Французские тосты</h3><p>2 шт · банан, голубика</p><div class="row"><b>2&nbsp;600&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить: французские тосты">+</button></div></li>
+      </ul>
+
+      <h2 id="drinks" class="cat-title">Напитки</h2>
+      <ul class="grid">
+        <li class="d"><div class="im"><img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500&q=75&auto=format&fit=crop" alt="Лимонады в бокалах" loading="lazy"></div><h3>Лимонады домашние</h3><p>0,5 л · 4 вкуса</p><div class="row"><b>1&nbsp;200&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить: домашний лимонад">+</button></div></li>
+      </ul>
+    </section>
+
+    <section id="combo" class="wrap block" aria-labelledby="combo-title">
+      <div class="combo">
+        <div class="tx">
+          <h2 id="combo-title" class="h2">Обед на компанию</h2>
+          <p>4 горячих блюда, 2 салата и лимонады на выбор. Хватит на 4–5 человек, привезём к нужному времени.</p>
+          <p class="price">16&nbsp;900&nbsp;₸<s>21&nbsp;100&nbsp;₸</s></p>
+          <button type="button" data-demo-cart>Добавить набор</button>
+        </div>
+        <div class="im"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=900&q=75&auto=format&fit=crop" alt="Стол с разными блюдами" loading="lazy"></div>
+      </div>
+    </section>
+
+    <section class="wrap block" aria-labelledby="how-title">
+      <h2 id="how-title" class="h2">Как мы работаем</h2>
+      <ol class="how">
+        <li><h3>Вы заказываете</h3><p>В пару нажатий: корзина помнит прошлые заказы</p></li>
+        <li><h3>Мы готовим</h3><p>Сразу после заказа, а не заранее — блюдо приедет горячим</p></li>
+        <li><h3>Курьер привозит</h3><p>В среднем за 35 минут, статус видно в WhatsApp</p></li>
+      </ol>
+    </section>
+
+    <section class="wrap block" aria-labelledby="zones-title">
+      <h2 id="zones-title" class="h2">Куда доставляем</h2>
+      <div class="zones">
+        <div><b>Алмалинский, Бостандыкский</b><span>25–35 мин · бесплатно от 5&nbsp;000&nbsp;₸</span></div>
+        <div><b>Медеуский, Ауэзовский</b><span>35–45 мин · бесплатно от 7&nbsp;000&nbsp;₸</span></div>
+        <div><b>Остальные районы</b><span>45–60 мин · 990&nbsp;₸</span></div>
+      </div>
+    </section>
+
+    <section class="wrap block" aria-labelledby="reviews-title">
+      <h2 id="reviews-title" class="h2">Отзывы</h2>
+      <ul class="reviews">
+        <li class="review"><span class="st" aria-label="5 из 5">★★★★★</span><p>Шашлык приехал горячим, лепёшка свежая. Заказываем всем офисом по пятницам.</p><footer><b>Нурлан</b>, Алматы</footer></li>
+        <li class="review"><span class="st" aria-label="5 из 5">★★★★★</span><p>Удобно, что корзина помнит прошлый заказ — повторяю в два клика.</p><footer><b>Айгуль</b>, Алматы</footer></li>
+        <li class="review"><span class="st" aria-label="5 из 5">★★★★★</span><p>Заказала завтрак на выходных — панкейки как в кафе.</p><footer><b>Дарина</b>, Алматы</footer></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="#" class="logo">dastarkhan</a>
+    <div class="foot-cols">
+      <div><h4>Меню</h4><ul><li><a href="#popular">Популярное</a></li><li><a href="#hot">Горячее</a></li><li><a href="#combo">Наборы</a></li></ul></div>
+      <div><h4>Доставка</h4><ul><li><a href="#zones-title">Зоны и время</a></li><li><a href="#how-title">Как заказать</a></li></ul></div>
+      <div><h4>Время работы</h4><ul><li>Ежедневно 9:00–23:00</li><li>Завтраки до 12:00</li></ul></div>
+      <div><h4>Оплата</h4><ul><li>Kaspi Pay</li><li>Картой курьеру</li><li>Наличными</li></ul></div>
+    </div>
+    <div class="legal"><span>© 2026 dastarkhan</span><span>Демо-концепт доставки еды</span></div>
+  </footer>
+</body>
+</html>

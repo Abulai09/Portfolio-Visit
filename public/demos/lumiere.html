@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ru" data-demo-name="Lumière">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumière — концепт сайта салона с онлайн-записью</title>
+<meta name="description" content="Демо-концепт салона красоты Lumière: онлайн-запись к мастеру, услуги и цены, работы и отзывы.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="demo.css">
+<script src="demo.js" defer></script>
+<style>
+  :root {
+    --bg: #F7EFEA;
+    --card: #FFFFFF;
+    --ink: #241C1A;
+    --soft: #6E5C55;
+    --muted: #8C7268;
+    --terra: #9A5A43;
+    --blush: #EAD7CE;
+    --serif: Prata, Georgia, serif;
+    --pad: clamp(16px, 3.9vw, 56px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font: 400 16px/1.55 Jost, system-ui, sans-serif; }
+  img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; color: inherit; }
+  button { background: none; border: 0; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--terra); outline-offset: 3px; }
+  section[id] { scroll-margin-top: 16px; }
+  .wrap { padding: 0 var(--pad); }
+  .block { margin-top: 80px; }
+  .h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 3.2vw, 40px); line-height: 1.15; }
+  .lead { color: var(--soft); margin-top: 10px; max-width: 520px; }
+
+  /* Первый экран: фото + запись */
+  /* min-width: 0 — иначе лента дней растягивает колонку шире экрана */
+  .hero { display: grid; }
+  .hero > * { min-width: 0; }
+  .photo { position: relative; min-height: 360px; }
+  .photo > img { position: absolute; inset: 0; }
+  .photo::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 160px; z-index: 1; background: linear-gradient(180deg, rgb(36 28 26 / .6), transparent); }
+  .photo .logo { position: absolute; z-index: 2; left: var(--pad); top: 24px; font-family: var(--serif); font-size: 32px; color: #fff; text-shadow: 0 2px 12px rgb(0 0 0 / .35); }
+  .photo .rate { position: absolute; z-index: 2; left: var(--pad); bottom: 24px; background: rgb(255 255 255 / .92); border-radius: 18px; padding: 12px 18px; font-size: 15px; }
+  .photo .rate b { font-family: var(--serif); font-size: 24px; font-weight: 400; display: block; }
+  .book { padding: 32px var(--pad) 40px; }
+  nav.menu { display: none; justify-content: flex-end; gap: 28px; font-size: 15px; color: var(--soft); margin-bottom: 32px; }
+  nav.menu a:hover { color: var(--ink); }
+  .book h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(32px, 3.4vw, 46px); line-height: 1.1; margin-bottom: 8px; }
+  .book .sub { color: var(--soft); font-size: 17px; margin-bottom: 24px; }
+  fieldset { border: 0; margin-bottom: 20px; min-width: 0; }
+  legend { font-weight: 600; font-size: 14px; color: var(--muted); margin-bottom: 10px; }
+  .opt input { position: absolute; opacity: 0; pointer-events: none; }
+  /* relative — чтобы скрытая радиокнопка позиционировалась от подписи, а не от страницы
+     (иначе в горизонтальной ленте дней она растягивает документ вправо) */
+  .opt { position: relative; cursor: pointer; }
+  .opt input:focus-visible + * { outline: 2px solid var(--terra); outline-offset: 2px; }
+  .services { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .s { display: block; background: #fff; border-radius: 16px; padding: 12px 14px; border: 1.5px solid transparent; }
+  .s b { display: block; font-size: 17px; font-weight: 600; margin-top: 2px; }
+  .opt input:checked + .s, .opt input:checked + .m { border-color: var(--ink); }
+  .masters { display: flex; flex-wrap: wrap; gap: 10px; }
+  .m { display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 999px; padding: 5px 16px 5px 5px; border: 1.5px solid transparent; }
+  .m span.av { width: 42px; height: 42px; border-radius: 50%; overflow: hidden; flex: none; }
+  .m small { display: block; color: var(--muted); font-size: 12px; }
+  .days { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px; }
+  .days::-webkit-scrollbar { display: none; }
+  .day { display: block; width: 64px; flex: none; text-align: center; background: #fff; border-radius: 16px; padding: 9px 0; font-size: 13px; color: var(--muted); }
+  .day b { display: block; font-size: 21px; color: var(--ink); font-weight: 600; }
+  .opt input:checked + .day { background: var(--ink); color: #E9D9D1; }
+  .opt input:checked + .day b { color: #fff; }
+  .slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .t { display: block; background: #fff; border-radius: 12px; padding: 10px 0; text-align: center; font-weight: 500; }
+  .opt input:disabled + .t { background: transparent; color: #B39C93; text-decoration: line-through; cursor: not-allowed; }
+  .opt input:checked + .t { background: var(--terra); color: #fff; }
+  .submit { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--ink); color: #fff; border-radius: 18px; padding: 18px 22px; margin-top: 6px; text-align: left; }
+  .submit span { color: #D9C5BC; font-size: 15px; }
+  .submit b { font-size: 17px; font-weight: 600; white-space: nowrap; }
+  .submit:hover { background: #3A2E2A; }
+
+  /* Услуги и цены */
+  .prices { display: grid; gap: 28px; margin-top: 28px; }
+  .prices h3 { font-family: var(--serif); font-weight: 400; font-size: 22px; margin-bottom: 8px; }
+  .prices dl { display: grid; }
+  .prices dl div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--blush); }
+  .prices dd { font-weight: 600; white-space: nowrap; }
+
+  /* Мастера */
+  .team { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; list-style: none; margin-top: 28px; }
+  .team li .ph { aspect-ratio: 3 / 4; border-radius: 22px; overflow: hidden; margin-bottom: 12px; }
+  .team b { display: block; font-family: var(--serif); font-weight: 400; font-size: 20px; }
+  .team span { color: var(--muted); font-size: 14px; }
+
+  /* Работы */
+  .gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; list-style: none; margin-top: 28px; }
+  .gallery li { aspect-ratio: 1; border-radius: 18px; overflow: hidden; }
+
+  .reviews { display: grid; gap: 14px; list-style: none; margin-top: 28px; }
+  .review { background: #fff; border-radius: 22px; padding: 24px; }
+  .review p { font-family: var(--serif); font-size: 19px; line-height: 1.45; margin-bottom: 14px; }
+  .review footer { color: var(--muted); font-size: 14px; }
+  .review footer b { color: var(--ink); font-weight: 600; }
+
+  .contacts { display: grid; gap: 20px; background: var(--ink); color: #E9D9D1; border-radius: 28px; padding: 32px 28px; }
+  .contacts .h2 { color: #fff; }
+  .contacts .lead { color: #D9C5BC; }
+  .contacts dl { display: grid; grid-template-columns: auto 1fr; gap: 10px 20px; }
+  .contacts dt { color: #B39C93; }
+  .contacts a.btn { justify-self: start; display: inline-flex; min-height: 50px; align-items: center; padding: 0 24px; border-radius: 999px; background: #F7EFEA; color: var(--ink); font-weight: 600; }
+
+  .foot { margin-top: 64px; padding: 28px var(--pad); border-top: 1px solid var(--blush); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; color: var(--muted); font-size: 14px; }
+  .foot .logo { font-family: var(--serif); font-size: 22px; color: var(--ink); }
+
+  @media (min-width: 720px) {
+    .services { grid-template-columns: repeat(4, 1fr); }
+    .slots { grid-template-columns: repeat(7, 1fr); }
+    .prices { grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    .team { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .gallery { grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .reviews { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .contacts { grid-template-columns: 1fr 1fr; padding: 44px; align-items: center; }
+  }
+  @media (min-width: 1100px) {
+    .hero { grid-template-columns: minmax(420px, 560px) 1fr; min-height: 100svh; }
+    .photo { min-height: auto; }
+    .photo .logo { left: 44px; top: 36px; }
+    .photo .rate { left: 44px; bottom: 40px; }
+    .book { padding: 40px 56px; }
+    nav.menu { display: flex; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="photo">
+        <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=1100&q=80&auto=format&fit=crop" alt="Мастер делает укладку клиентке" fetchpriority="high">
+        <a href="#" class="logo" aria-label="Lumière — на главную">Lumière</a>
+        <div class="rate"><b>4.9 ★</b>870 отзывов в 2ГИС</div>
+      </div>
+      <div class="book">
+        <nav class="menu" aria-label="Разделы сайта"><a href="#prices">Услуги</a><a href="#team">Мастера</a><a href="#works">Работы</a><a href="#prices">Цены</a><a href="#contacts">Контакты</a></nav>
+        <h1 id="hero-title">Запишитесь онлайн за минуту</h1>
+        <p class="sub">Выберите услугу, мастера и удобное время — подтверждение придёт в WhatsApp.</p>
+        <form data-demo-toast="booking" aria-labelledby="hero-title">
+          <fieldset>
+            <legend>Услуга</legend>
+            <div class="services">
+              <label class="opt"><input type="radio" name="service" value="cut" checked><span class="s">Стрижка<b>от 6&nbsp;000&nbsp;₸</b></span></label>
+              <label class="opt"><input type="radio" name="service" value="color"><span class="s">Окрашивание<b>от 18&nbsp;000&nbsp;₸</b></span></label>
+              <label class="opt"><input type="radio" name="service" value="nails"><span class="s">Маникюр<b>от 7&nbsp;500&nbsp;₸</b></span></label>
+              <label class="opt"><input type="radio" name="service" value="makeup"><span class="s">Макияж<b>от 12&nbsp;000&nbsp;₸</b></span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Мастер</legend>
+            <div class="masters">
+              <label class="opt"><input type="radio" name="master" value="aigerim" checked><span class="m"><span class="av"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=200&q=75&auto=format&fit=crop" alt=""></span><span>Айгерим<small>Топ-стилист</small></span></span></label>
+              <label class="opt"><input type="radio" name="master" value="dana"><span class="m"><span class="av"><img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=200&q=75&auto=format&fit=crop" alt=""></span><span>Дана<small>Визажист</small></span></span></label>
+              <label class="opt"><input type="radio" name="master" value="any"><span class="m"><span class="av"><img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=200&q=75&auto=format&fit=crop" alt=""></span><span>Любой мастер<small>Ближайшее время</small></span></span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>День</legend>
+            <div class="days">
+              <label class="opt"><input type="radio" name="day" value="13"><span class="day">Пн<b>13</b></span></label>
+              <label class="opt"><input type="radio" name="day" value="14" checked><span class="day">Вт<b>14</b></span></label>
+              <label class="opt"><input type="radio" name="day" value="15"><span class="day">Ср<b>15</b></span></label>
+              <label class="opt"><input type="radio" name="day" value="16"><span class="day">Чт<b>16</b></span></label>
+              <label class="opt"><input type="radio" name="day" value="17"><span class="day">Пт<b>17</b></span></label>
+              <label class="opt"><input type="radio" name="day" value="18"><span class="day">Сб<b>18</b></span></label>
+              <label class="opt"><input type="radio" name="day" value="19"><span class="day">Вс<b>19</b></span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Время</legend>
+            <div class="slots">
+              <label class="opt"><input type="radio" name="time" value="10:00" disabled><span class="t">10:00</span></label>
+              <label class="opt"><input type="radio" name="time" value="11:00"><span class="t">11:00</span></label>
+              <label class="opt"><input type="radio" name="time" value="12:00" disabled><span class="t">12:00</span></label>
+              <label class="opt"><input type="radio" name="time" value="13:00"><span class="t">13:00</span></label>
+              <label class="opt"><input type="radio" name="time" value="14:30" checked><span class="t">14:30</span></label>
+              <label class="opt"><input type="radio" name="time" value="16:00"><span class="t">16:00</span></label>
+              <label class="opt"><input type="radio" name="time" value="17:30" disabled><span class="t">17:30</span></label>
+            </div>
+          </fieldset>
+          <button type="submit" class="submit"><span>Подтверждение придёт в WhatsApp</span><b>Записаться →</b></button>
+        </form>
+      </div>
+    </section>
+
+    <section id="prices" class="wrap block" aria-labelledby="prices-title">
+      <h2 id="prices-title" class="h2">Услуги и цены</h2>
+      <div class="prices">
+        <div><h3>Волосы</h3><dl><div><dt>Женская стрижка</dt><dd>от 6&nbsp;000&nbsp;₸</dd></div><div><dt>Окрашивание в один тон</dt><dd>от 18&nbsp;000&nbsp;₸</dd></div><div><dt>Сложное окрашивание</dt><dd>от 35&nbsp;000&nbsp;₸</dd></div><div><dt>Укладка</dt><dd>от 5&nbsp;000&nbsp;₸</dd></div></dl></div>
+        <div><h3>Ногти</h3><dl><div><dt>Маникюр с покрытием</dt><dd>от 7&nbsp;500&nbsp;₸</dd></div><div><dt>Педикюр</dt><dd>от 9&nbsp;000&nbsp;₸</dd></div><div><dt>Наращивание</dt><dd>от 14&nbsp;000&nbsp;₸</dd></div></dl></div>
+        <div><h3>Макияж и брови</h3><dl><div><dt>Дневной макияж</dt><dd>от 12&nbsp;000&nbsp;₸</dd></div><div><dt>Вечерний макияж</dt><dd>от 18&nbsp;000&nbsp;₸</dd></div><div><dt>Брови: форма и окрашивание</dt><dd>от 6&nbsp;500&nbsp;₸</dd></div></dl></div>
+      </div>
+    </section>
+
+    <section id="team" class="wrap block" aria-labelledby="team-title">
+      <h2 id="team-title" class="h2">Мастера</h2>
+      <p class="lead">Каждый мастер проходит обучение дважды в год, у всех — портфолио в Instagram.</p>
+      <ul class="team">
+        <li><div class="ph"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&q=75&auto=format&fit=crop" alt="Стилист Айгерим" loading="lazy"></div><b>Айгерим</b><span>Топ-стилист, 9 лет опыта</span></li>
+        <li><div class="ph"><img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=500&q=75&auto=format&fit=crop" alt="Визажист Дана" loading="lazy"></div><b>Дана</b><span>Визажист, свадебный макияж</span></li>
+        <li><div class="ph"><img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=500&q=75&auto=format&fit=crop" alt="Мастер моет волосы клиентке" loading="lazy"></div><b>Мадина</b><span>Колорист</span></li>
+        <li><div class="ph"><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=75&auto=format&fit=crop" alt="Маникюр с тёмным покрытием" loading="lazy"></div><b>Жанна</b><span>Мастер маникюра</span></li>
+      </ul>
+    </section>
+
+    <section id="works" class="wrap block" aria-labelledby="works-title">
+      <h2 id="works-title" class="h2">Наш салон</h2>
+      <ul class="gallery">
+        <li><img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=500&q=75&auto=format&fit=crop" alt="Светлый зал салона с креслами" loading="lazy"></li>
+        <li><img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=500&q=75&auto=format&fit=crop" alt="Рабочие места мастеров с зеркалами" loading="lazy"></li>
+        <li><img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=75&auto=format&fit=crop" alt="Готовый маникюр" loading="lazy"></li>
+        <li><img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=500&q=75&auto=format&fit=crop" alt="Укладка у стилиста" loading="lazy"></li>
+      </ul>
+    </section>
+
+    <section class="wrap block" aria-labelledby="reviews-title">
+      <h2 id="reviews-title" class="h2">Отзывы</h2>
+      <ul class="reviews">
+        <li class="review"><p>Записалась ночью через сайт, утром пришло подтверждение. Айгерим — волшебница.</p><footer><b>Гульнара</b>, 2ГИС</footer></li>
+        <li class="review"><p>Удобно, что видно свободное время мастера. Больше никаких звонков и ожиданий.</p><footer><b>Елена</b>, 2ГИС</footer></li>
+        <li class="review"><p>Делала свадебный макияж у Даны — продержался весь день, на фото идеально.</p><footer><b>Айым</b>, 2ГИС</footer></li>
+      </ul>
+    </section>
+
+    <section id="contacts" class="wrap block" aria-labelledby="contacts-title">
+      <div class="contacts">
+        <div>
+          <h2 id="contacts-title" class="h2">Ждём вас</h2>
+          <p class="lead">Парковка у входа, кофе и чай для гостей.</p>
+        </div>
+        <div>
+          <dl>
+            <dt>Адрес</dt><dd>Алматы, Медеуский район</dd>
+            <dt>Время</dt><dd>Ежедневно с 9:00 до 21:00</dd>
+            <dt>Телефон</dt><dd>+7&nbsp;700&nbsp;000&nbsp;00&nbsp;00</dd>
+          </dl>
+          <a href="#hero-title" class="btn">Записаться онлайн</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot"><span class="logo">Lumière</span><span>© 2026 Lumière</span><span>Демо-концепт сайта салона</span></footer>
+</body>
+</html>

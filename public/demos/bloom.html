@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ru" data-demo-name="bloom">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>bloom — концепт магазина косметики</title>
+<meta name="description" content="Демо-концепт магазина косметики bloom: подбор ухода по типу кожи, бестселлеры, отзывы и доставка по Казахстану.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="demo.css">
+<script src="demo.js" defer></script>
+<style>
+  :root {
+    --bg: #FFF5F1;
+    --card: #FFFFFF;
+    --ink: #3A2228;
+    --soft: #7A5A61;
+    --rose: #C2456A;
+    --rose-ink: #A3324F;
+    --peach: #FFE3DA;
+    --line: #F3D9D0;
+    --serif: Lora, Georgia, serif;
+    --pad: clamp(16px, 4.4vw, 64px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font: 400 16px/1.55 'DM Sans', system-ui, sans-serif; }
+  img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; color: inherit; }
+  button { background: none; border: 0; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; }
+  section[id] { scroll-margin-top: 16px; }
+  .wrap { padding: 0 var(--pad); }
+  .block { margin-top: 72px; }
+  .h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.1; letter-spacing: -.01em; }
+  .lead { color: var(--soft); max-width: 520px; margin-top: 10px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 30px; border-radius: 999px; background: var(--rose); color: #fff; font-weight: 700; }
+  .btn:hover { background: var(--rose-ink); }
+  .link { font-weight: 700; border-bottom: 2px solid #F3B4A6; padding-bottom: 3px; }
+
+  nav.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px var(--pad); }
+  .logo { font-family: var(--serif); font-size: 32px; font-weight: 600; color: var(--rose); }
+  nav.top ul { display: none; gap: 30px; list-style: none; font-size: 15px; font-weight: 500; }
+  nav.top ul a:hover { color: var(--rose-ink); }
+  .cart { background: var(--ink); color: var(--bg); padding: 11px 20px; border-radius: 999px; font-size: 14px; font-weight: 700; }
+
+  .hero { display: grid; gap: 40px; padding: 8px var(--pad) 0; }
+  .pill { display: inline-flex; gap: 8px; background: var(--peach); color: var(--rose-ink); padding: 8px 16px; border-radius: 999px; font-size: 14px; font-weight: 700; margin-bottom: 22px; }
+  .hero h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(42px, 5vw, 66px); line-height: 1.02; letter-spacing: -.02em; margin-bottom: 20px; }
+  .hero p { font-size: 18px; color: var(--soft); max-width: 470px; margin-bottom: 30px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+  .collage { position: relative; min-height: 380px; }
+  .c1 { position: absolute; inset: 0 22% 0 0; border-radius: 200px 200px 32px 32px; overflow: hidden; }
+  .c2 { position: absolute; right: 0; bottom: 24px; width: 40%; aspect-ratio: 5 / 6; border-radius: 28px; overflow: hidden; border: 8px solid var(--bg); }
+  .note { position: absolute; left: 8px; bottom: 28px; background: #fff; border-radius: 20px; padding: 14px 18px; box-shadow: 0 18px 40px -16px rgb(122 40 60 / .35); font-size: 14px; }
+  .note b { display: block; font-size: 20px; color: var(--rose); }
+
+  .cats { display: flex; gap: 14px; overflow-x: auto; padding: 40px var(--pad) 4px; list-style: none; scrollbar-width: none; }
+  .cats::-webkit-scrollbar { display: none; }
+  .cat { flex: none; display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 999px; padding: 7px 20px 7px 7px; font-weight: 700; font-size: 15px; }
+  .cat span { width: 52px; height: 52px; border-radius: 50%; overflow: hidden; }
+
+  /* Подбор ухода */
+  .quiz { display: grid; background: #fff; border-radius: 32px; overflow: hidden; }
+  .quiz-img { position: relative; min-height: 240px; }
+  .quiz-img img { position: absolute; inset: 0; }
+  .quiz-body { padding: 32px 28px; }
+  fieldset { border: 0; margin: 22px 0 26px; }
+  legend { font-weight: 700; margin-bottom: 12px; }
+  .opts { display: flex; flex-wrap: wrap; gap: 10px; }
+  .opts label { position: relative; cursor: pointer; }
+  .opts input { position: absolute; opacity: 0; pointer-events: none; }
+  .opts span { display: inline-flex; min-height: 44px; align-items: center; padding: 0 18px; border-radius: 999px; border: 1.5px solid var(--line); font-weight: 500; transition: background-color .15s, border-color .15s; }
+  .opts input:checked + span { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .opts input:focus-visible + span { outline: 2px solid var(--rose); outline-offset: 3px; }
+
+  /* Товары */
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; list-style: none; margin-top: 28px; }
+  .pr { background: #fff; border-radius: 26px; padding: 12px; display: flex; flex-direction: column; }
+  .pr .im { aspect-ratio: 1; border-radius: 18px; overflow: hidden; position: relative; }
+  .pr .im em { position: absolute; left: 10px; top: 10px; background: var(--peach); color: var(--rose-ink); font-style: normal; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
+  .pr h3 { font-size: 15px; margin: 12px 4px 2px; }
+  .pr .meta { font-size: 13px; color: var(--soft); margin: 0 4px 10px; }
+  .pr .row { display: flex; justify-content: space-between; align-items: center; margin: auto 4px 0; gap: 8px; }
+  .pr b { color: var(--rose); font-size: 17px; }
+  .pr button { width: 40px; height: 40px; border-radius: 50%; background: var(--peach); color: var(--rose-ink); font-size: 22px; font-weight: 700; line-height: 1; }
+  .pr button:hover { background: var(--rose); color: #fff; }
+
+  /* Почему мы */
+  .why { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; list-style: none; margin-top: 28px; }
+  .why li { background: var(--peach); border-radius: 26px; padding: 22px; }
+  .why b { hyphens: auto; display: block; font-family: var(--serif); font-size: 22px; font-weight: 600; margin-bottom: 6px; }
+  .why p { font-size: 14px; color: var(--soft); }
+
+  /* Отзывы */
+  .reviews { display: grid; gap: 14px; list-style: none; margin-top: 28px; }
+  .review { background: #fff; border-radius: 26px; padding: 26px; }
+  .stars { color: var(--rose); letter-spacing: 2px; }
+  .review p { font-family: var(--serif); font-size: 20px; line-height: 1.4; margin: 10px 0 16px; }
+  .review footer { font-size: 14px; color: var(--soft); }
+  .review footer b { color: var(--ink); }
+
+  .sub { margin-top: 72px; background: var(--ink); color: #FBE9E4; border-radius: 32px; padding: 36px 28px; text-align: center; }
+  .sub h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(26px, 3vw, 36px); }
+  .sub p { color: #E2C5C3; margin: 8px auto 22px; max-width: 460px; }
+  .sub form { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 520px; margin: 0 auto; }
+  .sub input { flex: 1 1 220px; min-height: 54px; border: 0; border-radius: 999px; padding: 0 22px; color: var(--ink); }
+
+  .foot { margin-top: 64px; padding: 36px var(--pad) 28px; border-top: 1px solid var(--line); font-size: 14px; color: var(--soft); }
+  .foot-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 18px; }
+  .foot h4 { color: var(--ink); margin-bottom: 8px; font-size: 14px; }
+  .foot ul { list-style: none; display: grid; gap: 6px; }
+  .foot a:hover { color: var(--rose-ink); }
+  .legal { margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (min-width: 720px) {
+    .grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .why { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .reviews { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .foot-cols { grid-template-columns: repeat(4, 1fr); }
+    .sub { padding: 48px; }
+  }
+  @media (min-width: 1000px) {
+    nav.top ul { display: flex; }
+    .hero { grid-template-columns: 1fr 1.05fr; min-height: 470px; align-items: center; }
+    .collage { min-height: 470px; }
+    .note { left: -24px; bottom: 50px; }
+    .quiz { grid-template-columns: 1fr 1.2fr; }
+    .quiz-body { padding: 48px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+  <nav class="top" aria-label="Разделы магазина">
+    <a href="#" class="logo" aria-label="bloom — на главную">bloom</a>
+    <ul><li><a href="#best">Уход за лицом</a></li><li><a href="#best">Тело</a></li><li><a href="#best">Волосы</a></li><li><a href="#best">Макияж</a></li><li><a href="#best">Наборы</a></li><li><a href="#pick">Подобрать уход</a></li></ul>
+    <a href="#best" class="cart">Корзина · <span data-cart-count>2</span></a>
+  </nav>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <span class="pill">✿ Корейская и европейская косметика</span>
+        <h1 id="hero-title">Уход, который хочется продолжать</h1>
+        <p>Подберём средства под ваш тип кожи за 2 минуты. Доставка по Казахстану от одного дня.</p>
+        <div class="btns"><a href="#pick" class="btn">Подобрать уход</a><a href="#best" class="link">Бестселлеры</a></div>
+      </div>
+      <div class="collage">
+        <div class="c1"><img src="https://images.unsplash.com/photo-1617897903246-719242758050?w=1000&q=80&auto=format&fit=crop" alt="Сыворотка на деревянной подставке среди эвкалипта" fetchpriority="high"></div>
+        <div class="c2"><img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=600&q=75&auto=format&fit=crop" alt="Янтарный флакон с пипеткой"></div>
+        <div class="note"><b>4.9 ★</b>12&nbsp;400 отзывов покупателей</div>
+      </div>
+    </section>
+
+    <ul class="cats" aria-label="Категории">
+      <li><a href="#best" class="cat"><span><img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=200&q=75&auto=format&fit=crop" alt=""></span>Сыворотки</a></li>
+      <li><a href="#best" class="cat"><span><img src="https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=200&q=75&auto=format&fit=crop" alt=""></span>Кремы</a></li>
+      <li><a href="#best" class="cat"><span><img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=200&q=75&auto=format&fit=crop" alt=""></span>Макияж</a></li>
+      <li><a href="#best" class="cat"><span><img src="https://images.unsplash.com/photo-1600428877878-1a0fd85beda8?w=200&q=75&auto=format&fit=crop" alt=""></span>Масла</a></li>
+      <li><a href="#best" class="cat"><span><img src="https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?w=200&q=75&auto=format&fit=crop" alt=""></span>Наборы</a></li>
+    </ul>
+
+    <section id="pick" class="wrap block" aria-labelledby="pick-title">
+      <div class="quiz">
+        <div class="quiz-img"><img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=900&q=75&auto=format&fit=crop" alt="Косметолог наносит маску на лицо" loading="lazy"></div>
+        <form class="quiz-body" data-demo-toast="pick" aria-labelledby="pick-title">
+          <h2 id="pick-title" class="h2">Подберём уход за 2 минуты</h2>
+          <p class="lead">Ответьте на два вопроса — косметолог bloom соберёт набор под вашу кожу.</p>
+          <fieldset>
+            <legend>Какая у вас кожа?</legend>
+            <div class="opts">
+              <label><input type="radio" name="skin" value="dry" checked><span>Сухая</span></label>
+              <label><input type="radio" name="skin" value="normal"><span>Нормальная</span></label>
+              <label><input type="radio" name="skin" value="oily"><span>Жирная</span></label>
+              <label><input type="radio" name="skin" value="mixed"><span>Комбинированная</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Что хочется улучшить?</legend>
+            <div class="opts">
+              <label><input type="radio" name="goal" value="glow" checked><span>Сияние</span></label>
+              <label><input type="radio" name="goal" value="hydra"><span>Увлажнение</span></label>
+              <label><input type="radio" name="goal" value="pores"><span>Поры и тон</span></label>
+            </div>
+          </fieldset>
+          <button type="submit" class="btn">Показать мой набор</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="best" class="wrap block" aria-labelledby="best-title">
+      <h2 id="best-title" class="h2">Бестселлеры</h2>
+      <p class="lead">То, что покупатели берут снова и снова.</p>
+      <ul class="grid">
+        <li class="pr"><div class="im"><img src="https://images.unsplash.com/photo-1617897903246-719242758050?w=500&q=75&auto=format&fit=crop" alt="Сыворотка во флаконе с пипеткой" loading="lazy"><em>Хит</em></div><h3>Сыворотка с ниацинамидом</h3><p class="meta">30 мл · для сияния</p><div class="row"><b>8&nbsp;900&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить в корзину: сыворотка с ниацинамидом">+</button></div></li>
+        <li class="pr"><div class="im"><img src="https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=500&q=75&auto=format&fit=crop" alt="Баночка увлажняющего крема на ладони" loading="lazy"></div><h3>Увлажняющий крем</h3><p class="meta">50 мл · для сухой кожи</p><div class="row"><b>11&nbsp;500&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить в корзину: увлажняющий крем">+</button></div></li>
+        <li class="pr"><div class="im"><img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=500&q=75&auto=format&fit=crop" alt="Янтарный флакон тонера" loading="lazy"></div><h3>Тонер для сияния</h3><p class="meta">150 мл · с кислотами</p><div class="row"><b>7&nbsp;200&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить в корзину: тонер для сияния">+</button></div></li>
+        <li class="pr"><div class="im"><img src="https://images.unsplash.com/photo-1600428877878-1a0fd85beda8?w=500&q=75&auto=format&fit=crop" alt="Масло для лица и роллер из розового кварца" loading="lazy"><em>Новинка</em></div><h3>Масло для лица «Пион»</h3><p class="meta">30 мл · с роллером</p><div class="row"><b>16&nbsp;500&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить в корзину: масло для лица «Пион»">+</button></div></li>
+        <li class="pr"><div class="im"><img src="https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=500&q=75&auto=format&fit=crop" alt="Флаконы масел для тела" loading="lazy"></div><h3>Масло для тела</h3><p class="meta">100 мл · с конопляным маслом</p><div class="row"><b>9&nbsp;800&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить в корзину: масло для тела">+</button></div></li>
+        <li class="pr"><div class="im"><img src="https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?w=500&q=75&auto=format&fit=crop" alt="Белые флаконы с уходом" loading="lazy"></div><h3>Гель для умывания</h3><p class="meta">200 мл · мягкое очищение</p><div class="row"><b>6&nbsp;400&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить в корзину: гель для умывания">+</button></div></li>
+        <li class="pr"><div class="im"><img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=500&q=75&auto=format&fit=crop" alt="Палетка теней и кисти" loading="lazy"></div><h3>Палетка теней «Nude»</h3><p class="meta">12 оттенков</p><div class="row"><b>14&nbsp;200&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить в корзину: палетка теней">+</button></div></li>
+        <li class="pr"><div class="im"><img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500&q=75&auto=format&fit=crop" alt="Набор помад и кистей" loading="lazy"><em>−15%</em></div><h3>Набор «Первый макияж»</h3><p class="meta">5 средств</p><div class="row"><b>19&nbsp;900&nbsp;₸</b><button type="button" data-demo-cart aria-label="Добавить в корзину: набор «Первый макияж»">+</button></div></li>
+      </ul>
+    </section>
+
+    <section class="wrap block" aria-labelledby="why-title">
+      <h2 id="why-title" class="h2">Почему bloom</h2>
+      <ul class="why">
+        <li><b>Только оригинал</b><p>Работаем напрямую с брендами, у каждого средства есть сертификат</p></li>
+        <li><b>Пробники в заказе</b><p>Кладём 2–3 миниатюры, чтобы вы попробовали новое</p></li>
+        <li><b>Доставка от 1 дня</b><p>По Алматы и Астане — день в день при заказе до 14:00</p></li>
+        <li><b>Советы косметолога</b><p>Ответим в чате, подберём уход и порядок нанесения</p></li>
+      </ul>
+    </section>
+
+    <section class="wrap block" aria-labelledby="reviews-title">
+      <h2 id="reviews-title" class="h2">Говорят покупатели</h2>
+      <ul class="reviews">
+        <li class="review"><span class="stars" aria-label="5 из 5">★★★★★</span><p>Прошла подбор, заказала набор для сухой кожи — через месяц кожа правда другая.</p><footer><b>Алия</b>, Алматы</footer></li>
+        <li class="review"><span class="stars" aria-label="5 из 5">★★★★★</span><p>Привезли в тот же день, ещё и положили пробники. Сыворотка — любовь.</p><footer><b>Камила</b>, Астана</footer></li>
+        <li class="review"><span class="stars" aria-label="5 из 5">★★★★★</span><p>Косметолог в чате помогла собрать уход для подростка. Очень бережно и понятно.</p><footer><b>Сауле</b>, Актобе</footer></li>
+      </ul>
+    </section>
+
+    <section class="wrap" aria-labelledby="sub-title">
+      <div class="sub">
+        <h2 id="sub-title">−10% на первый заказ</h2>
+        <p>Пришлём промокод и раз в неделю — советы по уходу без лишнего спама.</p>
+        <form>
+          <label for="email" class="sr-only">Email</label>
+          <input id="email" type="email" autocomplete="email" placeholder="Ваш email" required>
+          <button type="submit" class="btn">Получить промокод</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="#" class="logo">bloom</a>
+    <div class="foot-cols">
+      <div><h4>Каталог</h4><ul><li><a href="#best">Уход за лицом</a></li><li><a href="#best">Макияж</a></li><li><a href="#best">Наборы</a></li></ul></div>
+      <div><h4>Помощь</h4><ul><li><a href="#pick">Подбор ухода</a></li><li><a href="#">Доставка</a></li><li><a href="#">Возврат</a></li></ul></div>
+      <div><h4>О нас</h4><ul><li><a href="#">Бренды</a></li><li><a href="#">Сертификаты</a></li></ul></div>
+      <div><h4>Оплата</h4><ul><li>Kaspi Pay и рассрочка</li><li>Visa, Mastercard</li></ul></div>
+    </div>
+    <div class="legal"><span>© 2026 bloom</span><span>Демо-концепт магазина косметики</span></div>
+  </footer>
+</body>
+</html>

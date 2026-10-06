@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="ru" data-demo-name="bazar.kz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>bazar.kz — концепт маркетплейса</title>
+<meta name="description" content="Демо-концепт маркетплейса bazar.kz: тысячи продавцов, рейтинги, рассрочка Kaspi и единая корзина.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="demo.css">
+<script src="demo.js" defer></script>
+<style>
+  :root {
+    --bg: #F4F2F8;
+    --ink: #1D1630;
+    --soft: #5E5677;
+    --violet: #4C1D95;
+    --violet-2: #6D28D9;
+    --yellow: #FACC15;
+    --red: #E0362B;
+    --line: #E7E2F0;
+    --pad: clamp(16px, 3vw, 40px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font: 400 16px/1.5 Rubik, system-ui, sans-serif; }
+  img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; color: inherit; }
+  button { background: none; border: 0; cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+  section[id] { scroll-margin-top: 16px; }
+  .wrap { padding: 0 var(--pad); }
+  .h2 { font-size: clamp(22px, 2.4vw, 28px); font-weight: 700; letter-spacing: -.01em; }
+  .row-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 16px; }
+  .row-head a { color: var(--violet-2); font-weight: 500; font-size: 15px; white-space: nowrap; }
+
+  /* Шапка */
+  .top { background: var(--violet); color: #fff; padding: 14px var(--pad); display: grid; grid-template-columns: auto 1fr auto; gap: 12px 20px; align-items: center; }
+  .logo { font-size: 28px; font-weight: 700; letter-spacing: -.02em; }
+  .logo span { color: var(--yellow); }
+  .search { grid-column: 1 / -1; display: flex; background: #fff; border-radius: 14px; overflow: hidden; }
+  .search input { flex: 1; min-width: 0; border: 0; padding: 13px 16px; color: var(--ink); background: transparent; }
+  .search input::placeholder { color: #8A82A0; }
+  .search input:focus-visible { outline: none; }
+  .search:focus-within { box-shadow: 0 0 0 3px var(--yellow); }
+  .search button { background: var(--yellow); color: var(--ink); padding: 0 22px; font-weight: 600; }
+  .acts { display: flex; gap: 14px; align-items: center; font-size: 14px; justify-self: end; }
+  .seller-btn { display: none; border: 1.5px solid rgb(255 255 255 / .5); border-radius: 12px; padding: 9px 14px; font-weight: 500; }
+  .cart { display: inline-flex; align-items: center; gap: 8px; background: rgb(255 255 255 / .12); padding: 9px 14px; border-radius: 12px; font-weight: 500; }
+  .cart b { background: var(--yellow); color: var(--ink); min-width: 22px; height: 22px; border-radius: 11px; display: grid; place-items: center; font-size: 12px; padding: 0 6px; }
+  .sub { background: #fff; display: flex; gap: 24px; padding: 12px var(--pad); font-size: 14px; color: #4A4260; border-bottom: 1px solid var(--line); overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+  .sub::-webkit-scrollbar { display: none; }
+  .sub a:first-child { color: var(--violet); font-weight: 600; }
+
+  /* Первый экран */
+  .main { display: grid; gap: 20px; padding: 20px var(--pad); }
+  aside { display: none; background: #fff; border-radius: 18px; padding: 10px; align-self: start; }
+  aside a { padding: 10px 12px; border-radius: 10px; font-size: 14.5px; display: flex; justify-content: space-between; }
+  aside a:hover, aside a:first-child { background: #F1EBFF; color: var(--violet); }
+  aside a:first-child { font-weight: 600; }
+  aside em { font-style: normal; color: #9A93AE; }
+  .banners { display: grid; gap: 16px; }
+  .b1 { position: relative; border-radius: 20px; overflow: hidden; color: #fff; min-height: 260px; display: flex; flex-direction: column; justify-content: center; padding: 28px; }
+  .b1 img { position: absolute; inset: 0; object-position: right center; }
+  .b1::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(110deg, var(--violet-2) 38%, rgb(109 40 217 / .2) 80%); }
+  .b1 > *:not(img) { position: relative; z-index: 2; }
+  .badge { align-self: flex-start; background: var(--yellow); color: var(--ink); padding: 5px 10px; border-radius: 8px; font-weight: 600; font-size: 13px; }
+  .b1 h1 { font-size: clamp(32px, 4vw, 46px); line-height: 1.05; margin: 16px 0 10px; max-width: 380px; }
+  .b1 p { opacity: .9; max-width: 340px; margin-bottom: 20px; }
+  .b1 a { align-self: flex-start; background: #fff; color: var(--violet); font-weight: 600; padding: 12px 22px; border-radius: 12px; }
+  .b2 { border-radius: 20px; background: #FFF4C2; padding: 24px; position: relative; overflow: hidden; min-height: 180px; }
+  .b2 h3 { font-size: 24px; max-width: 220px; line-height: 1.15; margin-bottom: 8px; position: relative; }
+  .b2 p { color: #6B5F2A; font-size: 14px; max-width: 190px; position: relative; }
+  .b2 .ring { position: absolute; right: -14px; bottom: -14px; width: 170px; height: 170px; border-radius: 50%; overflow: hidden; }
+
+  /* Товары */
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; list-style: none; }
+  .p { background: #fff; border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; }
+  .p .im { aspect-ratio: 1; position: relative; background: #eee; }
+  .p .im em { position: absolute; left: 10px; top: 10px; background: var(--red); color: #fff; font-style: normal; font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 7px; }
+  .p .in { padding: 12px 12px 14px; display: flex; flex-direction: column; flex: 1; }
+  .p .pr b { font-size: 18px; }
+  .p .pr s { color: #9A93AE; font-size: 13px; margin-left: 6px; }
+  .p h3 { font-weight: 400; font-size: 14px; margin: 4px 0 6px; color: #3B3350; }
+  .p .sl { font-size: 12.5px; color: var(--soft); }
+  .p .sl span { color: #B45309; font-weight: 500; }
+  .p .k { align-self: flex-start; margin-top: 8px; background: #FFF1F0; color: #C62F25; font-size: 12px; padding: 3px 8px; border-radius: 7px; font-weight: 500; }
+  .p .add { margin-top: auto; padding-top: 12px; }
+  .p .add button { width: 100%; min-height: 40px; border-radius: 10px; background: var(--violet); color: #fff; font-weight: 600; font-size: 14px; }
+  .p .add button:hover { background: var(--violet-2); }
+
+  /* Категории */
+  .cats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; list-style: none; }
+  .cat { position: relative; display: block; border-radius: 18px; overflow: hidden; aspect-ratio: 4 / 3; color: #fff; }
+  .cat::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgb(29 22 48 / .75), transparent 60%); }
+  .cat span { position: absolute; left: 16px; bottom: 14px; z-index: 1; font-weight: 600; font-size: 18px; }
+  .cat small { display: block; font-weight: 400; font-size: 13px; opacity: .85; }
+
+  /* Защита покупателя */
+  .trust { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; list-style: none; }
+  .trust li { background: #fff; border-radius: 18px; padding: 18px; }
+  .trust svg { width: 28px; height: 28px; stroke: var(--violet-2); fill: none; stroke-width: 1.7; margin-bottom: 10px; }
+  .trust h3 { font-size: 16px; margin-bottom: 4px; }
+  .trust p { font-size: 14px; color: var(--soft); }
+
+  /* Продавцам */
+  .sell { background: var(--violet); color: #fff; border-radius: 24px; overflow: hidden; display: grid; }
+  .sell-text { padding: 32px 28px; }
+  .sell h2 { font-size: clamp(26px, 3vw, 36px); line-height: 1.1; margin-bottom: 12px; }
+  .sell p { color: #DCCFF7; max-width: 460px; }
+  .nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0; }
+  .nums b { display: block; font-size: clamp(22px, 2.6vw, 30px); color: var(--yellow); }
+  .nums span { font-size: 13px; color: #DCCFF7; }
+  .sell form { display: flex; flex-wrap: wrap; gap: 10px; }
+  .sell input { flex: 1 1 200px; min-height: 50px; border: 0; border-radius: 12px; padding: 0 16px; color: var(--ink); }
+  .sell form button { min-height: 50px; padding: 0 22px; border-radius: 12px; background: var(--yellow); color: var(--ink); font-weight: 600; }
+  .sell-img { position: relative; min-height: 220px; }
+  .sell-img img { position: absolute; inset: 0; }
+
+  /* Магазины */
+  .shops { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; list-style: none; }
+  .shop { background: #fff; border-radius: 18px; padding: 16px; display: flex; gap: 12px; align-items: center; }
+  .shop i { flex: none; width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; font-style: normal; font-weight: 700; color: #fff; }
+  .shop b { display: block; font-size: 15px; }
+  .shop span { font-size: 13px; color: var(--soft); }
+
+  .foot { margin-top: 48px; background: var(--ink); color: #BDB4D3; padding: 40px var(--pad) 28px; font-size: 14px; }
+  .foot .logo { color: #fff; display: inline-block; margin-bottom: 24px; }
+  .foot-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .foot h4 { color: #fff; font-size: 14px; margin-bottom: 10px; }
+  .foot ul { list-style: none; display: grid; gap: 7px; }
+  .foot a:hover { color: #fff; }
+  .legal { margin-top: 32px; padding-top: 18px; border-top: 1px solid #332A4A; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; color: #8E85A6; }
+  .block { margin-top: 40px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (min-width: 720px) {
+    .top { grid-template-columns: auto 1fr auto; }
+    .search { grid-column: auto; }
+    .seller-btn { display: inline-block; }
+    .banners { grid-template-columns: 1.6fr 1fr; }
+    .b1 { min-height: 280px; padding: 34px; }
+    .grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .cats { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .trust { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .shops { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .foot-cols { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (min-width: 1100px) {
+    .main { grid-template-columns: 250px 1fr; gap: 22px; }
+    aside { display: block; }
+    .grid { grid-template-columns: repeat(5, 1fr); }
+    .sell { grid-template-columns: 1.2fr 1fr; }
+    .sell-text { padding: 44px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+  <header>
+    <div class="top">
+      <a href="#" class="logo" aria-label="bazar.kz — на главную">bazar<span>.kz</span></a>
+      <form class="search" role="search">
+        <label for="q" class="sr-only">Поиск товаров</label>
+        <input id="q" type="search" placeholder="Искать среди 1&nbsp;200&nbsp;000 товаров">
+        <button type="submit">Найти</button>
+      </form>
+      <div class="acts">
+        <a href="#sell" class="seller-btn">Стать продавцом</a>
+        <a href="#hits" class="cart" aria-label="Корзина">Корзина <b data-cart-count>4</b></a>
+      </div>
+    </div>
+    <nav class="sub" aria-label="Популярные разделы">
+      <a href="#hits">Распродажа</a><a href="#cats">Одежда</a><a href="#cats">Электроника</a><a href="#cats">Дом и сад</a><a href="#cats">Красота</a><a href="#cats">Детям</a><a href="#cats">Спорт</a><a href="#cats">Продукты</a><a href="#cats">Авто</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="main">
+      <aside aria-label="Категории">
+        <a href="#cats">Все категории <em>›</em></a><a href="#cats">Женская одежда <em>›</em></a><a href="#cats">Мужская одежда <em>›</em></a><a href="#cats">Обувь <em>›</em></a><a href="#cats">Смартфоны <em>›</em></a><a href="#cats">Ноутбуки <em>›</em></a><a href="#cats">Мебель <em>›</em></a><a href="#cats">Красота и здоровье <em>›</em></a><a href="#cats">Детские товары <em>›</em></a><a href="#cats">Спорт и отдых <em>›</em></a><a href="#cats">Автотовары <em>›</em></a><a href="#cats">Зоотовары <em>›</em></a>
+      </aside>
+
+      <div>
+        <section class="banners" aria-labelledby="hero-title">
+          <div class="b1">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&q=80&auto=format&fit=crop" alt="" fetchpriority="high">
+            <span class="badge">до −50%</span>
+            <h1 id="hero-title">Осенняя распродажа</h1>
+            <p>Скидки от 3&nbsp;400 продавцов до 30 октября</p>
+            <a href="#hits">Смотреть скидки</a>
+          </div>
+          <a href="#hits" class="b2">
+            <h3>Кроссовки со скидкой</h3>
+            <p>Оригинал от проверенных продавцов</p>
+            <span class="ring"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80&auto=format&fit=crop" alt=""></span>
+          </a>
+        </section>
+
+        <section id="hits" class="block" aria-labelledby="hits-title">
+          <div class="row-head"><h2 id="hits-title" class="h2">Хиты распродажи</h2><a href="#cats">Все товары</a></div>
+          <ul class="grid">
+            <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=500&q=75&auto=format&fit=crop" alt="Беговые кроссовки" loading="lazy"><em>−35%</em></div><div class="in"><p class="pr"><b>27&nbsp;900&nbsp;₸</b><s>42&nbsp;900</s></p><h3>Кроссовки беговые</h3><p class="sl"><span>★ 4.9</span> · SportLine</p><span class="k">Kaspi Red</span><div class="add"><button type="button" data-demo-cart>В корзину</button></div></div></li>
+            <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500&q=75&auto=format&fit=crop" alt="Солнцезащитные очки" loading="lazy"></div><div class="in"><p class="pr"><b>12&nbsp;400&nbsp;₸</b></p><h3>Солнцезащитные очки</h3><p class="sl"><span>★ 4.8</span> · Optika.kz</p><span class="k">Рассрочка 0‑0‑6</span><div class="add"><button type="button" data-demo-cart>В корзину</button></div></div></li>
+            <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=500&q=75&auto=format&fit=crop" alt="Флакон парфюма" loading="lazy"><em>−20%</em></div><div class="in"><p class="pr"><b>31&nbsp;600&nbsp;₸</b><s>39&nbsp;500</s></p><h3>Парфюмерная вода</h3><p class="sl"><span>★ 5.0</span> · Aroma House</p><span class="k">Kaspi Red</span><div class="add"><button type="button" data-demo-cart>В корзину</button></div></div></li>
+            <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&q=75&auto=format&fit=crop" alt="Трёхместный диван" loading="lazy"></div><div class="in"><p class="pr"><b>189&nbsp;000&nbsp;₸</b></p><h3>Диван трёхместный</h3><p class="sl"><span>★ 4.7</span> · Mebel Pro</p><span class="k">Рассрочка 0‑0‑12</span><div class="add"><button type="button" data-demo-cart>В корзину</button></div></div></li>
+            <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500&q=75&auto=format&fit=crop" alt="Городские кеды" loading="lazy"><em>Хит</em></div><div class="in"><p class="pr"><b>34&nbsp;500&nbsp;₸</b></p><h3>Кеды городские</h3><p class="sl"><span>★ 4.9</span> · StreetKZ</p><span class="k">Kaspi Red</span><div class="add"><button type="button" data-demo-cart>В корзину</button></div></div></li>
+            <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=75&auto=format&fit=crop" alt="Беспроводные наушники" loading="lazy"><em>−15%</em></div><div class="in"><p class="pr"><b>54&nbsp;900&nbsp;₸</b><s>64&nbsp;600</s></p><h3>Наушники беспроводные</h3><p class="sl"><span>★ 4.8</span> · Gadget Hub</p><span class="k">Рассрочка 0‑0‑12</span><div class="add"><button type="button" data-demo-cart>В корзину</button></div></div></li>
+            <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=75&auto=format&fit=crop" alt="Наручные часы" loading="lazy"></div><div class="in"><p class="pr"><b>42&nbsp;000&nbsp;₸</b></p><h3>Часы классические</h3><p class="sl"><span>★ 4.9</span> · Time.kz</p><span class="k">Kaspi Red</span><div class="add"><button type="button" data-demo-cart>В корзину</button></div></div></li>
+            <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500&q=75&auto=format&fit=crop" alt="Ноутбук" loading="lazy"></div><div class="in"><p class="pr"><b>389&nbsp;000&nbsp;₸</b></p><h3>Ноутбук 15,6″ для работы</h3><p class="sl"><span>★ 4.7</span> · TechPoint</p><span class="k">Рассрочка 0‑0‑24</span><div class="add"><button type="button" data-demo-cart>В корзину</button></div></div></li>
+            <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1592078615290-033ee584e267?w=500&q=75&auto=format&fit=crop" alt="Чёрный стул" loading="lazy"><em>−25%</em></div><div class="in"><p class="pr"><b>18&nbsp;700&nbsp;₸</b><s>24&nbsp;900</s></p><h3>Стул в скандинавском стиле</h3><p class="sl"><span>★ 4.6</span> · Mebel Pro</p><span class="k">Kaspi Red</span><div class="add"><button type="button" data-demo-cart>В корзину</button></div></div></li>
+            <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500&q=75&auto=format&fit=crop" alt="Набор косметики" loading="lazy"></div><div class="in"><p class="pr"><b>15&nbsp;900&nbsp;₸</b></p><h3>Набор для макияжа</h3><p class="sl"><span>★ 4.9</span> · Beauty Lab</p><span class="k">Рассрочка 0‑0‑6</span><div class="add"><button type="button" data-demo-cart>В корзину</button></div></div></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <section id="cats" class="wrap block" aria-labelledby="cats-title">
+      <div class="row-head"><h2 id="cats-title" class="h2">Популярные категории</h2></div>
+      <ul class="cats">
+        <li><a href="#hits" class="cat"><img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"><span>Одежда<small>284&nbsp;000 товаров</small></span></a></li>
+        <li><a href="#hits" class="cat"><img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"><span>Электроника<small>96&nbsp;000 товаров</small></span></a></li>
+        <li><a href="#hits" class="cat"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"><span>Дом и мебель<small>152&nbsp;000 товаров</small></span></a></li>
+        <li><a href="#hits" class="cat"><img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&q=75&auto=format&fit=crop" alt="" loading="lazy"><span>Красота<small>71&nbsp;000 товаров</small></span></a></li>
+      </ul>
+    </section>
+
+    <section class="wrap block" aria-labelledby="trust-title">
+      <h2 id="trust-title" class="sr-only">Почему у нас безопасно</h2>
+      <ul class="trust">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.2 8 9 4.6-.8 8-4.5 8-9V6l-8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><h3>Защита покупателя</h3><p>Деньги продавец получит, только когда вы подтвердите заказ</p></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h4"/></svg><h3>Рассрочка Kaspi</h3><p>0‑0‑6, 0‑0‑12 и 0‑0‑24 без переплаты</p></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg><h3>Доставка от 1 дня</h3><p>Курьером или в один из 900 пунктов выдачи</p></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z"/></svg><h3>Честные рейтинги</h3><p>Отзывы оставляют только те, кто купил товар</p></li>
+      </ul>
+    </section>
+
+    <section id="sell" class="wrap block" aria-labelledby="sell-title">
+      <div class="sell">
+        <div class="sell-text">
+          <h2 id="sell-title">Продавайте на bazar.kz</h2>
+          <p>Откройте магазин за один день: загрузите товары, а мы приведём покупателей, примем оплату и доставим заказ.</p>
+          <div class="nums">
+            <p><b>3&nbsp;400+</b><span>продавцов уже с нами</span></p>
+            <p><b>от 5%</b><span>комиссия с продажи</span></p>
+            <p><b>7 дней</b><span>выплаты каждую неделю</span></p>
+          </div>
+          <form aria-label="Заявка продавца">
+            <label for="phone" class="sr-only">Телефон</label>
+            <input id="phone" type="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required>
+            <button type="submit">Стать продавцом</button>
+          </form>
+        </div>
+        <div class="sell-img"><img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=900&q=75&auto=format&fit=crop" alt="Магазин продавца с одеждой на рейлах" loading="lazy"></div>
+      </div>
+    </section>
+
+    <section class="wrap block" aria-labelledby="shops-title">
+      <div class="row-head"><h2 id="shops-title" class="h2">Популярные магазины</h2></div>
+      <ul class="shops">
+        <li class="shop"><i style="background:#0E9F6E" aria-hidden="true">S</i><div><b>SportLine</b><span>★ 4.9 · 12&nbsp;800 отзывов</span></div></li>
+        <li class="shop"><i style="background:#DB2777" aria-hidden="true">B</i><div><b>Beauty Lab</b><span>★ 4.9 · 8&nbsp;400 отзывов</span></div></li>
+        <li class="shop"><i style="background:#2563EB" aria-hidden="true">G</i><div><b>Gadget Hub</b><span>★ 4.8 · 21&nbsp;300 отзывов</span></div></li>
+        <li class="shop"><i style="background:#B45309" aria-hidden="true">M</i><div><b>Mebel Pro</b><span>★ 4.7 · 5&nbsp;100 отзывов</span></div></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="#" class="logo">bazar<span>.kz</span></a>
+    <div class="foot-cols">
+      <div><h4>Покупателям</h4><ul><li><a href="#hits">Как заказать</a></li><li><a href="#hits">Доставка</a></li><li><a href="#hits">Возврат</a></li></ul></div>
+      <div><h4>Продавцам</h4><ul><li><a href="#sell">Открыть магазин</a></li><li><a href="#sell">Тарифы и комиссия</a></li><li><a href="#sell">Выплаты</a></li></ul></div>
+      <div><h4>Компания</h4><ul><li><a href="#">О нас</a></li><li><a href="#">Вакансии</a></li><li><a href="#">Пресс-центр</a></li></ul></div>
+      <div><h4>Оплата</h4><ul><li>Kaspi Pay и рассрочка</li><li>Visa, Mastercard</li><li>Halyk Bank</li></ul></div>
+    </div>
+    <div class="legal"><span>© 2026 bazar.kz</span><span>Демо-концепт маркетплейса</span></div>
+  </footer>
+</body>
+</html>

@@ -77,8 +77,9 @@ export type Content = {
     title: string;
     subtitle: string;
     conceptLabel: string;
-    ctaLabel: string;
-    ctaMessage: (name: string, kind: string) => string;
+    demoLabel: string;
+    /** Подпись ссылки-скриншота для скринридера */
+    demoAria: (name: string) => string;
     items: Record<PortfolioId, { kind: string; text: string }>;
   };
 

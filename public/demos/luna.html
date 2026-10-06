@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="ru" data-demo-name="LUNA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUNA — концепт магазина одежды</title>
+<meta name="description" content="Демо-концепт интернет-магазина одежды LUNA: каталог, лукбук, доставка по Казахстану и примерка перед оплатой.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="demo.css">
+<script src="demo.js" defer></script>
+<style>
+  :root {
+    --bg: #F4EFE9;
+    --paper: #FBF8F4;
+    --ink: #1E1B18;
+    --muted: #6B6057;
+    --line: #E2D8CC;
+    --accent: #A3402A;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --pad: clamp(16px, 4vw, 56px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font: 400 16px/1.5 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  section[id] { scroll-margin-top: 24px; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 30px; font-size: 15px; font-weight: 600; border: 1px solid var(--ink); transition: background-color .2s, color .2s; }
+  .btn:hover { background: var(--ink); color: var(--bg); }
+  .btn.dark { background: var(--ink); color: var(--bg); }
+  .btn.dark:hover { background: var(--accent); border-color: var(--accent); }
+  .serif { font-family: var(--serif); font-weight: 500; line-height: 1.05; }
+  .h2 { font-size: clamp(30px, 4vw, 44px); }
+  .link { font-size: 14px; font-weight: 500; border-bottom: 1px solid; padding-bottom: 2px; white-space: nowrap; }
+
+  /* Промо и шапка */
+  .promo { background: var(--ink); color: #EDE6DD; text-align: center; font-size: 13px; padding: 10px var(--pad); }
+  /* Телефон: логотип слева, иконки справа. От 1000px — меню слева, логотип по центру */
+  .nav { display: grid; grid-template-columns: 1fr auto; align-items: center; padding: 16px var(--pad); }
+  .nav ul { display: none; gap: 28px; list-style: none; font-size: 14px; font-weight: 500; }
+  .nav ul a:hover { color: var(--accent); }
+  .sale-link { color: var(--accent); }
+  .logo { font-family: var(--serif); font-size: 28px; font-weight: 600; letter-spacing: .24em; }
+  .icons { display: flex; justify-content: flex-end; gap: 18px; align-items: center; }
+  .icons svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+  .bag { position: relative; display: inline-flex; }
+  .bag b { position: absolute; top: -6px; right: -9px; background: var(--accent); color: #fff; font-size: 10px; min-width: 17px; height: 17px; border-radius: 9px; padding: 0 4px; display: grid; place-items: center; }
+  /* На телефоне разделы — лентой под логотипом, листается пальцем */
+  .cats { display: flex; gap: 22px; overflow-x: auto; padding: 0 var(--pad) 14px; border-bottom: 1px solid var(--line); font-size: 14px; font-weight: 500; white-space: nowrap; scrollbar-width: none; }
+  .cats::-webkit-scrollbar { display: none; }
+
+  /* Первый экран */
+  .hero { display: grid; border-top: 1px solid var(--line); }
+  /* На телефоне фото ниже, чтобы заголовок попал в первый экран */
+  .hero-img { aspect-ratio: 4 / 3; overflow: hidden; }
+  .hero-img img { object-position: center 22%; }
+  .hero-text { padding: 36px var(--pad) 48px; }
+  .season { font-size: 14px; color: var(--muted); margin-bottom: 16px; }
+  .hero h1 { font-size: clamp(44px, 5.4vw, 72px); margin-bottom: 20px; }
+  .hero p { font-size: 17px; line-height: 1.6; color: #5C5248; max-width: 440px; margin-bottom: 32px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  /* Каталог */
+  .block { padding: 64px var(--pad) 0; }
+  .row-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 24px; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 14px; list-style: none; }
+  .card .ph { position: relative; aspect-ratio: 3 / 4; overflow: hidden; background: var(--line); }
+  .card .ph img { transition: transform .5s ease-out; }
+  .card:hover .ph img { transform: scale(1.04); }
+  .tag { position: absolute; top: 12px; left: 12px; background: var(--bg); font-size: 12px; padding: 4px 9px; font-weight: 600; }
+  .tag.red { background: var(--accent); color: #fff; }
+  .card h3 { font-size: 15px; font-weight: 500; margin-top: 12px; }
+  .price { display: flex; gap: 8px; align-items: baseline; margin-top: 2px; font-weight: 600; }
+  .price s { color: var(--muted); font-weight: 400; font-size: 14px; }
+  .add { margin-top: 10px; width: 100%; min-height: 44px; border: 1px solid var(--line); font-size: 14px; font-weight: 600; transition: border-color .2s, background-color .2s; }
+  .add:hover { border-color: var(--ink); background: var(--paper); }
+
+  .tiles { display: grid; gap: 14px; list-style: none; }
+  .tile { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; color: #fff; }
+  .tile img { transition: transform .6s ease-out; }
+  .tile:hover img { transform: scale(1.04); }
+  .tile::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgb(20 16 12 / .65), transparent 55%); }
+  .tile span { position: absolute; left: 24px; bottom: 22px; z-index: 1; }
+  .tile b { display: block; font-family: var(--serif); font-size: 34px; font-weight: 500; line-height: 1.1; }
+  .tile small { font-size: 14px; opacity: .85; }
+
+  /* Распродажа */
+  .sale { margin-top: 72px; background: var(--accent); color: #FBEFE9; padding: 56px var(--pad); display: grid; gap: 24px; align-items: center; }
+  .sale .serif { font-size: clamp(38px, 4.6vw, 64px); }
+  .sale p { font-size: 17px; max-width: 460px; color: #F6DCD3; }
+  .sale .btn { border-color: #FBEFE9; color: #FBEFE9; justify-self: start; }
+  .sale .btn:hover { background: #FBEFE9; color: var(--accent); }
+
+  /* Лукбук */
+  .look { display: grid; gap: 28px; align-items: end; }
+  .look-main { aspect-ratio: 4 / 5; overflow: hidden; }
+  .look-text blockquote { font-family: var(--serif); font-style: italic; font-size: clamp(21px, 2vw, 26px); line-height: 1.3; color: #4A413A; margin: 16px 0 18px; }
+  .look-text p { color: var(--muted); max-width: 420px; }
+  .look-side { aspect-ratio: 1; overflow: hidden; margin-top: 28px; max-width: 340px; }
+
+  /* Сервис */
+  .perks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 20px; list-style: none; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 36px 0; }
+  .perks svg { width: 28px; height: 28px; stroke: var(--accent); fill: none; stroke-width: 1.5; margin-bottom: 12px; }
+  .perks h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .perks p { font-size: 14px; color: var(--muted); }
+
+  /* Отзывы */
+  .reviews { display: grid; gap: 16px; list-style: none; }
+  .review { background: var(--paper); padding: 28px; }
+  .stars { color: var(--accent); letter-spacing: 3px; font-size: 15px; }
+  .review p { font-family: var(--serif); font-size: 22px; line-height: 1.3; margin: 12px 0 18px; }
+  .review footer { font-size: 14px; color: var(--muted); }
+  .review footer b { color: var(--ink); font-weight: 600; }
+
+  /* Шоурум и подписка */
+  .visit { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .visit-img { aspect-ratio: 16 / 10; overflow: hidden; }
+  .visit dl { display: grid; grid-template-columns: auto 1fr; gap: 10px 20px; margin: 22px 0 32px; font-size: 15px; }
+  .visit dt { color: var(--muted); }
+  .subscribe { background: var(--paper); padding: 28px; }
+  .subscribe h3 { font-size: 28px; }
+  .subscribe p { color: var(--muted); margin: 8px 0 18px; font-size: 15px; }
+  .field { display: flex; flex-wrap: wrap; gap: 10px; }
+  .field input { flex: 1 1 200px; min-width: 0; min-height: 52px; padding: 0 16px; border: 1px solid var(--line); background: #fff; font: inherit; }
+  .field input:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; }
+
+  /* Подвал */
+  .foot { margin-top: 80px; background: var(--ink); color: #CFC6BB; padding: 48px var(--pad) 32px; font-size: 14px; }
+  .foot .logo { color: var(--bg); font-size: 32px; display: inline-block; margin-bottom: 28px; }
+  .foot-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+  .foot h4 { color: #fff; font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+  .foot ul { list-style: none; display: grid; gap: 8px; }
+  .foot a:hover { color: #fff; }
+  .legal { margin-top: 40px; padding-top: 20px; border-top: 1px solid #3A342E; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: #9C9187; }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (min-width: 720px) {
+    .grid { grid-template-columns: repeat(4, 1fr); gap: 36px 22px; }
+    .tiles { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .sale { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) auto; gap: 40px; }
+    .perks { grid-template-columns: repeat(4, 1fr); }
+    .reviews { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .foot-cols { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  @media (min-width: 1000px) {
+    .nav { padding-top: 22px; padding-bottom: 22px; }
+    .nav { grid-template-columns: 1fr auto 1fr; }
+    .nav ul { display: flex; }
+    .logo { grid-column: 2; font-size: 40px; letter-spacing: .32em; margin-right: -.32em; }
+    .icons { grid-column: 3; }
+    .cats { display: none; }
+    .hero { grid-template-columns: 1.15fr 1fr; min-height: 480px; height: calc(100svh - 190px); max-height: 640px; }
+    .hero-img { aspect-ratio: auto; }
+    .hero-text { display: flex; flex-direction: column; justify-content: center; padding: 40px 72px; }
+    .look { grid-template-columns: 1.3fr 1fr; gap: 56px; }
+    .visit { grid-template-columns: 1.2fr 1fr; gap: 56px; align-items: center; }
+    .row-head { margin-bottom: 28px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .card .ph img, .tile img { transition: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="promo">Бесплатная доставка по Алматы и Астане от 30&nbsp;000&nbsp;₸. Примерка перед оплатой</div>
+
+  <header>
+    <nav class="nav" aria-label="Разделы магазина">
+      <ul>
+        <li><a href="#new">Новинки</a></li>
+        <li><a href="#catalog">Женщинам</a></li>
+        <li><a href="#catalog">Мужчинам</a></li>
+        <li><a href="#catalog">Аксессуары</a></li>
+        <li><a href="#sale" class="sale-link">Sale −30%</a></li>
+      </ul>
+      <a href="#" class="logo" aria-label="LUNA — на главную">LUNA</a>
+      <div class="icons">
+        <button type="button" aria-label="Поиск"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button>
+        <button type="button" aria-label="Избранное"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/></svg></button>
+        <a href="#new" class="bag" aria-label="Корзина"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><b data-cart-count>2</b></a>
+      </div>
+    </nav>
+    <nav class="cats" aria-label="Разделы магазина (мобильная версия)">
+      <a href="#new">Новинки</a>
+      <a href="#catalog">Женщинам</a>
+      <a href="#catalog">Мужчинам</a>
+      <a href="#catalog">Аксессуары</a>
+      <a href="#sale" class="sale-link">Sale −30%</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-img">
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1400&q=80&auto=format&fit=crop" alt="Девушка в ярком жёлтом костюме из новой коллекции" fetchpriority="high">
+      </div>
+      <div class="hero-text">
+        <p class="season">Новая коллекция 2026</p>
+        <h1 id="hero-title" class="serif">Яркий кэжуал на каждый день</h1>
+        <p>Худи, джоггеры и сеты из мягкого хлопка. Удобно в городе, в поездке и дома.</p>
+        <div class="btns"><a href="#new" class="btn dark">Смотреть коллекцию</a><a href="#lookbook" class="btn">Лукбук</a></div>
+      </div>
+    </section>
+
+    <section id="new" class="block" aria-labelledby="new-title">
+      <div class="row-head"><h2 id="new-title" class="serif h2">Новые поступления</h2><a href="#catalog" class="link">Весь каталог</a></div>
+      <ul class="grid">
+        <li class="card">
+          <div class="ph"><img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=700&q=75&auto=format&fit=crop" alt="Платье миди с цветочным принтом" loading="lazy"><span class="tag">Новинка</span></div>
+          <h3>Платье миди из вискозы</h3><p class="price">32&nbsp;900&nbsp;₸</p>
+          <button type="button" class="add" data-demo-cart>В корзину</button>
+        </li>
+        <li class="card">
+          <div class="ph"><img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=700&q=75&auto=format&fit=crop" alt="Широкие брюки в полоску" loading="lazy"></div>
+          <h3>Брюки палаццо в полоску</h3><p class="price">27&nbsp;900&nbsp;₸</p>
+          <button type="button" class="add" data-demo-cart>В корзину</button>
+        </li>
+        <li class="card">
+          <div class="ph"><img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=700&q=75&auto=format&fit=crop" alt="Пончо крупной вязки на вешалке" loading="lazy"><span class="tag red">−20%</span></div>
+          <h3>Пончо крупной вязки</h3><p class="price">24&nbsp;700&nbsp;₸ <s>30&nbsp;900&nbsp;₸</s></p>
+          <button type="button" class="add" data-demo-cart>В корзину</button>
+        </li>
+        <li class="card">
+          <div class="ph"><img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=700&q=75&auto=format&fit=crop" alt="Базовые вещи на вешалках" loading="lazy"></div>
+          <h3>Базовый гардероб: сет</h3><p class="price">54&nbsp;000&nbsp;₸</p>
+          <button type="button" class="add" data-demo-cart>В корзину</button>
+        </li>
+        <li class="card">
+          <div class="ph"><img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=700&q=75&auto=format&fit=crop" alt="Чёрная футболка оверсайз с принтом" loading="lazy"></div>
+          <h3>Футболка оверсайз с принтом</h3><p class="price">12&nbsp;900&nbsp;₸</p>
+          <button type="button" class="add" data-demo-cart>В корзину</button>
+        </li>
+        <li class="card">
+          <div class="ph"><img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=700&q=75&auto=format&fit=crop" alt="Розовые джоггеры из хлопка" loading="lazy"><span class="tag">Новинка</span></div>
+          <h3>Джоггеры из мягкого хлопка</h3><p class="price">18&nbsp;500&nbsp;₸</p>
+          <button type="button" class="add" data-demo-cart>В корзину</button>
+        </li>
+        <li class="card">
+          <div class="ph"><img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=700&q=75&auto=format&fit=crop" alt="Вязаная шапка, свитер и джинсы" loading="lazy"></div>
+          <h3>Тёплый сет: шапка и свитер</h3><p class="price">21&nbsp;900&nbsp;₸</p>
+          <button type="button" class="add" data-demo-cart>В корзину</button>
+        </li>
+        <li class="card">
+          <div class="ph"><img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=700&q=75&auto=format&fit=crop" alt="Лёгкие кроссовки из сетки" loading="lazy"></div>
+          <h3>Кроссовки на каждый день</h3><p class="price">39&nbsp;900&nbsp;₸</p>
+          <button type="button" class="add" data-demo-cart>В корзину</button>
+        </li>
+      </ul>
+    </section>
+
+    <section id="catalog" class="block" aria-labelledby="catalog-title">
+      <div class="row-head"><h2 id="catalog-title" class="serif h2">Каталог</h2></div>
+      <ul class="tiles">
+        <li><a href="#new" class="tile"><img src="https://images.unsplash.com/photo-1485462537746-965f33f7f6a7?w=800&q=75&auto=format&fit=crop" alt="" loading="lazy"><span><b>Женщинам</b><small>312 моделей</small></span></a></li>
+        <li><a href="#new" class="tile"><img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=800&q=75&auto=format&fit=crop" alt="" loading="lazy"><span><b>Мужчинам</b><small>186 моделей</small></span></a></li>
+        <li><a href="#new" class="tile"><img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=800&q=75&auto=format&fit=crop" alt="" loading="lazy"><span><b>Обувь и аксессуары</b><small>94 модели</small></span></a></li>
+      </ul>
+    </section>
+
+    <section id="sale" class="sale" aria-labelledby="sale-title">
+      <h2 id="sale-title" class="serif">Sale −30% на зимнюю коллекцию</h2>
+      <p>Пальто, свитеры и тёплые сеты со скидкой до 31 января. Размеры уходят быстро — успейте выбрать свой.</p>
+      <a href="#new" class="btn">Выбрать со скидкой</a>
+    </section>
+
+    <section id="lookbook" class="block" aria-labelledby="look-title">
+      <div class="look">
+        <div class="look-main"><img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=1100&q=75&auto=format&fit=crop" alt="Девушка в голубом пальто на городской площади" loading="lazy"></div>
+        <div class="look-text">
+          <h2 id="look-title" class="serif h2">Лукбук: осень в городе</h2>
+          <blockquote>Пальто цвета неба, мягкий трикотаж и удобная обувь — образ, в котором легко весь день.</blockquote>
+          <p>Собрали готовые образы из новой коллекции: все вещи с фото есть в каталоге, а стилист в чате поможет с размером.</p>
+          <div class="look-side"><img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=700&q=75&auto=format&fit=crop" alt="Девушка в красной футболке и солнцезащитных очках" loading="lazy"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" aria-label="Доставка и оплата">
+      <ul class="perks">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg><h3>Доставка 1–3 дня</h3><p>По всему Казахстану, курьером или в пункт выдачи</p></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4 4 7l2 4 2-1v10h8V10l2 1 2-4-4-3a4 4 0 0 1-8 0Z"/></svg><h3>Примерка перед оплатой</h3><p>Платите только за то, что подошло</p></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h4"/></svg><h3>Рассрочка Kaspi 0‑0‑12</h3><p>Без переплаты, оформление за минуту</p></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.3-5.6L4 8.7"/><path d="M4 4v4.7h4.7"/></svg><h3>Возврат 14 дней</h3><p>Вернём деньги на карту за 3 рабочих дня</p></li>
+      </ul>
+    </section>
+
+    <section class="block" aria-labelledby="reviews-title">
+      <div class="row-head"><h2 id="reviews-title" class="serif h2">Отзывы покупателей</h2></div>
+      <ul class="reviews">
+        <li class="review">
+          <span class="stars" aria-label="5 из 5">★★★★★</span>
+          <p>Заказала платье вечером, утром курьер уже привёз. Примерила дома — село идеально.</p>
+          <footer><b>Айгерим</b>, Алматы</footer>
+        </li>
+        <li class="review">
+          <span class="stars" aria-label="5 из 5">★★★★★</span>
+          <p>Удобный сайт: подобрал размер по таблице, оплатил в рассрочку через Kaspi. Буду брать ещё.</p>
+          <footer><b>Тимур</b>, Астана</footer>
+        </li>
+        <li class="review">
+          <span class="stars" aria-label="5 из 5">★★★★★</span>
+          <p>Не подошёл размер джоггеров — поменяли без вопросов. Ткань правда очень мягкая.</p>
+          <footer><b>Дана</b>, Шымкент</footer>
+        </li>
+      </ul>
+    </section>
+
+    <section class="block" aria-labelledby="visit-title">
+      <div class="visit">
+        <div class="visit-img"><img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1100&q=75&auto=format&fit=crop" alt="Светлый шоурум с одеждой на рейлах" loading="lazy"></div>
+        <div>
+          <h2 id="visit-title" class="serif h2">Шоурум в Алматы</h2>
+          <dl>
+            <dt>Адрес</dt><dd>Центр города, рядом с метро «Алмалы»</dd>
+            <dt>Время</dt><dd>Ежедневно с 10:00 до 21:00</dd>
+            <dt>Телефон</dt><dd>+7&nbsp;700&nbsp;000&nbsp;00&nbsp;00</dd>
+          </dl>
+          <form class="subscribe" aria-labelledby="sub-title">
+            <h3 id="sub-title" class="serif">Скидка 10% на первый заказ</h3>
+            <p>Подпишитесь — пришлём промокод и расскажем о новинках раньше всех.</p>
+            <div class="field">
+              <label for="email" class="sr-only">Email</label>
+              <input id="email" type="email" name="email" autocomplete="email" placeholder="Ваш email" required>
+              <button type="submit" class="btn dark">Получить скидку</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="#" class="logo">LUNA</a>
+    <div class="foot-cols">
+      <div><h4>Покупателям</h4><ul><li><a href="#new">Доставка и оплата</a></li><li><a href="#new">Возврат</a></li><li><a href="#new">Таблица размеров</a></li></ul></div>
+      <div><h4>Каталог</h4><ul><li><a href="#catalog">Женщинам</a></li><li><a href="#catalog">Мужчинам</a></li><li><a href="#sale">Sale</a></li></ul></div>
+      <div><h4>О нас</h4><ul><li><a href="#lookbook">Лукбук</a></li><li><a href="#visit-title">Шоурум</a></li></ul></div>
+      <div><h4>Оплата</h4><ul><li>Kaspi Pay и рассрочка</li><li>Visa, Mastercard</li><li>Наличными при получении</li></ul></div>
+    </div>
+    <div class="legal"><span>© 2026 LUNA</span><span>Демо-концепт интернет-магазина</span></div>
+  </footer>
+</body>
+</html>

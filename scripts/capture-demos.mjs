@@ -1,4 +1,5 @@
-// Делает скриншоты демо-сайтов из design/demos/*.html и кладёт их в public/portfolio/
+// Делает скриншоты демо-сайтов из public/demos/*.html и кладёт их в public/portfolio/.
+// Демо открываются с ?capture — без плашки «Демо», снимается первый экран 1440×900.
 // в формате WebP двух размеров (для телефона и для десктопа).
 //
 // Запуск: npm run portfolio:capture
@@ -14,7 +15,7 @@ import { pathToFileURL } from 'node:url';
 import sharp from 'sharp';
 
 const ROOT = resolve(import.meta.dirname, '..');
-const DEMOS_DIR = join(ROOT, 'design/demos');
+const DEMOS_DIR = join(ROOT, 'public/demos');
 const OUT_DIR = join(ROOT, 'public/portfolio');
 const TMP_DIR = join(ROOT, '.capture-tmp');
 
@@ -43,9 +44,10 @@ async function main() {
   mkdirSync(OUT_DIR, { recursive: true });
   mkdirSync(TMP_DIR, { recursive: true });
 
-  const demos = readdirSync(DEMOS_DIR).filter((f) => f.endsWith('.html'));
-  for (const file of demos) {
-    const slug = file.replace(/\.html$/, '');
+  const demos = readdirSync(DEMOS_DIR)
+    .filter((f) => f.endsWith('.html'))
+    .map((file) => ({ slug: file.replace(/\.html$/, ''), url: `${pathToFileURL(join(DEMOS_DIR, file)).href}?capture` }));
+  for (const { slug, url } of demos) {
     const png = join(TMP_DIR, `${slug}.png`);
 
     execFileSync(chrome, [
@@ -56,7 +58,7 @@ async function main() {
       // Время на загрузку веб-шрифтов и фото до снимка
       '--virtual-time-budget=15000',
       `--screenshot=${png}`,
-      pathToFileURL(join(DEMOS_DIR, file)).href,
+      url,
     ], { stdio: 'ignore' });
 
     for (const width of OUTPUT_WIDTHS) {

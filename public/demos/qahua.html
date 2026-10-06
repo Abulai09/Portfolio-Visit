@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="ru" data-demo-name="Qahua">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qahua — концепт лендинга обжарочной</title>
+<meta name="description" content="Демо-концепт лендинга обжарочной Qahua: сорта свежей обжарки, подписка на кофе, кофейни и опт.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="demo.css">
+<script src="demo.js" defer></script>
+<style>
+  :root {
+    --bg: #F3E7D7;
+    --paper: #FBF5EC;
+    --ink: #2B1D16;
+    --soft: #5E4637;
+    --muted: #7A5C49;
+    --rust: #9C4A1E;
+    --rust-2: #7F3B16;
+    --apricot: #F0B98F;
+    --serif: 'Playfair Display', Georgia, serif;
+    --pad: clamp(16px, 4.4vw, 64px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font: 400 17px/1.55 Jost, system-ui, sans-serif; }
+  img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  a { color: inherit; text-decoration: none; }
+  button, input, select { font: inherit; color: inherit; }
+  button { background: none; border: 0; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--rust); outline-offset: 3px; }
+  section[id] { scroll-margin-top: 16px; }
+  .wrap { padding: 0 var(--pad); }
+  .block { margin-top: 88px; }
+  .h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(32px, 4vw, 52px); line-height: 1.05; }
+  .lead { color: var(--soft); max-width: 540px; margin-top: 12px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 30px; border-radius: 999px; font-weight: 600; background: var(--rust); color: #fff; }
+  .btn:hover { background: var(--rust-2); }
+  .btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+  .btn.ghost:hover { background: var(--paper); }
+
+  nav.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px var(--pad); }
+  .logo { font-family: var(--serif); font-size: 30px; font-weight: 600; }
+  nav.top ul { display: none; gap: 32px; list-style: none; }
+  nav.top ul a:hover { color: var(--rust); }
+  .order { background: var(--ink); color: var(--bg); padding: 11px 20px; border-radius: 999px; font-weight: 500; }
+
+  .hero { display: grid; gap: 40px; padding: 8px var(--pad) 0; }
+  .hero small { font-size: 15px; color: var(--muted); }
+  .hero h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(44px, 5.4vw, 76px); line-height: 1; margin: 14px 0 20px; }
+  .hero h1 em { font-weight: 500; color: var(--rust); }
+  .hero p { font-size: 19px; color: var(--soft); max-width: 470px; margin-bottom: 30px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .arch { position: relative; border-radius: 260px 260px 32px 32px; overflow: hidden; min-height: 420px; }
+  .arch > img { position: absolute; inset: 0; }
+  .sub-card { position: absolute; left: 16px; bottom: 24px; background: var(--ink); color: var(--bg); border-radius: 20px; padding: 16px 20px; font-size: 15px; max-width: 250px; }
+  .sub-card b { display: block; font-family: var(--serif); font-size: 26px; color: var(--apricot); }
+
+  /* Сорта */
+  .packs { display: grid; gap: 16px; list-style: none; margin-top: 32px; }
+  .k { display: flex; gap: 16px; align-items: center; background: var(--paper); border-radius: 24px; padding: 12px; }
+  .k .im { width: 108px; height: 108px; border-radius: 18px; overflow: hidden; flex: none; }
+  .k h3 { font-family: var(--serif); font-weight: 600; font-size: 22px; line-height: 1.15; margin-bottom: 2px; }
+  .k p { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+  .k .row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .k b { font-size: 18px; }
+  .k button { min-height: 40px; padding: 0 16px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px var(--ink); font-weight: 600; font-size: 14px; }
+  .k button:hover { background: var(--ink); color: var(--bg); }
+
+  /* Подписка */
+  .plans { display: grid; gap: 16px; list-style: none; margin-top: 32px; }
+  .plan { background: var(--paper); border-radius: 28px; padding: 28px; display: flex; flex-direction: column; }
+  .plan.best { background: var(--ink); color: var(--bg); }
+  .plan .tag { align-self: flex-start; background: var(--apricot); color: var(--ink); font-size: 13px; font-weight: 600; padding: 4px 12px; border-radius: 999px; margin-bottom: 14px; }
+  .plan h3 { font-family: var(--serif); font-weight: 600; font-size: 26px; }
+  .plan .for { color: var(--muted); margin: 4px 0 18px; }
+  .plan.best .for { color: #D9C2AE; }
+  .plan .price { font-size: 30px; font-weight: 600; }
+  .plan .price span { font-size: 16px; font-weight: 400; color: var(--muted); }
+  .plan.best .price span { color: #D9C2AE; }
+  .plan ul { list-style: none; display: grid; gap: 8px; margin: 18px 0 24px; }
+  .plan li { display: flex; gap: 10px; }
+  .plan li::before { content: '—'; color: var(--rust); }
+  .plan.best li::before { color: var(--apricot); }
+  .plan button { margin-top: auto; }
+  .plan.best .btn { background: var(--apricot); color: var(--ink); }
+
+  /* Путь зерна */
+  .path { display: grid; gap: 16px; list-style: none; margin-top: 32px; counter-reset: p; }
+  .path li { border-top: 1.5px solid var(--ink); padding-top: 16px; }
+  .path li::before { counter-increment: p; content: counter(p); font-family: var(--serif); font-style: italic; font-size: 30px; color: var(--rust); display: block; margin-bottom: 6px; }
+  .path h3 { font-size: 19px; font-weight: 600; margin-bottom: 4px; }
+  .path p { color: var(--soft); font-size: 15px; }
+
+  /* Кофейни */
+  .shops { display: grid; gap: 16px; list-style: none; margin-top: 32px; }
+  .shop .im { aspect-ratio: 16 / 10; border-radius: 24px; overflow: hidden; margin-bottom: 14px; }
+  .shop h3 { font-family: var(--serif); font-weight: 600; font-size: 24px; }
+  .shop p { color: var(--muted); }
+
+  /* Опт */
+  .b2b { display: grid; gap: 24px; background: var(--rust); color: #FBEFE6; border-radius: 32px; padding: 32px 28px; }
+  .b2b .h2 { color: #fff; }
+  .b2b .lead { color: #F3D3BE; }
+  .b2b form { display: grid; gap: 12px; }
+  .b2b label span { display: block; font-size: 14px; margin-bottom: 4px; color: #F3D3BE; }
+  .b2b input, .b2b select { width: 100%; min-height: 52px; border: 0; border-radius: 14px; padding: 0 16px; color: var(--ink); background: var(--paper); }
+  .b2b .btn { background: var(--ink); justify-self: start; }
+
+  .reviews { display: grid; gap: 16px; list-style: none; margin-top: 32px; }
+  .review { background: var(--paper); border-radius: 24px; padding: 24px; }
+  .review p { font-family: var(--serif); font-style: italic; font-size: 20px; line-height: 1.4; margin-bottom: 14px; }
+  .review footer { color: var(--muted); font-size: 15px; }
+  .review footer b { color: var(--ink); font-weight: 600; }
+
+  .foot { margin-top: 88px; background: var(--ink); color: #CDB9A8; padding: 36px var(--pad) 28px; font-size: 15px; }
+  .foot .logo { color: var(--bg); display: inline-block; margin-bottom: 20px; }
+  .foot-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .foot h4 { color: #fff; font-weight: 600; margin-bottom: 8px; }
+  .foot ul { list-style: none; display: grid; gap: 6px; }
+  .foot a:hover { color: #fff; }
+  .legal { margin-top: 28px; padding-top: 18px; border-top: 1px solid #4A3428; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
+
+  @media (min-width: 720px) {
+    .packs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .plans { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .path { grid-template-columns: repeat(4, 1fr); gap: 28px; }
+    .shops { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .reviews { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .foot-cols { grid-template-columns: repeat(4, 1fr); }
+    .b2b { padding: 48px; }
+    .sub-card { left: -24px; bottom: 40px; }
+  }
+  @media (min-width: 1000px) {
+    nav.top ul { display: flex; }
+    .hero { grid-template-columns: 1fr 1fr; gap: 48px; min-height: 500px; align-items: center; }
+    .arch { min-height: 500px; overflow: visible; }
+    .arch > img { border-radius: 260px 260px 32px 32px; }
+    .packs { grid-template-columns: repeat(3, 1fr); }
+    .b2b { grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+  <nav class="top" aria-label="Разделы сайта">
+    <a href="#" class="logo" aria-label="Qahua — на главную">Qahua</a>
+    <ul><li><a href="#coffee">Кофе</a></li><li><a href="#subscribe">Подписка</a></li><li><a href="#roast">Обжарка</a></li><li><a href="#shops">Кофейни</a></li><li><a href="#b2b">Опт</a></li></ul>
+    <a href="#coffee" class="order">Заказать · <span data-cart-count>2</span></a>
+  </nav>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <small>Обжарочная в Алматы с 2018 года</small>
+        <h1 id="hero-title">Свежая обжарка <em>каждую пятницу</em></h1>
+        <p>Зерно из Эфиопии, Колумбии и Бразилии. Обжариваем под ваш заказ и доставляем за 1 день.</p>
+        <div class="btns"><a href="#coffee" class="btn">Выбрать кофе</a><a href="#subscribe" class="btn ghost">Подписка −15%</a></div>
+      </div>
+      <div class="arch">
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1100&q=80&auto=format&fit=crop" alt="Чашка кофе на деревянном столе" fetchpriority="high">
+        <div class="sub-card"><b>1&nbsp;200+</b>подписчиков получают кофе каждую неделю</div>
+      </div>
+    </section>
+
+    <section id="coffee" class="wrap block" aria-labelledby="coffee-title">
+      <h2 id="coffee-title" class="h2">Сорта этой недели</h2>
+      <p class="lead">Все сорта обжарены не раньше прошлой пятницы. Помолем под вашу турку, воронку или кофемашину.</p>
+      <ul class="packs">
+        <li class="k"><div class="im"><img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=300&q=75&auto=format&fit=crop" alt="Кофейные зёрна" loading="lazy"></div><div><h3>Эфиопия Иргачефф</h3><p>Ягоды, жасмин · 250 г</p><div class="row"><b>6&nbsp;500&nbsp;₸</b><button type="button" data-demo-cart>В корзину</button></div></div></li>
+        <li class="k"><div class="im"><img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=300&q=75&auto=format&fit=crop" alt="Чашка кофе с молоком" loading="lazy"></div><div><h3>Колумбия Уила</h3><p>Карамель, орех · 250 г</p><div class="row"><b>5&nbsp;900&nbsp;₸</b><button type="button" data-demo-cart>В корзину</button></div></div></li>
+        <li class="k"><div class="im"><img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=300&q=75&auto=format&fit=crop" alt="Кофе в чашке" loading="lazy"></div><div><h3>Бразилия Серрадо</h3><p>Шоколад, лесной орех · 250 г</p><div class="row"><b>5&nbsp;400&nbsp;₸</b><button type="button" data-demo-cart>В корзину</button></div></div></li>
+        <li class="k"><div class="im"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300&q=75&auto=format&fit=crop" alt="Капучино с латте-артом" loading="lazy"></div><div><h3>Эспрессо-смесь «Утро»</h3><p>Для молочных напитков · 1 кг</p><div class="row"><b>17&nbsp;900&nbsp;₸</b><button type="button" data-demo-cart>В корзину</button></div></div></li>
+        <li class="k"><div class="im"><img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=300&q=75&auto=format&fit=crop" alt="Воронка для заваривания кофе" loading="lazy"></div><div><h3>Набор для воронки</h3><p>Воронка, фильтры, 250 г · подарок</p><div class="row"><b>14&nbsp;900&nbsp;₸</b><button type="button" data-demo-cart>В корзину</button></div></div></li>
+        <li class="k"><div class="im"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300&q=75&auto=format&fit=crop" alt="Кофе в белой чашке" loading="lazy"></div><div><h3>Кения АА</h3><p>Смородина, грейпфрут · 250 г</p><div class="row"><b>7&nbsp;200&nbsp;₸</b><button type="button" data-demo-cart>В корзину</button></div></div></li>
+      </ul>
+    </section>
+
+    <section id="subscribe" class="wrap block" aria-labelledby="sub-title">
+      <h2 id="sub-title" class="h2">Подписка: кофе приезжает сам</h2>
+      <p class="lead">Выберите объём и частоту — свежая обжарка будет у вас каждую неделю со скидкой 15%. Пауза или отмена в любой момент.</p>
+      <ul class="plans">
+        <li class="plan"><h3>Для себя</h3><p class="for">250 г раз в две недели</p><p class="price">5&nbsp;100&nbsp;₸ <span>/ доставка</span></p><ul><li>Новый сорт каждый раз</li><li>Помол под ваш способ</li><li>Доставка бесплатно</li></ul><button type="button" class="btn ghost" data-demo-cart>Оформить</button></li>
+        <li class="plan best"><span class="tag">Чаще всего выбирают</span><h3>Для семьи</h3><p class="for">500 г каждую неделю</p><p class="price">9&nbsp;400&nbsp;₸ <span>/ доставка</span></p><ul><li>Два сорта на выбор</li><li>Карточки с рецептами</li><li>Доставка бесплатно</li></ul><button type="button" class="btn" data-demo-cart>Оформить</button></li>
+        <li class="plan"><h3>Для офиса</h3><p class="for">2 кг каждую неделю</p><p class="price">32&nbsp;000&nbsp;₸ <span>/ доставка</span></p><ul><li>Эспрессо-смесь и фильтр</li><li>Настройка кофемашины</li><li>Счёт для юрлица</li></ul><button type="button" class="btn ghost" data-demo-cart>Оформить</button></li>
+      </ul>
+    </section>
+
+    <section id="roast" class="wrap block" aria-labelledby="roast-title">
+      <h2 id="roast-title" class="h2">Путь зерна до вашей чашки</h2>
+      <ol class="path">
+        <li><h3>Выбираем зерно</h3><p>Работаем с фермами напрямую и пробуем каждую партию</p></li>
+        <li><h3>Обжариваем в пятницу</h3><p>Небольшими партиями под заказы этой недели</p></li>
+        <li><h3>Даём отдохнуть</h3><p>3 дня, чтобы раскрылся вкус и ушла горечь</p></li>
+        <li><h3>Доставляем за день</h3><p>По Алматы курьером, по Казахстану — экспрессом</p></li>
+      </ol>
+    </section>
+
+    <section id="shops" class="wrap block" aria-labelledby="shops-title">
+      <h2 id="shops-title" class="h2">Наши кофейни</h2>
+      <ul class="shops">
+        <li class="shop"><div class="im"><img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=900&q=75&auto=format&fit=crop" alt="Вывеска кофейни" loading="lazy"></div><h3>Qahua на Кабанбай батыра</h3><p>Ежедневно 8:00–22:00 · дегустации по субботам</p></li>
+        <li class="shop"><div class="im"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=900&q=75&auto=format&fit=crop" alt="Зал кофейни со столиками" loading="lazy"></div><h3>Qahua Обжарочная</h3><p>Пн–Сб 9:00–20:00 · можно посмотреть на обжарку</p></li>
+      </ul>
+    </section>
+
+    <section id="b2b" class="wrap block" aria-labelledby="b2b-title">
+      <div class="b2b">
+        <div>
+          <h2 id="b2b-title" class="h2">Кофе для кофеен и офисов</h2>
+          <p class="lead">Оптовые цены от 5 кг, обучение бариста и сервис кофемашин. Привезём пробники бесплатно.</p>
+        </div>
+        <form aria-labelledby="b2b-title">
+          <label><span>Название заведения</span><input type="text" name="company" autocomplete="organization" required></label>
+          <label><span>Телефон</span><input type="tel" name="phone" autocomplete="tel" placeholder="+7 (___) ___-__-__" required></label>
+          <label><span>Объём в месяц</span><select name="volume"><option>5–20 кг</option><option>20–50 кг</option><option>Больше 50 кг</option></select></label>
+          <button type="submit" class="btn">Получить пробники</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="wrap block" aria-labelledby="reviews-title">
+      <h2 id="reviews-title" class="h2">Что говорят</h2>
+      <ul class="reviews">
+        <li class="review"><p>Подписка — лучшее, что я сделал для своих утр. Каждый раз новый вкус.</p><footer><b>Арман</b>, подписчик с 2023 года</footer></li>
+        <li class="review"><p>Перевели кофейню на эспрессо-смесь Qahua — гости заметили разницу через неделю.</p><footer><b>Кофейня «Бариста»</b>, Алматы</footer></li>
+        <li class="review"><p>Эфиопию брала на пробу, теперь беру по килограмму. Ягоды правда чувствуются.</p><footer><b>Жанель</b>, Астана</footer></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="#" class="logo">Qahua</a>
+    <div class="foot-cols">
+      <div><h4>Кофе</h4><ul><li><a href="#coffee">Сорта</a></li><li><a href="#subscribe">Подписка</a></li><li><a href="#coffee">Наборы</a></li></ul></div>
+      <div><h4>Для бизнеса</h4><ul><li><a href="#b2b">Опт</a></li><li><a href="#b2b">Обучение бариста</a></li></ul></div>
+      <div><h4>Кофейни</h4><ul><li><a href="#shops">Адреса</a></li><li><a href="#roast">Обжарка</a></li></ul></div>
+      <div><h4>Оплата</h4><ul><li>Kaspi Pay</li><li>Visa, Mastercard</li><li>Счёт для юрлиц</li></ul></div>
+    </div>
+    <div class="legal"><span>© 2026 Qahua</span><span>Демо-концепт лендинга обжарочной</span></div>
+  </footer>
+</body>
+</html>

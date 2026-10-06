@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ru" data-demo-name="VOLT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VOLT — концепт магазина электроники</title>
+<meta name="description" content="Демо-концепт магазина электроники VOLT: каталог, отзывы, trade-in, доставка завтра и рассрочка 0-0-12.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="demo.css">
+<script src="demo.js" defer></script>
+<style>
+  :root {
+    --bg: #0D1017;
+    --card: #151A24;
+    --card-2: #1B2230;
+    --line: #262D3B;
+    --text: #E8ECF4;
+    --soft: #9AA3B2;
+    --blue: #4F7CFF;
+    --blue-soft: #8FAEFF;
+    --cyan: #22D3EE;
+    --red: #F14635;
+    --display: 'Unbounded', system-ui, sans-serif;
+    --pad: clamp(16px, 3.4vw, 48px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font: 400 16px/1.5 Inter, system-ui, sans-serif; }
+  img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; color: inherit; }
+  button { background: none; border: 0; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+  section[id] { scroll-margin-top: 16px; }
+  .wrap { padding: 0 var(--pad); }
+  .block { margin-top: 56px; }
+  .h2 { font-family: var(--display); font-size: clamp(20px, 2.2vw, 26px); font-weight: 500; letter-spacing: -.01em; }
+  .row-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 18px; }
+  .row-head a { color: var(--blue-soft); font-size: 14px; white-space: nowrap; }
+
+  /* Шапка */
+  header { display: grid; grid-template-columns: auto 1fr auto; gap: 14px 20px; align-items: center; padding: 18px var(--pad); }
+  .logo { font-family: var(--display); font-weight: 700; font-size: 26px; letter-spacing: -.02em; display: flex; align-items: center; gap: 8px; }
+  .logo i { width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, var(--blue), var(--cyan)); }
+  .catalog { display: none; background: var(--blue); color: #fff; padding: 12px 20px; border-radius: 12px; font-weight: 600; font-size: 15px; }
+  .search { grid-column: 1 / -1; display: flex; background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+  .search input { flex: 1; min-width: 0; background: transparent; border: 0; padding: 13px 16px; }
+  .search input::placeholder { color: #7D8799; }
+  .search input:focus-visible { outline: none; }
+  .search:focus-within { border-color: var(--cyan); }
+  .search button { padding: 0 16px; color: var(--blue-soft); font-weight: 600; }
+  .acts { grid-row: 1; grid-column: 3; display: flex; gap: 22px; font-size: 13px; color: var(--soft); justify-self: end; text-align: right; }
+  .acts b { display: block; color: var(--text); font-size: 14px; font-weight: 500; }
+  .acts .city { display: none; }
+  .chips { display: flex; gap: 10px; padding: 0 var(--pad) 20px; border-bottom: 1px solid #1C2230; overflow-x: auto; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chips a { flex: none; padding: 9px 16px; border-radius: 999px; background: #161B25; font-size: 14px; color: #C3CAD6; }
+  .chips a:first-child { background: var(--text); color: var(--bg); font-weight: 600; }
+
+  /* Первый экран */
+  .top { display: grid; gap: 18px; padding: 22px var(--pad) 0; }
+  .banner { position: relative; overflow: hidden; border-radius: 26px; background: #121a2e; padding: 36px 28px; display: flex; flex-direction: column; }
+  .banner img { position: relative; width: calc(100% + 56px); height: 200px; margin: -36px -28px 24px; object-position: center 30%; }
+  .banner::before { content: none; }
+  .banner > *:not(img) { position: relative; z-index: 2; }
+  .badge { align-self: flex-start; background: rgb(79 124 255 / .18); color: var(--blue-soft); padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+  /* Unbounded широкий: на телефоне 26px, иначе «компромиссов» не помещается в карточку */
+  .banner h1 { font-family: var(--display); font-size: clamp(26px, 4vw, 50px); font-weight: 700; line-height: 1.05; letter-spacing: -.02em; max-width: 470px; margin-bottom: 14px; }
+  .banner p { color: #AEB6C5; font-size: 17px; margin-bottom: 24px; max-width: 420px; }
+  .price-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .price-row b { font-family: var(--display); font-size: 26px; }
+  .tag-red { background: var(--red); color: #fff; padding: 7px 12px; border-radius: 8px; font-weight: 600; font-size: 13px; }
+  .buy { background: var(--blue); color: #fff; padding: 13px 22px; border-radius: 12px; font-weight: 600; }
+  .buy:hover { background: #3E6BF0; }
+  .side { display: grid; gap: 18px; }
+  .promo { position: relative; overflow: hidden; display: block; border-radius: 22px; background: var(--card); padding: 26px; min-height: 180px; }
+  .promo img { position: absolute; right: 0; top: 0; width: 46%; }
+  .promo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--card) 52%, transparent 80%); }
+  .promo > div { position: relative; z-index: 1; max-width: 60%; }
+  .promo h3 { font-family: var(--display); font-size: 20px; font-weight: 500; line-height: 1.15; margin-bottom: 8px; }
+  .promo p { color: var(--soft); font-size: 14px; }
+
+  /* Товары */
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; list-style: none; }
+  .p { background: var(--card); border-radius: 20px; padding: 12px; display: flex; flex-direction: column; }
+  .p .im { aspect-ratio: 1; border-radius: 14px; overflow: hidden; background: #fff; margin-bottom: 12px; position: relative; }
+  .p .im em { position: absolute; left: 8px; top: 8px; background: var(--red); color: #fff; font-style: normal; font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 7px; }
+  .p h3 { font-size: 14px; font-weight: 500; margin-bottom: 4px; color: #D4DAE5; }
+  .st { color: #FBBF24; font-size: 12px; margin-bottom: 8px; }
+  .st span { color: #8D97A8; }
+  .p .pr { font-size: 18px; font-weight: 600; margin-top: auto; }
+  .p .mo { font-size: 12.5px; color: var(--blue-soft); margin: 2px 0 10px; }
+  .p button { min-height: 40px; border-radius: 11px; background: var(--card-2); border: 1px solid var(--line); font-weight: 600; font-size: 14px; }
+  .p button:hover { border-color: var(--blue); }
+
+  /* Преимущества */
+  .perks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; list-style: none; }
+  .perks li { background: var(--card); border-radius: 20px; padding: 20px; }
+  .perks svg { width: 28px; height: 28px; stroke: var(--cyan); fill: none; stroke-width: 1.6; margin-bottom: 12px; }
+  .perks h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .perks p { font-size: 14px; color: var(--soft); }
+
+  /* Trade-in */
+  .trade { display: grid; border-radius: 26px; overflow: hidden; background: linear-gradient(135deg, #172447, #0F1A33); }
+  .trade-text { padding: 32px 28px; }
+  .trade h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 34px); font-weight: 700; line-height: 1.1; margin-bottom: 12px; }
+  .trade p { color: #AEB6C5; max-width: 460px; margin-bottom: 22px; }
+  .steps { list-style: none; display: grid; gap: 10px; margin-bottom: 24px; counter-reset: s; }
+  .steps li { display: flex; gap: 12px; align-items: center; color: #D4DAE5; }
+  .steps li::before { counter-increment: s; content: counter(s); flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: rgb(34 211 238 / .15); color: var(--cyan); font-weight: 600; font-size: 14px; }
+  .trade form { display: flex; flex-wrap: wrap; gap: 10px; }
+  .trade input { flex: 1 1 200px; min-height: 50px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); padding: 0 16px; }
+  .trade input::placeholder { color: #7D8799; }
+  .trade-img { position: relative; min-height: 220px; }
+  .trade-img img { position: absolute; inset: 0; }
+
+  /* Отзывы */
+  .reviews { display: grid; gap: 12px; list-style: none; }
+  .review { background: var(--card); border-radius: 20px; padding: 22px; }
+  .review p { margin: 10px 0 14px; color: #D4DAE5; }
+  .review footer { font-size: 14px; color: var(--soft); }
+  .review footer b { color: var(--text); font-weight: 600; }
+
+  /* Магазины */
+  .stores { display: grid; gap: 12px; list-style: none; }
+  .store { background: var(--card); border-radius: 20px; padding: 20px; display: flex; justify-content: space-between; gap: 16px; align-items: center; }
+  .store b { display: block; }
+  .store span { color: var(--soft); font-size: 14px; }
+  .store em { font-style: normal; font-size: 13px; color: #34D399; white-space: nowrap; }
+
+  .foot { margin-top: 64px; border-top: 1px solid #1C2230; padding: 40px var(--pad) 28px; font-size: 14px; color: var(--soft); }
+  .foot .logo { color: var(--text); margin-bottom: 24px; }
+  .foot-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .foot h4 { color: var(--text); font-size: 14px; margin-bottom: 10px; }
+  .foot ul { list-style: none; display: grid; gap: 7px; }
+  .foot a:hover { color: var(--text); }
+  .legal { margin-top: 32px; padding-top: 18px; border-top: 1px solid #1C2230; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; color: #6B7488; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (min-width: 720px) {
+    header { grid-template-columns: auto auto minmax(0, 1fr) auto; }
+    .catalog { display: inline-block; }
+    .search { grid-column: auto; }
+    .acts { grid-row: auto; grid-column: auto; text-align: left; }
+    .grid { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .perks { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .reviews { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .stores { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .foot-cols { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (min-width: 1000px) {
+    .top { grid-template-columns: 1.7fr 1fr; gap: 20px; }
+    .acts .city { display: block; }
+    .banner { min-height: 400px; padding: 48px; justify-content: center; }
+    .banner img { position: absolute; inset: 0 0 0 auto; width: 62%; height: 100%; margin: 0; object-position: center; }
+    .banner::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, #0f1730 40%, transparent 75%); }
+    .trade { grid-template-columns: 1.2fr 1fr; }
+    .trade-text { padding: 44px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+  <header>
+    <a href="#" class="logo" aria-label="VOLT — на главную"><i aria-hidden="true"></i>VOLT</a>
+    <a href="#hits" class="catalog">☰ Каталог</a>
+    <form class="search" role="search">
+      <label for="q" class="sr-only">Поиск по каталогу</label>
+      <input id="q" type="search" placeholder="Наушники, смарт-часы, ноутбуки…">
+      <button type="submit">Найти</button>
+    </form>
+    <div class="acts">
+      <span class="city"><b>Алматы</b>доставка завтра</span>
+      <a href="#hits"><b>Корзина</b><span data-cart-count>3</span> товара</a>
+    </div>
+  </header>
+  <nav class="chips" aria-label="Разделы каталога">
+    <a href="#hits">Хиты недели</a><a href="#hits">Смартфоны</a><a href="#hits">Ноутбуки</a><a href="#hits">Аудио</a><a href="#hits">Умные часы</a><a href="#hits">Игры</a><a href="#hits">Фото</a><a href="#trade">Trade-in</a>
+  </nav>
+
+  <main>
+    <section class="top" aria-labelledby="hero-title">
+      <div class="banner">
+        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&q=80&auto=format&fit=crop" alt="Беспроводные наушники" fetchpriority="high">
+        <span class="badge">Новинка 2026</span>
+        <h1 id="hero-title">Звук без компромиссов</h1>
+        <p>Шумоподавление, 40 часов работы и мягкие амбушюры.</p>
+        <div class="price-row"><b>от 89&nbsp;990&nbsp;₸</b><span class="tag-red">Kaspi 0‑0‑12</span><button type="button" class="buy" data-demo-cart>В корзину</button></div>
+      </div>
+      <div class="side">
+        <a href="#hits" class="promo"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=75&auto=format&fit=crop" alt=""><div><h3>Часы, которые знают всё</h3><p>Пульс, сон и тренировки</p></div></a>
+        <a href="#hits" class="promo"><img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=600&q=75&auto=format&fit=crop" alt=""><div><h3>Игровая зона</h3><p>Консоли и аксессуары −15%</p></div></a>
+      </div>
+    </section>
+
+    <section id="hits" class="wrap block" aria-labelledby="hits-title">
+      <div class="row-head"><h2 id="hits-title" class="h2">Хиты продаж</h2><a href="#hits">Смотреть все</a></div>
+      <ul class="grid">
+        <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&q=75&auto=format&fit=crop" alt="Смарт-часы" loading="lazy"></div><h3>Смарт-часы Pulse 4</h3><p class="st">★★★★★ <span>214 отзывов</span></p><p class="pr">64&nbsp;990&nbsp;₸</p><p class="mo">5&nbsp;416&nbsp;₸ × 12 мес</p><button type="button" data-demo-cart>В корзину</button></li>
+        <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&q=75&auto=format&fit=crop" alt="Накладные наушники" loading="lazy"></div><h3>Наушники Studio Pro</h3><p class="st">★★★★★ <span>98 отзывов</span></p><p class="pr">119&nbsp;990&nbsp;₸</p><p class="mo">9&nbsp;999&nbsp;₸ × 12 мес</p><button type="button" data-demo-cart>В корзину</button></li>
+        <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=500&q=75&auto=format&fit=crop" alt="Смартфон" loading="lazy"></div><h3>Смартфон Nova X</h3><p class="st">★★★★☆ <span>341 отзыв</span></p><p class="pr">289&nbsp;990&nbsp;₸</p><p class="mo">24&nbsp;166&nbsp;₸ × 12 мес</p><button type="button" data-demo-cart>В корзину</button></li>
+        <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500&q=75&auto=format&fit=crop" alt="Плёночная камера" loading="lazy"></div><h3>Камера Retro M</h3><p class="st">★★★★★ <span>57 отзывов</span></p><p class="pr">349&nbsp;000&nbsp;₸</p><p class="mo">29&nbsp;083&nbsp;₸ × 12 мес</p><button type="button" data-demo-cart>В корзину</button></li>
+        <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&q=75&auto=format&fit=crop" alt="Тонкий ноутбук" loading="lazy"></div><h3>Ноутбук Air 14</h3><p class="st">★★★★★ <span>126 отзывов</span></p><p class="pr">549&nbsp;990&nbsp;₸</p><p class="mo">45&nbsp;832&nbsp;₸ × 12 мес</p><button type="button" data-demo-cart>В корзину</button></li>
+        <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=500&q=75&auto=format&fit=crop" alt="Беспроводные наушники в кейсе" loading="lazy"><em>−18%</em></div><h3>TWS-наушники Buds Air</h3><p class="st">★★★★★ <span>512 отзывов</span></p><p class="pr">45&nbsp;990&nbsp;₸</p><p class="mo">3&nbsp;832&nbsp;₸ × 12 мес</p><button type="button" data-demo-cart>В корзину</button></li>
+        <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=500&q=75&auto=format&fit=crop" alt="Смартфон на деревянном столе" loading="lazy"></div><h3>Смартфон Nova Lite</h3><p class="st">★★★★☆ <span>188 отзывов</span></p><p class="pr">139&nbsp;990&nbsp;₸</p><p class="mo">11&nbsp;666&nbsp;₸ × 12 мес</p><button type="button" data-demo-cart>В корзину</button></li>
+        <li class="p"><div class="im"><img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500&q=75&auto=format&fit=crop" alt="Ноутбук для работы" loading="lazy"><em>Хит</em></div><h3>Ноутбук Work 15</h3><p class="st">★★★★★ <span>94 отзыва</span></p><p class="pr">389&nbsp;000&nbsp;₸</p><p class="mo">32&nbsp;416&nbsp;₸ × 12 мес</p><button type="button" data-demo-cart>В корзину</button></li>
+      </ul>
+    </section>
+
+    <section class="wrap block" aria-label="Почему VOLT">
+      <ul class="perks">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.2 8 9 4.6-.8 8-4.5 8-9V6l-8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><h3>Официальная гарантия</h3><p>До 2 лет, сервис-центр в Алматы и Астане</p></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg><h3>Доставка завтра</h3><p>Или самовывоз через 2 часа после заказа</p></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h4"/></svg><h3>Рассрочка 0‑0‑12</h3><p>Через Kaspi, без первого взноса</p></li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 12a8 8 0 0 1-14 5.3L4 15"/><path d="M20 4v5h-5M4 20v-5h5"/></svg><h3>Trade-in</h3><p>Сдайте старое устройство — получите скидку</p></li>
+      </ul>
+    </section>
+
+    <section id="trade" class="wrap block" aria-labelledby="trade-title">
+      <div class="trade">
+        <div class="trade-text">
+          <h2 id="trade-title">Обменяйте старый смартфон на скидку до 150&nbsp;000&nbsp;₸</h2>
+          <p>Оценим устройство онлайн, а скидку сразу применим к новой покупке.</p>
+          <ol class="steps"><li>Укажите модель и состояние</li><li>Получите оценку за 10 минут</li><li>Сдайте устройство курьеру при доставке</li></ol>
+          <form aria-label="Оценка устройства для trade-in">
+            <label for="model" class="sr-only">Модель устройства</label>
+            <input id="model" type="text" placeholder="Например, смартфон 2023 года, 128 ГБ" required>
+            <button type="submit" class="buy">Оценить</button>
+          </form>
+        </div>
+        <div class="trade-img"><img src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=900&q=75&auto=format&fit=crop" alt="Рабочее место с ноутбуком и монитором" loading="lazy"></div>
+      </div>
+    </section>
+
+    <section class="wrap block" aria-labelledby="reviews-title">
+      <div class="row-head"><h2 id="reviews-title" class="h2">Отзывы покупателей</h2></div>
+      <ul class="reviews">
+        <li class="review"><span class="st" aria-label="5 из 5">★★★★★</span><p>Заказал ноутбук вечером, привезли на следующий день до обеда. Всё запечатано, гарантия официальная.</p><footer><b>Ерлан</b>, Алматы</footer></li>
+        <li class="review"><span class="st" aria-label="5 из 5">★★★★★</span><p>Сдала старый телефон по trade-in — оценка честная, скидку сразу учли в рассрочке.</p><footer><b>Асель</b>, Астана</footer></li>
+        <li class="review"><span class="st" aria-label="4 из 5">★★★★☆</span><p>Отзывы с фото помогли выбрать наушники за пять минут. Хотелось бы больше цветов.</p><footer><b>Марат</b>, Караганда</footer></li>
+      </ul>
+    </section>
+
+    <section class="wrap block" aria-labelledby="stores-title">
+      <div class="row-head"><h2 id="stores-title" class="h2">Самовывоз через 2 часа</h2></div>
+      <ul class="stores">
+        <li class="store"><div><b>VOLT Абая</b><span>Алматы, пр. Абая</span></div><em>Открыто до 22:00</em></li>
+        <li class="store"><div><b>VOLT Есиль</b><span>Астана, левый берег</span></div><em>Открыто до 22:00</em></li>
+        <li class="store"><div><b>VOLT Центр</b><span>Шымкент, центр города</span></div><em>Открыто до 21:00</em></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="#" class="logo"><i aria-hidden="true"></i>VOLT</a>
+    <div class="foot-cols">
+      <div><h4>Каталог</h4><ul><li><a href="#hits">Смартфоны</a></li><li><a href="#hits">Ноутбуки</a></li><li><a href="#hits">Аудио</a></li></ul></div>
+      <div><h4>Сервис</h4><ul><li><a href="#trade">Trade-in</a></li><li><a href="#">Гарантия</a></li><li><a href="#">Ремонт</a></li></ul></div>
+      <div><h4>Покупателям</h4><ul><li><a href="#">Доставка</a></li><li><a href="#">Рассрочка</a></li><li><a href="#stores-title">Магазины</a></li></ul></div>
+      <div><h4>Оплата</h4><ul><li>Kaspi Pay и рассрочка</li><li>Visa, Mastercard</li><li>Apple Pay, Google Pay</li></ul></div>
+    </div>
+    <div class="legal"><span>© 2026 VOLT</span><span>Демо-концепт магазина электроники</span></div>
+  </footer>
+</body>
+</html>

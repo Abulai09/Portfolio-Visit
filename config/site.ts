@@ -38,6 +38,8 @@ export type PortfolioItem = {
   concept: boolean;
   /** Скриншоты 16:10 (1440×900 @1x/@2x) из public/. Нужны оба размера. */
   image: { small: string; large: string };
+  /** Одностраничное демо из public/demos/ — тогда в карусели появится «Открыть демо». */
+  demo?: `/demos/${string}.html`;
 };
 
 export const site = {
@@ -98,15 +100,60 @@ export const site = {
   } satisfies Record<string, Record<string, Price>>,
 
   portfolio: {
-    luna: { name: 'LUNA', concept: true, image: { small: '/portfolio/luna-960.webp', large: '/portfolio/luna-1600.webp' } },
-    bazar: { name: 'bazar.kz', concept: true, image: { small: '/portfolio/bazar-960.webp', large: '/portfolio/bazar-1600.webp' } },
-    volt: { name: 'VOLT', concept: true, image: { small: '/portfolio/volt-960.webp', large: '/portfolio/volt-1600.webp' } },
-    bloom: { name: 'bloom', concept: true, image: { small: '/portfolio/bloom-960.webp', large: '/portfolio/bloom-1600.webp' } },
-    nordhaus: { name: 'Nordhaus', concept: true, image: { small: '/portfolio/nordhaus-960.webp', large: '/portfolio/nordhaus-1600.webp' } },
-    lumiere: { name: 'Lumière', concept: true, image: { small: '/portfolio/lumiere-960.webp', large: '/portfolio/lumiere-1600.webp' } },
-    dastarkhan: { name: 'dastarkhan', concept: true, image: { small: '/portfolio/dastarkhan-960.webp', large: '/portfolio/dastarkhan-1600.webp' } },
-    qurylys: { name: 'Qurylys Group', concept: true, image: { small: '/portfolio/qurylys-960.webp', large: '/portfolio/qurylys-1600.webp' } },
-    qahua: { name: 'Qahua', concept: true, image: { small: '/portfolio/qahua-960.webp', large: '/portfolio/qahua-1600.webp' } },
+    luna: {
+      name: 'LUNA',
+      concept: true,
+      image: { small: '/portfolio/luna-960.webp', large: '/portfolio/luna-1600.webp' },
+      demo: '/demos/luna.html',
+    },
+    bazar: {
+      name: 'bazar.kz',
+      concept: true,
+      image: { small: '/portfolio/bazar-960.webp', large: '/portfolio/bazar-1600.webp' },
+      demo: '/demos/bazar.html',
+    },
+    volt: {
+      name: 'VOLT',
+      concept: true,
+      image: { small: '/portfolio/volt-960.webp', large: '/portfolio/volt-1600.webp' },
+      demo: '/demos/volt.html',
+    },
+    bloom: {
+      name: 'bloom',
+      concept: true,
+      image: { small: '/portfolio/bloom-960.webp', large: '/portfolio/bloom-1600.webp' },
+      demo: '/demos/bloom.html',
+    },
+    nordhaus: {
+      name: 'Nordhaus',
+      concept: true,
+      image: { small: '/portfolio/nordhaus-960.webp', large: '/portfolio/nordhaus-1600.webp' },
+      demo: '/demos/nordhaus.html',
+    },
+    lumiere: {
+      name: 'Lumière',
+      concept: true,
+      image: { small: '/portfolio/lumiere-960.webp', large: '/portfolio/lumiere-1600.webp' },
+      demo: '/demos/lumiere.html',
+    },
+    dastarkhan: {
+      name: 'dastarkhan',
+      concept: true,
+      image: { small: '/portfolio/dastarkhan-960.webp', large: '/portfolio/dastarkhan-1600.webp' },
+      demo: '/demos/dastarkhan.html',
+    },
+    qurylys: {
+      name: 'Qurylys Group',
+      concept: true,
+      image: { small: '/portfolio/qurylys-960.webp', large: '/portfolio/qurylys-1600.webp' },
+      demo: '/demos/qurylys.html',
+    },
+    qahua: {
+      name: 'Qahua',
+      concept: true,
+      image: { small: '/portfolio/qahua-960.webp', large: '/portfolio/qahua-1600.webp' },
+      demo: '/demos/qahua.html',
+    },
   } satisfies Record<string, PortfolioItem>,
 };
 

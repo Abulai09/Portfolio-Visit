@@ -1,10 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { MacBook } from '@/components/ui/MacBook';
-import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
-import { externalLinkProps } from '@/lib/links';
 
 export type PortfolioSlide = {
   id: string;
@@ -14,12 +12,14 @@ export type PortfolioSlide = {
   concept: boolean;
   small: string;
   large: string;
-  ctaHref: string;
   alt: string;
   /** Подпись слайда для скринридера: «2 из 9: bazar.kz» */
   label: string;
   /** Подпись точки-переключателя */
   dotLabel: string;
+  /** Ссылка на одностраничное демо, если оно есть */
+  demoHref?: string;
+  demoAria: string;
 };
 
 /**
@@ -30,12 +30,12 @@ export type PortfolioSlide = {
 export function PortfolioCarousel({
   slides,
   conceptLabel,
-  ctaLabel,
+  demoLabel,
   labels,
 }: {
   slides: PortfolioSlide[];
   conceptLabel: string;
-  ctaLabel: string;
+  demoLabel: string;
   labels: { slide: string; prev: string; next: string };
 }) {
   const trackRef = useRef<HTMLUListElement>(null);
@@ -104,6 +104,15 @@ export function PortfolioCarousel({
       >
         {slides.map((slide, i) => {
           const isActive = i === active;
+          const laptop = (
+            <MacBook
+              small={slide.small}
+              large={slide.large}
+              alt={slide.alt}
+              sizes="(min-width: 1024px) 62vw, (min-width: 768px) 70vw, 86vw"
+              priority={i === 0}
+            />
+          );
           return (
             <li
               key={slide.id}
@@ -115,15 +124,22 @@ export function PortfolioCarousel({
                 isActive ? 'opacity-100' : 'scale-[0.92] opacity-45'
               }`}
             >
-              <MacBook
-                small={slide.small}
-                large={slide.large}
-                alt={slide.alt}
-                sizes="(min-width: 1024px) 62vw, (min-width: 768px) 70vw, 86vw"
-                priority={i === 0}
-              />
+              {slide.demoHref ? (
+                // Скриншот с демо — ссылка на него; у соседних слайдов ссылка не в порядке Tab
+                <a
+                  href={slide.demoHref}
+                  aria-label={slide.demoAria}
+                  tabIndex={isActive ? undefined : -1}
+                  className="block rounded-[clamp(10px,2.4%,22px)] transition-transform duration-300 hover:-translate-y-1"
+                >
+                  {laptop}
+                </a>
+              ) : (
+                laptop
+              )}
 
-              <div className="mt-6 flex flex-col gap-4 sm:mt-8 sm:flex-row sm:items-end sm:justify-between">
+              {/* Текст, под ним кнопки: слайд узкий (~490px на 1280), две кнопки рядом с текстом сжали бы его в столбик */}
+              <div className="mt-6 flex flex-col gap-5 sm:mt-8">
                 <div>
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                     <h3 className="text-2xl font-extrabold text-white">{slide.name}</h3>
@@ -136,15 +152,16 @@ export function PortfolioCarousel({
                   </div>
                   <p className="mt-2 max-w-md text-white/75">{slide.text}</p>
                 </div>
-                <a
-                  href={slide.ctaHref}
-                  {...externalLinkProps}
-                  // Кнопка только у центрального слайда: у соседей её обрезки торчали бы по краям
-                  className={`${isActive ? '' : 'invisible'} inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-[15px] font-semibold text-night transition-colors hover:bg-coral-soft`}
-                >
-                  <WhatsAppIcon className="size-5 text-whatsapp" />
-                  {ctaLabel}
-                </a>
+                {slide.demoHref && (
+                  <a
+                    href={slide.demoHref}
+                    // Кнопка только у центрального слайда: у соседей её обрезки торчали бы по краям
+                    className={`${isActive ? '' : 'invisible'} inline-flex min-h-10 items-center gap-1.5 self-start rounded-full bg-white px-4 text-sm font-semibold text-night transition-colors hover:bg-coral-soft`}
+                  >
+                    {demoLabel}
+                    <ArrowUpRight className="size-4" aria-hidden="true" />
+                  </a>
+                )}
               </div>
             </li>
           );

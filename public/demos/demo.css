@@ -1,0 +1,124 @@
+/*
+ * Общие стили для всех демо-сайтов: плашка «это демо» сверху и всплывающая подсказка.
+ * Плашка намеренно оформлена системным шрифтом и в цветах основного сайта —
+ * чтобы читалась как «рамка» вокруг демо, а не как часть магазина.
+ */
+
+.demo-bar {
+  position: relative;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 6px 16px;
+  background: #0e0a22;
+  color: #fff;
+  font: 500 14px/1.3 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+.demo-bar__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: auto;
+  min-width: 0;
+}
+
+.demo-bar__dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff5a3c;
+}
+
+.demo-bar__long {
+  display: none;
+  color: rgb(255 255 255 / 0.75);
+}
+
+.demo-bar a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.demo-bar__back {
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.3);
+}
+
+.demo-bar__back:hover {
+  background: rgb(255 255 255 / 0.12);
+}
+
+/* Зелёный WhatsApp затемнён до #15803d, как на основном сайте: белый текст проходит WCAG AA */
+.demo-bar__cta {
+  background: #15803d;
+}
+
+.demo-bar__cta:hover {
+  background: #166534;
+}
+
+.demo-bar a:focus-visible {
+  outline: 2px solid #ff8a73;
+  outline-offset: 2px;
+}
+
+@media (min-width: 720px) {
+  .demo-bar {
+    padding: 6px 24px;
+  }
+
+  .demo-bar__long {
+    display: inline;
+  }
+}
+
+/* На узком экране остаются точка, слово «Демо» и две короткие кнопки */
+@media (max-width: 380px) {
+  .demo-bar {
+    gap: 6px;
+    padding: 6px 10px;
+  }
+
+  .demo-bar a {
+    padding: 0 10px;
+  }
+}
+
+.demo-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 1001;
+  max-width: calc(100% - 32px);
+  padding: 12px 18px;
+  border-radius: 14px;
+  background: #0e0a22;
+  color: #fff;
+  font: 500 15px/1.4 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  box-shadow: 0 12px 32px -12px rgb(0 0 0 / 0.5);
+  transform: translate(-50%, 16px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.demo-toast.is-shown {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .demo-toast {
+    transition: none;
+  }
+}

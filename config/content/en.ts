@@ -133,9 +133,8 @@ export const en = {
     subtitle:
       'Design concepts that show the quality of the work. Your site will be just as polished — in your own brand’s style.',
     conceptLabel: 'Design concept',
-    ctaLabel: 'I want a site like this',
-    ctaMessage: (name, kind) =>
-      `Hello! I liked the “${name}” example (${kind.toLowerCase()}). I’d like a similar website.`,
+    demoLabel: 'Open demo',
+    demoAria: (name) => `Open the ${name} demo site`,
     items: {
       luna: { kind: 'Clothing store', text: 'Collections catalog, lookbook, cart and try-on before payment.' },
       bazar: { kind: 'Marketplace', text: 'Thousands of sellers, ratings, Kaspi installments and a single cart.' },

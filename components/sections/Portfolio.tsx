@@ -1,15 +1,16 @@
 import type { Content } from '@/config/content';
-import { keysOf, site } from '@/config/site';
-import { waLink } from '@/lib/links';
+import { defaultLocale, type Locale } from '@/config/i18n';
+import { keysOf, site, type PortfolioItem } from '@/config/site';
 import { PortfolioCarousel, type PortfolioSlide } from './PortfolioCarousel';
 
-export function Portfolio({ t }: { t: Content }) {
+export function Portfolio({ t, locale }: { t: Content; locale: Locale }) {
   const p = t.portfolio;
 
-  // Ссылки и подписи собираем на сервере: функции из словаря нельзя передать в клиентский компонент
+  // Подписи и ссылки собираем на сервере: функции из словаря нельзя передать в клиентский компонент
   const ids = keysOf(site.portfolio);
   const slides: PortfolioSlide[] = ids.map((id, i) => {
-    const { name, concept, image } = site.portfolio[id];
+    const item: PortfolioItem = site.portfolio[id];
+    const { name, concept, image, demo } = item;
     const { kind, text } = p.items[id];
     return {
       id,
@@ -19,10 +20,12 @@ export function Portfolio({ t }: { t: Content }) {
       concept,
       small: image.small,
       large: image.large,
-      ctaHref: waLink(p.ctaMessage(name, kind)),
       alt: t.ui.slideAlt(name, kind),
       label: t.ui.slideLabel(i + 1, ids.length, name),
       dotLabel: t.ui.showSlide(i + 1, name),
+      // Язык передаём демо, чтобы плашка «это демо» и ссылка назад были на том же языке
+      demoHref: demo && (locale === defaultLocale ? demo : `${demo}?lang=${locale}`),
+      demoAria: p.demoAria(name),
     };
   });
 
@@ -45,7 +48,7 @@ export function Portfolio({ t }: { t: Content }) {
       <PortfolioCarousel
         slides={slides}
         conceptLabel={p.conceptLabel}
-        ctaLabel={p.ctaLabel}
+        demoLabel={p.demoLabel}
         labels={{ slide: t.ui.slide, prev: t.ui.prevSlide, next: t.ui.nextSlide }}
       />
     </section>

@@ -1,5 +1,5 @@
 import { BadgeCheck, ShoppingBag } from 'lucide-react';
-import { site } from '@/config/site';
+import type { Content } from '@/config/content';
 
 /**
  * Иллюстрация в hero (только на десктопе): два окна браузера с примерами сайтов
@@ -22,8 +22,8 @@ function BrowserWindow({ src, url, className }: { src: string; url: string; clas
   );
 }
 
-export function HeroShowcase() {
-  const { launched, orderTitle, orderText } = site.hero.showcase;
+export function HeroShowcase({ showcase }: { showcase: Content['hero']['showcase'] }) {
+  const { launched, orderTitle, orderText } = showcase;
   return (
     <div aria-hidden="true" className="relative hidden h-[480px] lg:block">
       <div className="absolute top-4 right-0 size-[400px] rounded-full bg-coral-soft" />

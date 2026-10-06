@@ -1,5 +1,6 @@
 import { Clock } from 'lucide-react';
-import { site, type Package } from '@/config/site';
+import type { Content } from '@/config/content';
+import { keysOf, site, type PackageData } from '@/config/site';
 import { formatPrice } from '@/lib/format';
 import { Section } from '@/components/ui/Section';
 import { WhatsAppButton } from '@/components/ui/Button';
@@ -9,10 +10,13 @@ import { tones, type Tone } from '@/components/ui/tones';
 // Цвет = уровень пакета: от бирюзового «старта» к янтарному «золотому» Премиуму
 const TIER_TONES: Tone[] = ['teal', 'sky', 'violet', 'amber'];
 
-export function Packages() {
-  const p = site.packages;
-  // Явный тип: у литералов из конфига нет необязательных полей, а у Package — есть
-  const items: readonly Package[] = p.items;
+export function Packages({ t }: { t: Content }) {
+  const p = t.packages;
+  // Цена и «популярный» — общие для всех языков, тексты — из словаря
+  const items = keysOf(site.packages).map((id) => {
+    const shared: PackageData = site.packages[id];
+    return { id, ...shared, ...p.items[id] };
+  });
   return (
     <Section id="packages" title={p.title} subtitle={p.subtitle}>
       <ul className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -35,10 +39,10 @@ export function Packages() {
               <h3 className={`text-2xl font-extrabold ${tone.text}`}>{pkg.name}</h3>
               <p className="mt-2 min-h-12 text-[15px] text-ink-soft">{pkg.audience}</p>
 
-              <p className="mt-5 text-3xl font-extrabold tracking-tight text-ink">{formatPrice(pkg.price)}</p>
+              <p className="mt-5 text-3xl font-extrabold tracking-tight text-ink">{formatPrice(pkg.price, t.price)}</p>
               <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-ink-soft">
                 <Clock className="size-4" aria-hidden="true" />
-                {p.durationLabel}: {pkg.duration}
+                {t.ui.duration}: {pkg.duration}
               </p>
 
               <div className="mt-6 flex-1 border-t border-line pt-6 text-[15px] text-ink">

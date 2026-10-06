@@ -1,46 +1,57 @@
-import { site, type Price } from '@/config/site';
+import type { Content } from '@/config/content';
+import { localePath, type Locale } from '@/config/i18n';
+import { keysOf, site, type Price } from '@/config/site';
 
-// Разметка schema.org Service/Offer для поисковиков. Строится из того же config/site.ts,
+// Разметка schema.org Service/Offer для поисковиков. Строится из того же конфига,
 // поэтому цены в разметке всегда совпадают с ценами на странице.
 
-function offer(name: string, price: Price, description?: string) {
-  const base = { '@type': 'Offer', name, description, priceCurrency: 'KZT', url: site.siteUrl };
-  if (price.amount === null) return base;
-  if (price.from) {
-    return {
-      ...base,
-      priceSpecification: {
-        '@type': 'PriceSpecification',
-        priceCurrency: 'KZT',
-        minPrice: price.amount,
-      },
-    };
-  }
-  return { ...base, price: price.amount };
-}
+export function JsonLd({ t, locale }: { t: Content; locale: Locale }) {
+  const url = new URL(localePath(locale), site.siteUrl).href;
 
-export function JsonLd() {
+  function offer(name: string, price: Price, description?: string) {
+    const base = { '@type': 'Offer', name, description, priceCurrency: 'KZT', url };
+    if (price.amount === null) return base;
+    if (price.from) {
+      return {
+        ...base,
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          priceCurrency: 'KZT',
+          minPrice: price.amount,
+        },
+      };
+    }
+    return { ...base, price: price.amount };
+  }
+
   const data = {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: site.brand.fullTitle,
-    serviceType: 'Разработка сайтов под ключ',
-    description: site.seo.description,
-    url: site.siteUrl,
-    areaServed: { '@type': 'Country', name: 'Казахстан' },
+    name: t.fullTitle,
+    serviceType: t.ui.serviceType,
+    description: t.seo.description,
+    url,
+    inLanguage: locale,
+    areaServed: { '@type': 'Country', name: t.ui.country },
     provider: {
       '@type': 'Person',
-      name: site.brand.name,
+      name: site.brandName,
       email: site.contacts.email,
       telephone: `+${site.contacts.whatsappPhone}`,
     },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: 'Пакеты и типы сайтов',
+      name: t.ui.offerCatalog,
       itemListElement: [
-        ...site.packages.items.map((p) => offer(`Интернет-магазин «${p.name}»`, p.price, p.audience)),
-        offer(site.marketplace.name, site.marketplace.price, site.marketplace.text),
-        ...site.otherSites.items.map((s) => offer(s.name, s.price, s.text)),
+        ...keysOf(site.packages).map((id) => {
+          const pkg = t.packages.items[id];
+          return offer(t.ui.offerPackage(pkg.name), site.packages[id].price, pkg.audience);
+        }),
+        offer(t.marketplace.name, site.marketplacePrice, t.marketplace.text),
+        ...keysOf(site.otherSites).map((id) => {
+          const item = t.otherSites.items[id];
+          return offer(item.name, site.otherSites[id], item.text);
+        }),
       ],
     },
   };

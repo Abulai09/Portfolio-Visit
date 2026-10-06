@@ -1,3 +1,5 @@
+import { getContent } from '@/config/content';
+import type { Locale } from '@/config/i18n';
 import { Header } from '@/components/sections/Header';
 import { Hero } from '@/components/sections/Hero';
 import { Portfolio } from '@/components/sections/Portfolio';
@@ -14,33 +16,36 @@ import { FloatingWhatsApp } from '@/components/sections/FloatingWhatsApp';
 import { RevealObserver } from '@/components/ui/RevealObserver';
 import { JsonLd } from '@/components/JsonLd';
 
-export default function Home() {
+/** Вся страница на одном языке. Секции получают тексты через `t` и не знают, какой это язык. */
+export function HomePage({ locale }: { locale: Locale }) {
+  const t = getContent(locale);
+
   return (
     <>
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-white focus:px-5 focus:py-3 focus:font-semibold focus:shadow-lg"
       >
-        Перейти к содержимому
+        {t.ui.skipLink}
       </a>
-      <Header />
+      <Header t={t} locale={locale} />
       <main id="main">
         <div id="top" />
-        <Hero />
-        <Portfolio />
-        <WhyOwnStore />
-        <Packages />
-        <Marketplace />
-        <OtherSites />
-        <Addons />
-        <Process />
-        <Faq />
-        <Contacts />
+        <Hero t={t} />
+        <Portfolio t={t} />
+        <WhyOwnStore t={t} />
+        <Packages t={t} />
+        <Marketplace t={t} />
+        <OtherSites t={t} />
+        <Addons t={t} />
+        <Process t={t} />
+        <Faq t={t} />
+        <Contacts t={t} />
       </main>
-      <Footer />
-      <FloatingWhatsApp />
+      <Footer t={t} />
+      <FloatingWhatsApp t={t} />
       <RevealObserver />
-      <JsonLd />
+      <JsonLd t={t} locale={locale} />
     </>
   );
 }

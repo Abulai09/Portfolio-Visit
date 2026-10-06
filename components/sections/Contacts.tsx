@@ -1,10 +1,11 @@
 import { Briefcase, Mail, Send } from 'lucide-react';
+import type { Content } from '@/config/content';
 import { site } from '@/config/site';
 import { emailLink, externalLinkProps, telegramLink } from '@/lib/links';
 import { WhatsAppButton } from '@/components/ui/Button';
 
-export function Contacts() {
-  const c = site.finalCta;
+export function Contacts({ t }: { t: Content }) {
+  const c = t.finalCta;
   const secondary = [
     { label: c.telegramLabel, href: telegramLink(), icon: Send, external: true },
     { label: c.emailLabel, href: emailLink(), icon: Mail, external: false },

@@ -1,28 +1,36 @@
-import { site, type PortfolioItem } from '@/config/site';
+import type { Content } from '@/config/content';
+import { keysOf, site } from '@/config/site';
 import { waLink } from '@/lib/links';
 import { PortfolioCarousel, type PortfolioSlide } from './PortfolioCarousel';
 
-export function Portfolio() {
-  const p = site.portfolio;
-  const items: readonly PortfolioItem[] = p.items;
+export function Portfolio({ t }: { t: Content }) {
+  const p = t.portfolio;
 
-  // Ссылки на WhatsApp собираем на сервере: функции из конфига нельзя передать в клиентский компонент
-  const slides: PortfolioSlide[] = items.map((item) => ({
-    id: item.id,
-    name: item.name,
-    kind: item.kind,
-    text: item.text,
-    concept: item.concept,
-    small: item.image.small,
-    large: item.image.large,
-    ctaHref: waLink(p.ctaMessage(item.name, item.kind)),
-  }));
+  // Ссылки и подписи собираем на сервере: функции из словаря нельзя передать в клиентский компонент
+  const ids = keysOf(site.portfolio);
+  const slides: PortfolioSlide[] = ids.map((id, i) => {
+    const { name, concept, image } = site.portfolio[id];
+    const { kind, text } = p.items[id];
+    return {
+      id,
+      name,
+      kind,
+      text,
+      concept,
+      small: image.small,
+      large: image.large,
+      ctaHref: waLink(p.ctaMessage(name, kind)),
+      alt: t.ui.slideAlt(name, kind),
+      label: t.ui.slideLabel(i + 1, ids.length, name),
+      dotLabel: t.ui.showSlide(i + 1, name),
+    };
+  });
 
   return (
     <section
       id="portfolio"
       aria-labelledby="portfolio-title"
-      aria-roledescription="карусель"
+      aria-roledescription={t.ui.carousel}
       className="surface-dark scroll-mt-16 overflow-hidden bg-night py-16 sm:py-24"
     >
       <div className="container-page">
@@ -34,7 +42,12 @@ export function Portfolio() {
         </header>
       </div>
 
-      <PortfolioCarousel slides={slides} conceptLabel={p.conceptLabel} ctaLabel={p.ctaLabel} />
+      <PortfolioCarousel
+        slides={slides}
+        conceptLabel={p.conceptLabel}
+        ctaLabel={p.ctaLabel}
+        labels={{ slide: t.ui.slide, prev: t.ui.prevSlide, next: t.ui.nextSlide }}
+      />
     </section>
   );
 }

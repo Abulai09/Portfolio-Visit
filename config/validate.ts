@@ -42,7 +42,7 @@ export function validateSiteConfig(): void {
     errors.push(`siteUrl: адрес вида 'https://site.kz' без «/» в конце (сейчас '${siteUrl}')`);
   }
 
-  for (const item of site.portfolio.items) {
+  for (const item of Object.values(site.portfolio)) {
     for (const src of [item.image.small, item.image.large]) {
       if (!existsSync(join(process.cwd(), 'public', src))) {
         errors.push(`portfolio «${item.name}»: файл public${src} не найден`);

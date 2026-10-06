@@ -1,10 +1,10 @@
 import { ChevronDown } from 'lucide-react';
-import { site } from '@/config/site';
+import type { Content } from '@/config/content';
 import { Section } from '@/components/ui/Section';
 
 // Аккордеон на нативных <details>/<summary>: работает без JS и доступен с клавиатуры.
-export function Faq() {
-  const f = site.faq;
+export function Faq({ t }: { t: Content }) {
+  const f = t.faq;
   return (
     <Section id="faq" title={f.title}>
       <div className="mx-auto max-w-3xl space-y-3">

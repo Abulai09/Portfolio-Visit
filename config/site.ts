@@ -1,5 +1,6 @@
-// Единственный источник всех текстов, цен и контактов сайта.
-// Меняйте данные здесь — вёрстку трогать не нужно.
+// Данные сайта, одинаковые для всех языков: контакты, цены, скриншоты работ.
+// Тексты на каждом языке лежат в config/content/{ru,kk,en}.ts.
+// Цену меняйте здесь — она сразу поменяется на всех языках.
 // ВНИМАНИЕ: подтверждена только цена «Пробного» (250 000 ₸). Остальные цены черновые.
 
 export type IconName =
@@ -17,36 +18,22 @@ export type IconName =
   | 'calendar-check'
   | 'eye';
 
+/** Единица после цены. Подпись на каждом языке — в `price.units` словаря. */
+export type PriceUnit = 'month' | 'hour' | 'item' | 'language';
+
 export type Price = {
-  /** Сумма в тенге. `null` — цена по ТЗ. */
+  /** Сумма в тенге. `null` — цена по ТЗ (подпись `price.onRequest` из словаря). */
   amount: number | null;
   /** Показывать «от» перед ценой. */
   from?: boolean;
-  /** Подпись вместо цены, если `amount === null`. */
-  label?: string;
-  /** Единица после цены, например «/ мес». */
-  unit?: string;
+  unit?: PriceUnit;
 };
 
-export type Package = {
-  id: string;
-  name: string;
-  audience: string;
-  price: Price;
-  duration: string;
-  popular?: boolean;
-  /** Строка перед списком, например «Всё из «Старт», плюс:». */
-  includesPrevious?: string;
-  features: string[];
-};
+export type PackageData = { price: Price; popular?: boolean };
 
 export type PortfolioItem = {
-  id: string;
+  /** Название бренда — не переводится. */
   name: string;
-  /** Тип сайта: «Магазин одежды», «Маркетплейс»… */
-  kind: string;
-  /** Что внутри — коротко, языком клиента. */
-  text: string;
   /** true — концепт дизайна, а не выполненный заказ. На слайде появится пометка. */
   concept: boolean;
   /** Скриншоты 16:10 (1440×900 @1x/@2x) из public/. Нужны оба размера. */
@@ -54,11 +41,7 @@ export type PortfolioItem = {
 };
 
 export const site = {
-  brand: {
-    name: 'ВАШ.МАГАЗИН',
-    tagline: 'веб-разработка',
-    fullTitle: 'Сайты под ключ: интернет-магазины и маркетплейсы',
-  },
+  brandName: 'ВАШ.МАГАЗИН',
 
   // Адрес сайта после деплоя — нужен для SEO (sitemap, Open Graph, канонический URL).
   siteUrl: 'https://example.kz',
@@ -70,487 +53,69 @@ export const site = {
     portfolioUrl: '#portfolio', // якорь на блок «Примеры сайтов» или внешняя ссылка https://…
   },
 
-  seo: {
-    title: 'Интернет-магазины и маркетплейсы под ключ — от 250 000 ₸ | Разработка сайтов в Казахстане',
-    description:
-      'Разработка интернет-магазинов и маркетплейсов под ключ в Казахстане: дизайн, онлайн-оплата Kaspi, админ-панель, SEO и запуск. Пакеты от 250 000 ₸, запуск от 7 дней. Также лендинги и корпоративные сайты.',
-    ogTitle: 'Интернет-магазины и маркетплейсы под ключ',
-    ogSubtitle: 'Дизайн, разработка, оплата, доставка и запуск. От 250 000 тенге', // без ₸: его нет в шрифте OG-картинки
-  },
-
-  nav: [
-    { label: 'Работы', href: '#portfolio' },
-    { label: 'Магазины', href: '#packages' },
-    { label: 'Маркетплейс', href: '#marketplace' },
-    { label: 'Другие сайты', href: '#other-sites' },
-    { label: 'Как работаем', href: '#process' },
-    { label: 'Контакты', href: '#contacts' },
-  ],
-
-  headerCta: {
-    label: 'Написать в WhatsApp',
-    message: 'Здравствуйте! Хочу обсудить сайт, нужна консультация.',
-  },
-
-  floatingCta: {
-    ariaLabel: 'Написать в WhatsApp',
-    message: 'Здравствуйте! Хочу обсудить сайт, нужна консультация.',
-  },
-
-  hero: {
-    title: 'Интернет-магазины и маркетплейсы под ключ',
-    alsoLine: 'А также лендинги, корпоративные сайты и любые веб-проекты',
-    subtitle:
-      'Быстрый, современный и удобный сайт, который продаёт 24/7. Вы занимаетесь товаром — я беру на себя всё остальное: дизайн, разработку, оплату, доставку и запуск.',
-    badges: [
-      'Свой сайт, а не шаблон',
-      'Онлайн-оплата',
-      'Удобная админ-панель',
-      'Адаптив под телефоны',
-      'SEO с первого дня',
-    ],
-    stats: [
-      { value: 'от 7 дней', label: 'до запуска магазина' },
-      { value: '100%', label: 'сайт и код принадлежат вам' },
-      { value: '1 месяц', label: 'бесплатной поддержки в любом пакете' },
-    ],
-    primaryCta: {
-      label: 'Обсудить проект в WhatsApp',
-      message: 'Здравствуйте! Хочу интернет-магазин, нужна консультация.',
-    },
-    secondaryCta: { label: 'Смотреть пакеты', href: '#packages' },
-    // Иллюстрация справа (только десктоп): подписи на всплывающих карточках
-    showcase: {
-      launched: 'Сайт запущен за 14 дней',
-      orderTitle: 'Новый заказ · 32 900 ₸',
-      orderText: 'Оплачено через Kaspi',
-    },
-  },
-
-  directions: [
-    {
-      icon: 'store',
-      title: 'Интернет-магазин',
-      text: 'Свой магазин с каталогом, корзиной, онлайн-оплатой и админ-панелью.',
-      href: '#packages',
-      linkLabel: 'Пакеты и цены',
-      main: true,
-    },
-    {
-      icon: 'marketplace',
-      title: 'Маркетплейс',
-      text: 'Площадка для многих продавцов: вы зарабатываете на комиссии или подписке.',
-      href: '#marketplace',
-      linkLabel: 'Что входит',
-      main: true,
-    },
-    {
-      icon: 'layout',
-      title: 'Другие сайты под ключ',
-      text: 'Лендинги, визитки, корпоративные сайты, онлайн-запись и веб-сервисы.',
-      href: '#other-sites',
-      linkLabel: 'Типы сайтов',
-      main: false,
-    },
-  ] satisfies { icon: IconName; title: string; text: string; href: string; linkLabel: string; main: boolean }[],
-
-  portfolio: {
-    title: 'Примеры сайтов',
-    subtitle:
-      'Концепты дизайна, которые показывают уровень работы. Ваш сайт будет таким же аккуратным — но в стиле вашего бренда.',
-    conceptLabel: 'Концепт дизайна',
-    ctaLabel: 'Хочу похожий сайт',
-    ctaMessage: (name: string, kind: string) =>
-      `Здравствуйте! Понравился пример «${name}» (${kind.toLowerCase()}). Хочу похожий сайт.`,
-    items: [
-      {
-        id: 'luna',
-        name: 'LUNA',
-        kind: 'Магазин одежды',
-        text: 'Каталог с коллекциями, лукбук, корзина и примерка перед оплатой.',
-        concept: true,
-        image: { small: '/portfolio/luna-960.webp', large: '/portfolio/luna-1600.webp' },
-      },
-      {
-        id: 'bazar',
-        name: 'bazar.kz',
-        kind: 'Маркетплейс',
-        text: 'Тысячи продавцов, рейтинги, рассрочка Kaspi и единая корзина.',
-        concept: true,
-        image: { small: '/portfolio/bazar-960.webp', large: '/portfolio/bazar-1600.webp' },
-      },
-      {
-        id: 'volt',
-        name: 'VOLT',
-        kind: 'Магазин электроники',
-        text: 'Поиск по каталогу, отзывы, промо-баннеры и рассрочка 0‑0‑12.',
-        concept: true,
-        image: { small: '/portfolio/volt-960.webp', large: '/portfolio/volt-1600.webp' },
-      },
-      {
-        id: 'bloom',
-        name: 'bloom',
-        kind: 'Магазин косметики',
-        text: 'Подбор ухода по типу кожи, категории, бестселлеры и отзывы.',
-        concept: true,
-        image: { small: '/portfolio/bloom-960.webp', large: '/portfolio/bloom-1600.webp' },
-      },
-      {
-        id: 'nordhaus',
-        name: 'Nordhaus',
-        kind: 'Магазин мебели',
-        text: 'Каталог по комнатам, рассрочка, запись в шоурум и примерка в интерьере.',
-        concept: true,
-        image: { small: '/portfolio/nordhaus-960.webp', large: '/portfolio/nordhaus-1600.webp' },
-      },
-      {
-        id: 'lumiere',
-        name: 'Lumière',
-        kind: 'Салон с онлайн-записью',
-        text: 'Выбор услуги, мастера и времени — подтверждение приходит в WhatsApp.',
-        concept: true,
-        image: { small: '/portfolio/lumiere-960.webp', large: '/portfolio/lumiere-1600.webp' },
-      },
-      {
-        id: 'dastarkhan',
-        name: 'dastarkhan',
-        kind: 'Доставка еды',
-        text: 'Меню с категориями, корзина в один клик, адрес и время доставки.',
-        concept: true,
-        image: { small: '/portfolio/dastarkhan-960.webp', large: '/portfolio/dastarkhan-1600.webp' },
-      },
-      {
-        id: 'qurylys',
-        name: 'Qurylys Group',
-        kind: 'Корпоративный сайт',
-        text: 'Проекты компании, цифры, услуги и заявка на тендер.',
-        concept: true,
-        image: { small: '/portfolio/qurylys-960.webp', large: '/portfolio/qurylys-1600.webp' },
-      },
-      {
-        id: 'qahua',
-        name: 'Qahua',
-        kind: 'Лендинг',
-        text: 'Продающая страница обжарщика: сорта, подписка и заказ в 2 клика.',
-        concept: true,
-        image: { small: '/portfolio/qahua-960.webp', large: '/portfolio/qahua-1600.webp' },
-      },
-    ] satisfies PortfolioItem[],
-  },
-
-  whyOwnStore: {
-    title: 'Почему свой магазин',
-    subtitle: 'Маркетплейс — хороший старт, но свой сайт работает на ваш бренд и вашу прибыль.',
-    items: [
-      {
-        icon: 'wallet',
-        title: 'Без комиссий маркетплейса',
-        text: 'Вся выручка остаётся у вас, цены и акции устанавливаете вы сами.',
-      },
-      {
-        icon: 'users',
-        title: 'Своя база клиентов',
-        text: 'Контакты покупателей, история заказов, повторные продажи и рассылки.',
-      },
-      {
-        icon: 'zap',
-        title: 'Быстрая загрузка',
-        text: 'Страницы открываются за доли секунды.',
-      },
-      {
-        icon: 'smartphone',
-        title: 'Удобно с телефона',
-        text: 'Более 80% покупок делают со смартфона.',
-      },
-      {
-        icon: 'settings',
-        title: 'Простое управление',
-        text: 'Добавляйте товары, меняйте цены и обрабатывайте заказы без программиста.',
-      },
-      {
-        icon: 'search',
-        title: 'Находят в Google и Яндекс',
-        text: 'Правильная SEO-структура приводит бесплатный трафик.',
-      },
-    ] satisfies { icon: IconName; title: string; text: string }[],
-  },
-
+  // Порядок ключей = порядок карточек на странице
   packages: {
-    title: 'Пакеты интернет-магазина',
-    subtitle: 'Выберите пакет под свой бизнес — начать можно с малого и расширяться по мере роста.',
-    popularBadge: 'ПОПУЛЯРНЫЙ',
-    durationLabel: 'Срок',
-    ctaLabel: (name: string) => `Выбрать «${name}»`,
-    ctaMessage: (name: string) =>
-      `Здравствуйте! Хочу интернет-магазин, пакет «${name}». Расскажите подробнее.`,
-    items: [
-      {
-        id: 'trial',
-        name: 'Пробный',
-        audience: 'Чтобы быстро и недорого начать продавать онлайн.',
-        price: { amount: 250_000 },
-        duration: '7–10 дней',
-        features: [
-          'Готовый дизайн в цветах вашего бренда',
-          'Каталог до 20 товаров',
-          'Наполнение 20 товаров бесплатно',
-          'Корзина и оформление заказа',
-          'Заказы приходят в WhatsApp',
-          'Кнопка «Написать в WhatsApp» на сайте',
-          'Адаптив под телефоны',
-          'Подключение домена и SSL',
-          'QR-код на магазин для визиток и упаковки',
-          'Поддержка 1 месяц',
-        ],
-      },
-      {
-        id: 'start',
-        name: 'Старт',
-        audience: 'Для начинающих продавцов и небольшого ассортимента.',
-        price: { amount: 350_000 },
-        duration: '14 дней',
-        features: [
-          'Дизайн на основе готовой системы под ваш бренд',
-          'Каталог до 100 товаров',
-          'Карточки товаров с фото и описанием',
-          'Корзина и оформление заказа',
-          'Заявки в WhatsApp / Telegram и на почту',
-          'Админ-панель: товары и заказы',
-          'Адаптив под телефоны и планшеты',
-          'Базовое SEO и подключение домена',
-          'Поддержка 1 месяц',
-        ],
-      },
-      {
-        id: 'business',
-        name: 'Бизнес',
-        audience: 'Для действующего бизнеса, который хочет продавать онлайн.',
-        price: { amount: 650_000 },
-        duration: '21–30 дней',
-        popular: true,
-        includesPrevious: 'Всё из «Старт», плюс:',
-        features: [
-          'Индивидуальный дизайн',
-          'Неограниченный каталог',
-          'Фильтры, поиск, сортировка',
-          'Онлайн-оплата (Kaspi, банковские карты)',
-          'Личный кабинет и история заказов',
-          'Промокоды и скидки',
-          'Расчёт доставки и самовывоз',
-          'Поддержка 1 месяц',
-        ],
-      },
-      {
-        id: 'premium',
-        name: 'Премиум',
-        audience: 'Для крупных магазинов, сетей и высокой нагрузки.',
-        price: { amount: 1_200_000, from: true },
-        duration: '30–45 дней',
-        includesPrevious: 'Всё из «Бизнес», плюс:',
-        features: [
-          'Мощная серверная часть для больших каталогов',
-          'Быстрая работа даже при большой нагрузке',
-          'Роли сотрудников в админ-панели',
-          'Мультиязычность (рус / каз / англ)',
-          'Отчёты по продажам',
-          'Поддержка 1 месяц',
-        ],
-      },
-    ] satisfies Package[],
-    notes: [
-      'Хостинг и домен оплачиваются отдельно (обычно 5 000–15 000 ₸ в месяц) — помогу выбрать и всё настрою.',
-      'Наполнение товарами бесплатно только в «Пробном», в остальных пакетах — дополнительная услуга.',
-      'Бесплатная поддержка 1 месяц входит в любой пакет.',
-      'Все цены указаны в тенге.',
-    ],
-  },
+    trial: { price: { amount: 250_000 } },
+    start: { price: { amount: 350_000 } },
+    business: { price: { amount: 650_000 }, popular: true },
+    premium: { price: { amount: 1_200_000, from: true } },
+  } satisfies Record<string, PackageData>,
 
-  marketplace: {
-    eyebrow: 'Маркетплейс под ключ',
-    title: 'Своя площадка, где продают сотни продавцов',
-    text: 'Маркетплейс — это площадка, где много продавцов продают свои товары, а владелец зарабатывает на комиссии с продаж или подписке.',
-    name: 'Маркетплейс',
-    price: { amount: 2_500_000, from: true } satisfies Price,
-    duration: 'от 45 дней',
-    features: [
-      'Регистрация и личные кабинеты продавцов',
-      'Модерация продавцов и товаров',
-      'Общий каталог с фильтрами и поиском',
-      'Корзина с товарами разных продавцов',
-      'Онлайн-оплата (Kaspi, карты) и расчёт комиссии площадки',
-      'Выплаты и отчёты продавцам',
-      'Отзывы и рейтинги продавцов',
-      'Админ-панель владельца площадки',
-      'Надёжная работа при большом числе продавцов и покупателей',
-      'Поддержка 1 месяц',
-    ],
-    cta: {
-      label: 'Обсудить маркетплейс',
-      message: 'Здравствуйте! Хочу маркетплейс под ключ, расскажите подробнее.',
-    },
-  },
+  marketplacePrice: { amount: 2_500_000, from: true } satisfies Price,
 
   otherSites: {
-    title: 'Другие сайты под ключ',
-    subtitle: 'Не только торговля — делаю сайты для услуг, компаний и любых задач.',
-    ctaLabel: 'Обсудить',
-    ctaMessage: (name: string) => `Здравствуйте! Хочу сайт: ${name}. Расскажите подробнее.`,
-    items: [
-      {
-        name: 'Лендинг',
-        text: 'Одностраничный сайт для услуги или товара.',
-        price: { amount: 120_000, from: true },
-        duration: '5–7 дней',
-      },
-      {
-        name: 'Сайт-визитка / портфолио',
-        text: 'Расскажет о вас и ваших работах, приведёт клиентов.',
-        price: { amount: 150_000, from: true },
-        duration: '7–10 дней',
-      },
-      {
-        name: 'Корпоративный сайт компании',
-        text: 'Многостраничный сайт с услугами, новостями и контактами.',
-        price: { amount: 300_000, from: true },
-        duration: '14–21 день',
-      },
-      {
-        name: 'Сайт с онлайн-записью',
-        text: 'Для салонов, клиник и сервисов: клиенты записываются сами.',
-        price: { amount: 350_000, from: true },
-        duration: '14–21 день',
-      },
-      {
-        name: 'Веб-сервис / личный кабинет / CRM',
-        text: 'Решение под вашу задачу и процессы бизнеса.',
-        price: { amount: null, label: 'Цена по ТЗ' },
-        duration: 'Срок по ТЗ',
-      },
-    ] satisfies { name: string; text: string; price: Price; duration: string }[],
-    footnote: 'Не нашли свой вариант? Напишите — сделаю любой сайт под вашу задачу.',
-    footnoteCta: {
-      label: 'Написать',
-      message: 'Здравствуйте! Хочу сайт под свою задачу, расскажу подробнее.',
-    },
-  },
+    landing: { amount: 120_000, from: true },
+    portfolio: { amount: 150_000, from: true },
+    corporate: { amount: 300_000, from: true },
+    booking: { amount: 350_000, from: true },
+    webService: { amount: null },
+  } satisfies Record<string, Price>,
 
   addons: {
-    title: 'Дополнительные функции',
-    subtitle: 'Подключаются к любому пакету — платите только за то, что нужно.',
-    groups: [
-      {
-        title: 'Продажи и оплата',
-        items: [
-          { name: 'Онлайн-оплата (Kaspi Pay, карты, рассрочка) для «Старт»', price: { amount: 60_000 } },
-          { name: 'Программа лояльности', price: { amount: 90_000 } },
-          { name: 'Брошенные корзины', price: { amount: 45_000 } },
-          { name: 'Отзывы и рейтинг товаров', price: { amount: 35_000 } },
-        ],
-      },
-      {
-        title: 'Интеграции',
-        items: [
-          { name: '1С / МойСклад', price: { amount: 150_000, from: true } },
-          { name: 'Службы доставки (Казпочта, СДЭК)', price: { amount: 70_000 } },
-          { name: 'Telegram-бот для заказов', price: { amount: 80_000 } },
-          { name: 'CRM (amoCRM, Bitrix24)', price: { amount: 90_000, from: true } },
-          { name: 'Выгрузка на Kaspi.kz (XML-фид)', price: { amount: 70_000 } },
-        ],
-      },
-      {
-        title: 'Сайт и контент',
-        items: [
-          { name: 'Мультиязычность', price: { amount: 60_000, unit: 'за язык' } },
-          { name: 'Блог / новости', price: { amount: 40_000 } },
-          { name: 'Наполнение товарами', price: { amount: 300, unit: '/ товар' } },
-          { name: 'Мобильное приложение (PWA)', price: { amount: 150_000, from: true } },
-        ],
-      },
-      {
-        title: 'Поддержка',
-        items: [
-          { name: 'Техническая поддержка', price: { amount: 30_000, unit: '/ мес' } },
-          { name: 'Доработки по запросу', price: { amount: 8_000, unit: '/ час' } },
-        ],
-      },
-    ] satisfies { title: string; items: { name: string; price: Price }[] }[],
-  },
+    sales: {
+      payments: { amount: 60_000 },
+      loyalty: { amount: 90_000 },
+      abandonedCarts: { amount: 45_000 },
+      reviews: { amount: 35_000 },
+    },
+    integrations: {
+      accounting: { amount: 150_000, from: true },
+      delivery: { amount: 70_000 },
+      telegramBot: { amount: 80_000 },
+      crm: { amount: 90_000, from: true },
+      kaspiFeed: { amount: 70_000 },
+    },
+    content: {
+      multilingual: { amount: 60_000, unit: 'language' },
+      blog: { amount: 40_000 },
+      catalogFilling: { amount: 300, unit: 'item' },
+      pwa: { amount: 150_000, from: true },
+    },
+    support: {
+      techSupport: { amount: 30_000, unit: 'month' },
+      changes: { amount: 8_000, unit: 'hour' },
+    },
+  } satisfies Record<string, Record<string, Price>>,
 
-  process: {
-    title: 'Как мы работаем',
-    subtitle: 'Прозрачно и по договору: вы всегда знаете, что происходит с проектом.',
-    steps: [
-      { title: 'Знакомство и бриф', duration: '1 день' },
-      { title: 'Договор и предоплата', duration: '1 день' },
-      { title: 'Дизайн', duration: '3–7 дней' },
-      { title: 'Разработка', duration: '7–30 дней' },
-      { title: 'Тестирование и обучение', duration: '2–3 дня' },
-      { title: 'Запуск и поддержка', duration: '1 день' },
-    ],
-    paymentTitle: 'Оплата частями',
-    payments: [
-      { percent: '50%', text: 'после подписания договора' },
-      { percent: '30%', text: 'после согласования дизайна' },
-      { percent: '20%', text: 'после запуска' },
-    ],
-    guaranteesTitle: 'Гарантии',
-    guarantees: [
-      { icon: 'badge-check', title: 'Код и сайт — ваши', text: 'Передаю все доступы и исходники.' },
-      { icon: 'file-signature', title: 'Фиксированная цена', text: 'Стоимость закреплена в договоре.' },
-      { icon: 'calendar-check', title: 'Сроки в договоре', text: 'Вы точно знаете дату запуска.' },
-      { icon: 'eye', title: 'Регулярно показываю прогресс', text: 'Видите результат на каждом этапе.' },
-    ] satisfies { icon: IconName; title: string; text: string }[],
-  },
-
-  faq: {
-    title: 'Частые вопросы',
-    items: [
-      {
-        q: 'Сколько стоит хостинг?',
-        a: 'Обычно 5 000–15 000 ₸ в месяц вместе с доменом. Оплачивается отдельно — помогу выбрать и всё настрою.',
-      },
-      {
-        q: 'Можно ли начать с «Пробного» и потом расшириться?',
-        a: 'Да. Можно стартовать с «Пробного», а затем перейти на старший пакет или подключить отдельные функции — сайт дорабатывается, а не делается заново.',
-      },
-      {
-        q: 'Чем свой магазин лучше маркетплейса?',
-        a: 'Нет комиссий с продаж, вы сами управляете ценами и акциями, а контакты покупателей остаются у вас для повторных продаж.',
-      },
-      {
-        q: 'Смогу ли я сам добавлять товары?',
-        a: 'Да, начиная с пакета «Старт» есть админ-панель: товары, цены и заказы меняете сами, без программиста. После запуска покажу, как всё работает.',
-      },
-      {
-        q: 'Что если нужны правки после запуска?',
-        a: 'Первый месяц поддержка бесплатная в любом пакете. Дальше — техподдержка 30 000 ₸ в месяц или разовые доработки 8 000 ₸ в час.',
-      },
-      {
-        q: 'Принимаете ли Kaspi?',
-        a: 'Да. Онлайн-оплата через Kaspi и банковские карты входит в пакеты «Бизнес» и «Премиум», а к «Старт» подключается отдельно за 60 000 ₸.',
-      },
-      {
-        q: 'Чем маркетплейс отличается от интернет-магазина?',
-        a: 'В интернет-магазине продаёте только вы. На маркетплейсе товары продают много продавцов, а вы как владелец площадки зарабатываете на комиссии или подписке.',
-      },
-      {
-        q: 'Делаете ли вы сайты не для торговли?',
-        a: 'Да: лендинги, визитки, корпоративные сайты, онлайн-запись, личные кабинеты и CRM. Напишите задачу — подберу решение.',
-      },
-    ],
-  },
-
-  finalCta: {
-    title: 'Готовы запустить свой магазин, маркетплейс или сайт?',
-    text: 'Напишите мне — бесплатно проконсультирую, подберу пакет и рассчитаю точную стоимость под ваш бизнес.',
-    whatsappLabel: 'Написать в WhatsApp',
-    whatsappMessage: 'Здравствуйте! Хочу обсудить сайт, нужна консультация.',
-    telegramLabel: 'Telegram',
-    emailLabel: 'Email',
-    portfolioLabel: 'Портфолио',
-  },
-
-  footer: {
-    text: 'Сайты под ключ: интернет-магазины и маркетплейсы',
-  },
+  portfolio: {
+    luna: { name: 'LUNA', concept: true, image: { small: '/portfolio/luna-960.webp', large: '/portfolio/luna-1600.webp' } },
+    bazar: { name: 'bazar.kz', concept: true, image: { small: '/portfolio/bazar-960.webp', large: '/portfolio/bazar-1600.webp' } },
+    volt: { name: 'VOLT', concept: true, image: { small: '/portfolio/volt-960.webp', large: '/portfolio/volt-1600.webp' } },
+    bloom: { name: 'bloom', concept: true, image: { small: '/portfolio/bloom-960.webp', large: '/portfolio/bloom-1600.webp' } },
+    nordhaus: { name: 'Nordhaus', concept: true, image: { small: '/portfolio/nordhaus-960.webp', large: '/portfolio/nordhaus-1600.webp' } },
+    lumiere: { name: 'Lumière', concept: true, image: { small: '/portfolio/lumiere-960.webp', large: '/portfolio/lumiere-1600.webp' } },
+    dastarkhan: { name: 'dastarkhan', concept: true, image: { small: '/portfolio/dastarkhan-960.webp', large: '/portfolio/dastarkhan-1600.webp' } },
+    qurylys: { name: 'Qurylys Group', concept: true, image: { small: '/portfolio/qurylys-960.webp', large: '/portfolio/qurylys-1600.webp' } },
+    qahua: { name: 'Qahua', concept: true, image: { small: '/portfolio/qahua-960.webp', large: '/portfolio/qahua-1600.webp' } },
+  } satisfies Record<string, PortfolioItem>,
 };
+
+export type PackageId = keyof typeof site.packages;
+export type OtherSiteId = keyof typeof site.otherSites;
+export type AddonGroupId = keyof typeof site.addons;
+export type PortfolioId = keyof typeof site.portfolio;
+
+/** Ключи объекта в порядке объявления, с точным типом (Object.keys возвращает string[]). */
+export function keysOf<T extends object>(obj: T): (keyof T & string)[] {
+  return Object.keys(obj) as (keyof T & string)[];
+}

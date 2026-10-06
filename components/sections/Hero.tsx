@@ -1,5 +1,5 @@
 import { ArrowRight, Check } from 'lucide-react';
-import { site } from '@/config/site';
+import type { Content } from '@/config/content';
 import { WhatsAppButton, buttonClass } from '@/components/ui/Button';
 import { IconBadge } from '@/components/ui/Icon';
 import { HeroShowcase } from './HeroShowcase';
@@ -8,8 +8,8 @@ import { tones, type Tone } from '@/components/ui/tones';
 const STAT_TONES: Tone[] = ['coral', 'violet', 'teal'];
 const DIRECTION_TONES: Tone[] = ['violet', 'coral', 'teal'];
 
-export function Hero() {
-  const { hero, directions } = site;
+export function Hero({ t }: { t: Content }) {
+  const { hero, directions } = t;
   return (
     <section aria-labelledby="hero-title" className="relative overflow-hidden">
       <div aria-hidden="true" className="aurora pointer-events-none absolute inset-0" />
@@ -35,7 +35,7 @@ export function Hero() {
               </a>
             </div>
 
-            <ul className="mt-6 flex flex-wrap gap-2" aria-label="Что вы получаете">
+            <ul className="mt-6 flex flex-wrap gap-2" aria-label={t.ui.heroBadgesLabel}>
               {hero.badges.map((badge) => (
                 <li
                   key={badge}
@@ -47,7 +47,7 @@ export function Hero() {
               ))}
             </ul>
           </div>
-          <HeroShowcase />
+          <HeroShowcase showcase={hero.showcase} />
         </div>
 
         <dl className="mt-12 grid gap-4 sm:grid-cols-3">
@@ -74,7 +74,7 @@ export function Hero() {
                   <IconBadge name={d.icon} size="lg" tone={DIRECTION_TONES[i % DIRECTION_TONES.length]} />
                   {d.main && (
                     <span className="rounded-full bg-coral-soft px-3 py-1 text-xs font-bold text-coral-ink">
-                      Основное
+                      {t.ui.mainBadge}
                     </span>
                   )}
                 </div>

@@ -1,4 +1,4 @@
-import { site } from '@/config/site';
+import type { Content } from '@/config/content';
 import { Section } from '@/components/ui/Section';
 import { FeatureCards } from './FeatureCards';
 import { SEQUENCE_RAMP, tones, type Tone } from '@/components/ui/tones';
@@ -6,8 +6,8 @@ import { SEQUENCE_RAMP, tones, type Tone } from '@/components/ui/tones';
 // Цвет доли оплаты: первая крупная — фиолетовый, дальше коралл и бирюза
 const PAYMENT_TONES: Tone[] = ['violet', 'coral', 'teal'];
 
-export function Process() {
-  const p = site.process;
+export function Process({ t }: { t: Content }) {
+  const p = t.process;
   return (
     <Section id="process" title={p.title} subtitle={p.subtitle} surface="cool">
       <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -23,7 +23,7 @@ export function Process() {
             </span>
             <div>
               <h3 className="font-bold text-ink">
-                <span className="sr-only">Шаг {i + 1}. </span>
+                <span className="sr-only">{t.ui.step(i + 1)} </span>
                 {step.title}
               </h3>
               <p className="mt-0.5 text-sm font-semibold text-ink-soft">{step.duration}</p>

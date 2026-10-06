@@ -15,6 +15,11 @@ export type PortfolioSlide = {
   small: string;
   large: string;
   ctaHref: string;
+  alt: string;
+  /** Подпись слайда для скринридера: «2 из 9: bazar.kz» */
+  label: string;
+  /** Подпись точки-переключателя */
+  dotLabel: string;
 };
 
 /**
@@ -26,10 +31,12 @@ export function PortfolioCarousel({
   slides,
   conceptLabel,
   ctaLabel,
+  labels,
 }: {
   slides: PortfolioSlide[];
   conceptLabel: string;
   ctaLabel: string;
+  labels: { slide: string; prev: string; next: string };
 }) {
   const trackRef = useRef<HTMLUListElement>(null);
   const [active, setActive] = useState(0);
@@ -102,8 +109,8 @@ export function PortfolioCarousel({
               key={slide.id}
               data-index={i}
               role="group"
-              aria-roledescription="слайд"
-              aria-label={`${i + 1} из ${slides.length}: ${slide.name}`}
+              aria-roledescription={labels.slide}
+              aria-label={slide.label}
               className={`w-[86%] shrink-0 snap-center transition-[opacity,transform] duration-300 ease-out md:w-[70%] lg:w-[62%] ${
                 isActive ? 'opacity-100' : 'scale-[0.92] opacity-45'
               }`}
@@ -111,7 +118,7 @@ export function PortfolioCarousel({
               <MacBook
                 small={slide.small}
                 large={slide.large}
-                alt={`Главная страница сайта ${slide.name} — ${slide.kind.toLowerCase()}`}
+                alt={slide.alt}
                 sizes="(min-width: 1024px) 62vw, (min-width: 768px) 70vw, 86vw"
                 priority={i === 0}
               />
@@ -148,7 +155,7 @@ export function PortfolioCarousel({
         <button
           type="button"
           onClick={() => goTo(active - 1)}
-          aria-label="Предыдущий пример"
+          aria-label={labels.prev}
           className="inline-flex size-12 items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/20 transition-colors hover:bg-white/20"
         >
           <ChevronLeft className="size-6" aria-hidden="true" />
@@ -165,7 +172,7 @@ export function PortfolioCarousel({
               key={slide.id}
               type="button"
               onClick={() => goTo(i)}
-              aria-label={`Показать пример ${i + 1}: ${slide.name}`}
+              aria-label={slide.dotLabel}
               aria-current={i === active ? 'true' : undefined}
               className="group inline-flex size-11 items-center justify-center"
             >
@@ -181,7 +188,7 @@ export function PortfolioCarousel({
         <button
           type="button"
           onClick={() => goTo(active + 1)}
-          aria-label="Следующий пример"
+          aria-label={labels.next}
           className="inline-flex size-12 items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/20 transition-colors hover:bg-white/20"
         >
           <ChevronRight className="size-6" aria-hidden="true" />

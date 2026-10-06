@@ -1,11 +1,12 @@
 import { Clock } from 'lucide-react';
+import type { Content } from '@/config/content';
 import { site } from '@/config/site';
 import { formatPrice } from '@/lib/format';
 import { WhatsAppButton } from '@/components/ui/Button';
 import { CheckList } from '@/components/ui/CheckList';
 
-export function Marketplace() {
-  const m = site.marketplace;
+export function Marketplace({ t }: { t: Content }) {
+  const m = t.marketplace;
   return (
     <section id="marketplace" aria-labelledby="marketplace-title" className="scroll-mt-20 py-16 sm:py-24">
       <div className="container-page">
@@ -24,10 +25,10 @@ export function Marketplace() {
 
               <div className="mt-8 rounded-2xl bg-white/10 p-6 ring-1 ring-white/20">
                 <p className="text-lg font-bold">{m.name}</p>
-                <p className="mt-1 text-4xl font-extrabold tracking-tight text-coral-light">{formatPrice(m.price)}</p>
+                <p className="mt-1 text-4xl font-extrabold tracking-tight text-coral-light">{formatPrice(site.marketplacePrice, t.price)}</p>
                 <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-white/80">
                   <Clock className="size-4" aria-hidden="true" />
-                  Срок: {m.duration}
+                  {t.ui.duration}: {m.duration}
                 </p>
               </div>
 
@@ -41,7 +42,7 @@ export function Marketplace() {
             </div>
 
             <div className="text-[15px] sm:text-base">
-              <p className="mb-5 font-bold text-white/90">Что входит:</p>
+              <p className="mb-5 font-bold text-white/90">{t.ui.included}</p>
               <CheckList items={m.features} inverted />
             </div>
           </div>

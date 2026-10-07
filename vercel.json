@@ -1,5 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/demos/:name([a-z0-9-]+)\\.html",
+      "destination": "/demos/:name"
+    }
+  ],
   "headers": [
     {
       "source": "/((?!demos/).*)",

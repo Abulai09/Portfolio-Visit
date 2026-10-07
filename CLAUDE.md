@@ -43,6 +43,7 @@ There is no test suite.
 ## Gotchas
 
 - Don't put `hidden` together with `inline-flex` on the same element (the `buttonClass` styles include `inline-flex`), because `inline-flex` wins. Wrap the element in a `hidden sm:block` container instead.
+- On Vercel, `public/demos/*.html` are served only without the extension (`/demos/bloom.html` is a 404, `/demos/bloom` works), while `next dev` serves them only with it. Links keep `.html`, and a `rewrites` rule in `vercel.json` maps `/demos/<name>.html` to `/demos/<name>`. Keep it when editing `vercel.json`, and after a deploy check a demo URL with `.html`.
 - Manrope has no ₸ glyph. On the page, the browser falls back to the system font for it. In the OG image (Satori), ₸ breaks rendering, so `seo.ogSubtitle` writes «тенге» instead. The OG fonts are `.woff` files from `@fontsource/manrope`, because Satori can't read woff2.
 - OG image files are exported without an extension (`/opengraph-image-<hash>` for Russian, because it lives in a route group, plus `/kk/opengraph-image` and `/en/opengraph-image`), so `vercel.json` sets `Content-Type: image/png` for `/(.*)opengraph-image(.*)`. On other hosts, configure the same header or link previews break.
 - Kazakh letters (ә, ғ, қ, ң, ө, ү, һ) are in Manrope's `cyrillic-ext` subset. On the page `next/font` loads it through `unicode-range`; the OG image must load `manrope-cyrillic-ext-800-normal.woff` explicitly.

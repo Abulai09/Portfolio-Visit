@@ -2,7 +2,7 @@
 // Тексты на каждом языке лежат в config/content/{ru,kk,en}.ts.
 // Цену меняйте здесь — она сразу поменяется на всех языках.
 // Цены пакетов, маркетплейса, веб-приложения, сайтов и большинства доп. функций задал владелец 07.10.2026.
-// Черновые (не подтверждены): «Премиум», лояльность, брошенные корзины, отзывы, доставка, CRM-интеграция,
+// Черновые (не подтверждены): «Премиум», отзывы, доставка, CRM-интеграция,
 // выгрузка на Kaspi и тарифы поддержки.
 
 export type IconName =
@@ -79,8 +79,6 @@ export const site = {
     portfolio: { amount: 150_000, from: true },
     corporate: { amount: 300_000, from: true },
     crm: { amount: 900_000, from: true },
-    cabinet: { amount: 200_000, from: true },
-    dashboard: { amount: 300_000, from: true },
     webService: { amount: 2_000_000, from: true },
   } satisfies Record<string, Price>,
 
@@ -97,8 +95,6 @@ export const site = {
   addons: {
     sales: {
       payments: { amount: 100_000 },
-      loyalty: { amount: 90_000 },
-      abandonedCarts: { amount: 45_000 },
       reviews: { amount: 35_000 },
     },
     integrations: {

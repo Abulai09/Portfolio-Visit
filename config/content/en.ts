@@ -122,7 +122,7 @@ export const en = {
     {
       icon: 'layout',
       title: 'Websites & services',
-      text: 'Online booking sites, landing pages, company websites, CRMs and client portals.',
+      text: 'Online booking sites, landing pages, company websites and business CRMs.',
       href: '#other-sites',
       linkLabel: 'Types and prices',
       main: false,
@@ -175,7 +175,7 @@ export const en = {
         duration: '14 days',
         features: [
           'Design based on a ready-made system, tailored to your brand',
-          'Catalog of up to 20 products',
+          'Catalog of up to 40 products',
           'Admin panel: products and orders',
           'Online payments with Kaspi and bank cards',
           'Orders arrive in WhatsApp / Telegram',
@@ -339,7 +339,7 @@ export const en = {
 
   otherSites: {
     title: 'Other websites and services',
-    subtitle: 'Websites for services and companies, plus ready-made business modules: CRMs, client portals and reports.',
+    subtitle: 'Websites for services and companies, plus CRMs and web services for business.',
     ctaLabel: 'Discuss',
     ctaMessage: (name) => `Hello! I’m interested in “${name}”. Could you tell me more?`,
     items: {
@@ -348,8 +348,6 @@ export const en = {
       portfolio: { name: 'Business card / portfolio site', text: 'Tells people about you and your work, and brings in clients.', duration: '7–10 days' },
       corporate: { name: 'Company website', text: 'A multi-page site with services, news and contacts.', duration: '14–21 days' },
       crm: { name: 'CRM for your business', text: 'Clients, deals, tasks and reports in one system built around your processes.', duration: 'Timeline per brief' },
-      cabinet: { name: 'Client portal for an existing site', text: 'Clients see their orders, statuses, documents and rewards themselves — no calls to a manager.', duration: 'Timeline per brief' },
-      dashboard: { name: 'Admin panel / reporting dashboard', text: 'Sales, orders and key business metrics on one screen.', duration: 'Timeline per brief' },
       webService: { name: 'Web service / SaaS / LMS', text: 'A subscription online service (SaaS) or a learning platform (LMS). Priced per brief.', duration: 'Timeline per brief' },
     },
     footnote: 'Don’t see what you need? Message me — I’ll find a solution for your task.',
@@ -367,8 +365,6 @@ export const en = {
         title: 'Sales and payments',
         items: {
           payments: 'Online payments (Kaspi Pay, cards, installments)',
-          loyalty: 'Loyalty program',
-          abandonedCarts: 'Abandoned cart recovery',
           reviews: 'Product reviews and ratings',
         },
       },

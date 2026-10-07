@@ -43,7 +43,7 @@ export type PortfolioItem = {
 };
 
 export const site = {
-  brandName: 'ВАШ.МАГАЗИН',
+  brandName: 'Rakhat dev',
 
   // Адрес сайта после деплоя — нужен для SEO (sitemap, Open Graph, канонический URL).
   siteUrl: 'https://example.kz',

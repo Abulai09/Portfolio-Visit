@@ -6,6 +6,7 @@ import { Portfolio } from '@/components/sections/Portfolio';
 import { WhyOwnStore } from '@/components/sections/WhyOwnStore';
 import { Packages } from '@/components/sections/Packages';
 import { Marketplace } from '@/components/sections/Marketplace';
+import { Automation } from '@/components/sections/Automation';
 import { OtherSites } from '@/components/sections/OtherSites';
 import { Addons } from '@/components/sections/Addons';
 import { Process } from '@/components/sections/Process';
@@ -36,6 +37,7 @@ export function HomePage({ locale }: { locale: Locale }) {
         <WhyOwnStore t={t} />
         <Packages t={t} />
         <Marketplace t={t} />
+        <Automation t={t} />
         <OtherSites t={t} />
         <Addons t={t} />
         <Process t={t} />

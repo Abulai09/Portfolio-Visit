@@ -48,6 +48,11 @@ export function JsonLd({ t, locale }: { t: Content; locale: Locale }) {
           return offer(t.ui.offerPackage(pkg.name), site.packages[id].price, pkg.audience);
         }),
         offer(t.marketplace.name, site.marketplacePrice, t.marketplace.text),
+        offer(t.automation.package.name, site.webAppPrice, t.automation.package.audience),
+        ...keysOf(site.automation).map((id) => {
+          const item = t.automation.items[id];
+          return offer(item.name, { amount: null }, item.text);
+        }),
         ...keysOf(site.otherSites).map((id) => {
           const item = t.otherSites.items[id];
           return offer(item.name, site.otherSites[id], item.text);

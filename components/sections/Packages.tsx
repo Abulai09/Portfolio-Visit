@@ -8,7 +8,7 @@ import { CheckList } from '@/components/ui/CheckList';
 import { tones, type Tone } from '@/components/ui/tones';
 
 // Цвет = уровень пакета: от бирюзового «старта» к янтарному «золотому» Премиуму
-const TIER_TONES: Tone[] = ['teal', 'sky', 'violet', 'amber'];
+const TIER_TONES: Tone[] = ['teal', 'violet', 'amber'];
 
 export function Packages({ t }: { t: Content }) {
   const p = t.packages;
@@ -19,7 +19,7 @@ export function Packages({ t }: { t: Content }) {
   });
   return (
     <Section id="packages" title={p.title} subtitle={p.subtitle}>
-      <ul className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {items.map((pkg, i) => {
           const popular = pkg.popular === true;
           const tone = tones[TIER_TONES[i % TIER_TONES.length]];
@@ -27,7 +27,7 @@ export function Packages({ t }: { t: Content }) {
             <li
               key={pkg.id}
               className={`reveal card relative flex flex-col p-6 sm:p-7 ${
-                popular ? 'border-2 border-accent-ink shadow-xl shadow-accent/15 xl:-my-3 xl:py-10' : ''
+                popular ? 'border-2 border-accent-ink shadow-xl shadow-accent/15 lg:-my-3 lg:py-10' : ''
               }`}
             >
               <span aria-hidden="true" className={`absolute inset-x-6 top-0 h-1.5 rounded-b-full ${tone.solid}`} />

@@ -1,16 +1,20 @@
 import {
   BadgeCheck,
+  Bot,
   CalendarCheck,
   Eye,
   FileSignature,
   LayoutTemplate,
+  Plug,
   Search,
   Settings2,
   ShoppingBag,
+  Sparkles,
   Smartphone,
   Store,
   Users,
   Wallet,
+  Workflow,
   Zap,
   type LucideIcon,
 } from 'lucide-react';
@@ -31,6 +35,10 @@ const icons: Record<IconName, LucideIcon> = {
   'badge-check': BadgeCheck,
   'calendar-check': CalendarCheck,
   eye: Eye,
+  workflow: Workflow,
+  bot: Bot,
+  plug: Plug,
+  sparkles: Sparkles,
 };
 
 /** Иконка в цветной плашке — для карточек преимуществ и гарантий. */

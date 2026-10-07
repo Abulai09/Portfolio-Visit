@@ -1,7 +1,9 @@
 // Данные сайта, одинаковые для всех языков: контакты, цены, скриншоты работ.
 // Тексты на каждом языке лежат в config/content/{ru,kk,en}.ts.
 // Цену меняйте здесь — она сразу поменяется на всех языках.
-// ВНИМАНИЕ: подтверждена только цена «Пробного» (250 000 ₸). Остальные цены черновые.
+// Цены пакетов, маркетплейса, веб-приложения, сайтов и большинства доп. функций задал владелец 07.10.2026.
+// Черновые (не подтверждены): «Премиум», лояльность, брошенные корзины, отзывы, доставка, CRM-интеграция,
+// выгрузка на Kaspi и тарифы поддержки.
 
 export type IconName =
   | 'store'
@@ -16,7 +18,11 @@ export type IconName =
   | 'file-signature'
   | 'badge-check'
   | 'calendar-check'
-  | 'eye';
+  | 'eye'
+  | 'workflow'
+  | 'bot'
+  | 'plug'
+  | 'sparkles';
 
 /** Единица после цены. Подпись на каждом языке — в `price.units` словаря. */
 export type PriceUnit = 'month' | 'hour' | 'item' | 'language';
@@ -57,40 +63,56 @@ export const site = {
 
   // Порядок ключей = порядок карточек на странице
   packages: {
-    trial: { price: { amount: 250_000 } },
-    start: { price: { amount: 350_000 } },
+    start: { price: { amount: 390_000 } },
     business: { price: { amount: 650_000 }, popular: true },
     premium: { price: { amount: 1_200_000, from: true } },
   } satisfies Record<string, PackageData>,
 
-  marketplacePrice: { amount: 2_500_000, from: true } satisfies Price,
+  marketplacePrice: { amount: 3_000_000, from: true } satisfies Price,
+
+  /** Пакет «Веб-приложение и автоматизация под ключ» (карточка в блоке «Приложения и автоматизация»). */
+  webAppPrice: { amount: 500_000, from: true } satisfies Price,
 
   otherSites: {
-    landing: { amount: 120_000, from: true },
+    booking: { amount: 350_000, from: true },
+    landing: { amount: 150_000, from: true },
     portfolio: { amount: 150_000, from: true },
     corporate: { amount: 300_000, from: true },
-    booking: { amount: 350_000, from: true },
-    webService: { amount: null },
+    crm: { amount: 900_000, from: true },
+    cabinet: { amount: 200_000, from: true },
+    dashboard: { amount: 300_000, from: true },
+    webService: { amount: 2_000_000, from: true },
   } satisfies Record<string, Price>,
+
+  // Приложения и автоматизация: без цены на карточке — стоимость считается после разбора задачи.
+  // Порядок ключей = порядок карточек.
+  automation: {
+    crm: { icon: 'workflow' },
+    mobileApp: { icon: 'smartphone' },
+    bots: { icon: 'bot' },
+    integrations: { icon: 'plug' },
+    ai: { icon: 'sparkles' },
+  } satisfies Record<string, { icon: IconName }>,
 
   addons: {
     sales: {
-      payments: { amount: 60_000 },
+      payments: { amount: 100_000 },
       loyalty: { amount: 90_000 },
       abandonedCarts: { amount: 45_000 },
       reviews: { amount: 35_000 },
     },
     integrations: {
-      accounting: { amount: 150_000, from: true },
+      accounting: { amount: 300_000, from: true },
       delivery: { amount: 70_000 },
-      telegramBot: { amount: 80_000 },
+      telegramBot: { amount: 100_000 },
       crm: { amount: 90_000, from: true },
       kaspiFeed: { amount: 70_000 },
+      aiAssistant: { amount: 200_000 },
     },
     content: {
       multilingual: { amount: 60_000, unit: 'language' },
-      blog: { amount: 40_000 },
-      catalogFilling: { amount: 300, unit: 'item' },
+      blog: { amount: 55_000 },
+      catalogFilling: { amount: 700, unit: 'item' },
       pwa: { amount: 150_000, from: true },
     },
     support: {
@@ -159,6 +181,7 @@ export const site = {
 
 export type PackageId = keyof typeof site.packages;
 export type OtherSiteId = keyof typeof site.otherSites;
+export type AutomationId = keyof typeof site.automation;
 export type AddonGroupId = keyof typeof site.addons;
 export type PortfolioId = keyof typeof site.portfolio;
 

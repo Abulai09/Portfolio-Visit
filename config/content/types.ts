@@ -1,4 +1,4 @@
-import type { AddonGroupId, IconName, OtherSiteId, PackageId, PortfolioId, PriceUnit, site } from '@/config/site';
+import type { AddonGroupId, AutomationId, IconName, OtherSiteId, PackageId, PortfolioId, PriceUnit, site } from '@/config/site';
 
 // Форма словаря одного языка. Ключи пакетов, работ и доп. функций берутся из config/site.ts,
 // поэтому если добавить пакет туда и забыть перевести — сборка упадёт с ошибкой типа.
@@ -106,6 +106,31 @@ export type Content = {
     duration: string;
     features: string[];
     cta: Cta;
+  };
+
+  /** Приложения и автоматизация: карточки без цены, стоимость — после разбора задачи (note). */
+  automation: {
+    title: string;
+    subtitle: string;
+    ctaLabel: string;
+    ctaMessage: (name: string) => string;
+    /** Отдельный пакет с ценой (site.webAppPrice) — первая карточка блока. */
+    package: {
+      badge: string;
+      name: string;
+      audience: string;
+      duration: string;
+      features: string[];
+      examplesTitle: string;
+      examples: string[];
+      cta: Cta;
+    };
+    /** Заголовок над карточками отдельных услуг (под пакетом). */
+    servicesTitle: string;
+    items: Record<AutomationId, { name: string; text: string; examples: string[] }>;
+    note: string;
+    footnote: string;
+    footnoteCta: Cta;
   };
 
   otherSites: {
